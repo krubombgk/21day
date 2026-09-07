@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Salt Smart Community</title>
+<link rel="manifest" href="manifest-index.json">
+<link rel="icon" type="image/png" href="assets/icons/icon-index-192.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-index-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Salt Smart">
+<meta name="theme-color" content="#0097A7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<style>
+  :root{
+    /* จานสีจาก Salt Smart Community brand kit — แก้ให้ตรงกับ mockup จริง: หลักคือฟ้าอมเขียว ไม่ใช่น้ำเงิน */
+    --sand:#F2F5F7; --card:#FFFFFF;
+    --lagoon:#0097A7; --lagoon-light:#E0F4F6; --lagoon-dark:#00707D; /* ฟ้าอมเขียวหลัก */
+    --coral:#4CAF50; --coral-light:#EDF7ED; --coral-dark:#2E7D32;   /* เขียว (accent รอง จาก brand kit) */
+    --ink:#1F2937; --ink-muted:#6B7280; --line:#E1E4E8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--sand); color:var(--ink); font-family:'Sarabun',sans-serif; padding-bottom:112px;}
+  h1,h2,h3,.disp{font-family:'Kanit',sans-serif; font-weight:600; margin:0;}
+  header{background:var(--lagoon); color:#fff; padding:20px 20px 30px; position:relative;}
+  .app-header{padding-bottom:56px;}
+  .logout-pill{
+    position:absolute; top:0; right:0; z-index:3; display:flex; align-items:center; gap:6px;
+    border:1.5px solid rgba(255,255,255,.55); border-radius:999px; padding:7px 14px; background:rgba(255,255,255,.08);
+    color:#fff; font-family:'Sarabun',sans-serif; font-size:12.5px; cursor:pointer;
+  }
+  .app-logo-badge{
+    position:absolute; right:0; top:44px; width:80px; height:80px; border-radius:50%;
+    background:#fff; border:3px solid #fff; z-index:4; object-fit:contain;
+  }
+  .header-wave{display:block; position:absolute; left:0; bottom:-1px; width:100%; height:20px;}
+  .header-wave path{fill:var(--sand);}
+  .header-badge{
+    position:absolute; top:16px; right:16px; width:38px; height:38px; border-radius:50%;
+    background:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  header h1{font-size:19px;}
+  header p{margin:4px 0 0; font-size:13px; color:#C7D9F5;}
+  .wrap{max-width:480px; margin:0 auto; padding:0 16px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin-top:12px;}
+  .list-btn{
+    width:100%; text-align:left; padding:14px 16px; margin-bottom:8px; border-radius:8px;
+    border:1px solid var(--line); background:#fff; font-family:'Sarabun',sans-serif; font-size:15px;
+    font-weight:500; color:var(--ink); display:flex; justify-content:space-between; align-items:center; cursor:pointer;
+  }
+  .list-btn:active{background:var(--lagoon-light);}
+  .shop-icon{width:34px; height:34px; border-radius:50%; background:var(--lagoon-light); color:var(--lagoon); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .village-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px;}
+  .village-card{
+    background:#fff; border:1.5px solid var(--line); border-radius:12px; padding:18px 10px 14px;
+    text-align:center; cursor:pointer; font-family:'Sarabun',sans-serif; display:flex; flex-direction:column;
+    align-items:center; gap:6px;
+  }
+  .village-card:active{background:var(--lagoon-light);}
+  .village-card.highlight{border-color:var(--lagoon); background:var(--lagoon-light);}
+  .village-icon{width:40px; height:40px; border-radius:50%; background:var(--lagoon-light); color:var(--lagoon); display:flex; align-items:center; justify-content:center;}
+  .village-card.highlight .village-icon{background:#fff; color:var(--lagoon);}
+  .village-no{font-size:11px; color:var(--ink-muted); font-weight:600;}
+  .village-name{font-size:14px; font-weight:600; color:var(--ink); font-family:'Kanit',sans-serif; line-height:1.3;}
+  .village-badge{font-size:10px; color:var(--lagoon-dark); background:#fff; padding:2px 8px; border-radius:999px; margin-top:2px;}
+  .section-title{font-size:13px; color:var(--ink-muted); font-weight:600; margin:18px 0 8px;}
+  .field{margin-bottom:16px;}
+  label{display:block; font-size:13px; color:var(--ink-muted); margin-bottom:6px; font-weight:500;}
+  input[type=text], input[type=tel]{
+    font-family:'Sarabun',sans-serif; font-size:20px; letter-spacing:6px; text-align:center;
+    padding:14px; border:1px solid var(--line); border-radius:10px; width:100%; background:#fff; color:var(--ink);
+  }
+  .btn{font-family:'Kanit',sans-serif; font-weight:500; font-size:15px; border:none; border-radius:10px; padding:13px 18px; cursor:pointer; width:100%;}
+  .btn-primary{background:var(--lagoon); color:#fff;}
+  .btn-ghost{background:var(--lagoon-light); color:var(--lagoon-dark);}
+  .back-link{font-size:13px; color:var(--lagoon-dark); font-weight:500; cursor:pointer; display:inline-block; margin-top:2px;}
+  .screen{display:none;}
+  .screen.active{display:block;}
+  .choice-grid{display:flex; flex-direction:column; gap:8px;}
+  .choice-btn{
+    padding:14px 16px; border-radius:8px; border:1.5px solid var(--line); background:#fff;
+    font-family:'Sarabun',sans-serif; font-size:15px; text-align:left; cursor:pointer; color:var(--ink);
+  }
+  .choice-btn.selected{border-color:var(--lagoon); background:var(--lagoon-light); color:var(--lagoon-dark); font-weight:600;}
+  .choice-btn{display:flex; align-items:center; gap:10px;}
+  .choice-icon{
+    width:26px; height:26px; border-radius:50%; background:var(--lagoon-light); color:var(--lagoon);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .choice-btn.selected .choice-icon{background:var(--lagoon); color:#fff;}
+  .choice-icon.checkbox{border-radius:6px; border:1.5px solid var(--line); background:#fff;}
+  .choice-btn.selected .choice-icon.checkbox{background:var(--lagoon); border-color:var(--lagoon); color:#fff;}
+  .q-label{display:flex; align-items:flex-start; gap:10px; font-size:14px; font-weight:600; color:var(--ink); margin-bottom:10px;}
+  .q-num{
+    flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--lagoon-light); color:var(--lagoon-dark);
+    font-family:'Kanit',sans-serif; font-weight:600; font-size:13px; display:flex; align-items:center; justify-content:center;
+  }
+  .day-badge{
+    display:inline-block; background:var(--lagoon-light); color:var(--lagoon-dark); font-family:'Kanit',sans-serif;
+    font-weight:600; font-size:14px; padding:6px 14px; border-radius:999px; margin-bottom:10px;
+  }
+  .status-line{font-size:13px; color:var(--ink-muted); margin-top:4px;}
+  .toast{
+    position:fixed; top:16px; left:50%; transform:translateX(-50%); background:var(--lagoon-dark); color:#fff;
+    padding:10px 18px; border-radius:999px; font-size:13px; opacity:0; transition:opacity .25s; pointer-events:none; z-index:60;
+  }
+  .toast.show{opacity:1;}
+  .navbar{
+    position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--line);
+    padding:4px 8px 14px; display:flex; justify-content:space-around; align-items:flex-end; z-index:40;
+  }
+  .nav-item{display:flex; flex-direction:column; align-items:center; gap:4px; background:none; border:none; cursor:pointer; color:var(--ink-muted); font-family:'Sarabun',sans-serif;}
+  .nav-item img{filter:grayscale(75%) opacity(0.55);}
+  .nav-item.active{color:var(--lagoon-dark); font-weight:600;}
+  .nav-item.active img{filter:none;}
+  .nav-item span{font-size:11px;}
+  .nav-center{display:flex; flex-direction:column; align-items:center; gap:2px; transform:translateY(-14px); background:none; border:none; cursor:pointer;}
+  .nav-center span{font-size:11px; color:var(--lagoon-dark); font-weight:600;}
+  .tab-content{display:none;}
+  .tab-content.active{display:block;}
+  .placeholder-box{
+    text-align:center; padding:40px 20px; color:var(--ink-muted); font-size:14px; background:var(--card);
+    border:1px dashed var(--line); border-radius:10px; margin-top:12px;
+  }
+  .announcement{border-bottom:1px solid var(--line); padding:12px 0;}
+  .announcement:last-child{border-bottom:none;}
+  .announcement .a-date{font-size:12px; color:var(--ink-muted);}
+  .announcement .a-title{font-family:'Kanit',sans-serif; font-weight:500; font-size:15px; margin:2px 0 4px;}
+  .announcement .a-body{font-size:14px; color:var(--ink-muted); line-height:1.6;}
+  .announcement .a-image{width:100%; border-radius:10px; margin-bottom:8px; display:block; object-fit:cover; max-height:180px;}
+  .tip-card{
+    background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; margin-top:10px;
+    display:flex; align-items:center; gap:12px; cursor:default;
+  }
+  .tip-icon{width:42px; height:42px; border-radius:50%; background:var(--lagoon-light); color:var(--lagoon); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .tip-text{flex:1;}
+  .tip-title{font-family:'Kanit',sans-serif; font-weight:600; font-size:14px; color:var(--lagoon-dark);}
+  .tip-desc{font-size:13px; color:var(--ink-muted); margin-top:2px; line-height:1.5;}
+  .tip-chevron{color:var(--ink-muted); font-size:20px; flex-shrink:0;}
+  .home-announcement-card{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; margin-top:12px;}
+  .home-announcement-card .a-image{width:100%; border-radius:10px; margin-bottom:10px; display:block; object-fit:cover; max-height:180px;}
+  .home-announcement-card .a-title{font-family:'Kanit',sans-serif; font-weight:600; font-size:15px; margin-bottom:4px; color:var(--lagoon-dark);}
+  .home-announcement-card .a-body{font-size:14px; color:var(--ink-muted); line-height:1.6;}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- SCREEN: village select -->
+<div class="screen active" id="screen-village">
+  <img src="assets/banner-login.png" alt="Salt Smart Community — Smart Seasoning. Stronger Community." style="width:100%; max-width:480px; display:block; margin:0 auto;">
+  <div class="wrap"><div class="section-title" style="margin-top:18px;">เลือกหมู่บ้านของร้านคุณ</div><div id="village-list"></div></div>
+</div>
+
+<!-- SCREEN: restaurant select -->
+<div class="screen" id="screen-restaurant">
+  <img src="assets/banner-login.png" alt="Salt Smart Community" style="width:100%; max-width:480px; display:block; margin:0 auto;">
+  <div class="wrap">
+    <h1 style="font-size:19px; margin-top:16px;">เลือกร้านค้า</h1>
+    <p id="restaurant-village-label" style="color:var(--ink-muted); font-size:14px; margin:4px 0 12px;"></p>
+    <span class="back-link" onclick="showScreen('village')">‹ เปลี่ยนหมู่บ้าน</span>
+    <div id="restaurant-list" style="margin-top:12px;"></div>
+    <div class="note" style="margin-top:10px;">ถ้าร้านของคุณยังไม่มีในรายการ กรุณาติดต่อเจ้าหน้าที่ รพ.สต. เพื่อลงทะเบียนร้านให้</div>
+  </div>
+</div>
+
+<!-- SCREEN: PIN -->
+<div class="screen" id="screen-pin">
+  <img src="assets/banner-login.png" alt="Salt Smart Community" style="width:100%; max-width:480px; display:block; margin:0 auto;">
+  <div class="wrap">
+    <h1 id="pin-title" style="font-size:19px; margin-top:16px;">รหัสร้านค้า</h1>
+    <p id="pin-restaurant-label" style="color:var(--ink-muted); font-size:14px; margin:4px 0 12px;"></p>
+    <span class="back-link" onclick="showScreen('restaurant')">‹ เปลี่ยนร้านค้า</span>
+    <div class="card">
+      <div class="field">
+        <label id="pin-label">กรอกรหัส PIN 4 หลัก</label>
+        <input type="tel" id="pin-input" maxlength="4" inputmode="numeric" placeholder="••••">
+      </div>
+      <button class="btn btn-primary" onclick="submitPin()">เข้าสู่ระบบ</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: main app -->
+<div class="screen" id="screen-app">
+  <header class="app-header">
+    <div class="wrap" style="position:relative;">
+      <button class="logout-pill" onclick="logout()">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg>
+        ออกจากระบบ
+      </button>
+      <div style="margin-top:40px; padding-right:110px;"><h1 id="app-restaurant-name" style="font-size:22px; line-height:1.3;">ร้านค้า</h1><p id="app-village-name" style="font-size:14px;"></p></div>
+      <img class="app-logo-badge" src="assets/logo-badge.png" alt="Salt Smart Community">
+    </div>
+    <svg class="header-wave" viewBox="0 0 400 20" preserveAspectRatio="none"><path d="M0,10 C100,20 300,0 400,10 L400,20 L0,20 Z"/></svg>
+  </header>
+
+  <div class="wrap">
+    <!-- TAB: home (สถานะสั้นๆ เท่านั้น ไม่มีฟอร์ม) -->
+    <div class="tab-content active" id="tab-home">
+      <div id="home-announcement"></div>
+      <div class="card" id="home-status-card">กำลังโหลด...</div>
+    </div>
+
+    <!-- TAB: บันทึกวันนี้ -->
+    <div class="tab-content" id="tab-log">
+      <div class="card" id="log-card">กำลังโหลด...</div>
+    </div>
+
+    <!-- TAB: ai -->
+    <div class="tab-content" id="tab-ai">
+      <div class="card">
+        <div class="section-title" style="margin-top:0;">ถ่ายรูปหรือเลือกรูปฉลากสินค้า</div>
+        <input type="file" id="ai-image-input" accept="image/*" capture="environment" onchange="onAiImageSelected(event)">
+        <div id="ai-preview"></div>
+        <button class="btn btn-primary" id="ai-scan-btn" style="display:none; margin-top:12px;" onclick="scanLabel()">อ่านฉลากด้วย AI</button>
+      </div>
+      <div id="ai-result"></div>
+    </div>
+
+    <!-- TAB: ผลตรวจความเค็ม + ความก้าวหน้า (รวมกัน) -->
+    <div class="tab-content" id="tab-progress">
+      <div class="section-title">ผลตรวจความเค็ม + แนวโน้ม</div>
+      <div class="card">
+        <div class="field" style="margin-bottom:12px;">
+          <label>เลือกเมนู</label>
+          <select id="progress-menu-select" onchange="onProgressMenuChange()" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--line); font-family:'Sarabun',sans-serif; font-size:15px;"></select>
+        </div>
+        <div id="progress-chart"><div class="placeholder-box">เลือกเมนูเพื่อดูกราฟ</div></div>
+        <div id="progress-sample-list" style="margin-top:14px;"></div>
+      </div>
+      <div class="section-title">ไทม์ไลน์พฤติกรรมรายวัน</div>
+      <div id="progress-timeline" class="card"><div style="color:var(--ink-muted); font-size:14px;">กำลังโหลด...</div></div>
+    </div>
+
+    <!-- TAB: announcements -->
+    <div class="tab-content" id="tab-announcements">
+      <div class="section-title">ประกาศจาก รพ.สต.</div>
+      <div id="announcements-list" class="card"><div style="color:var(--ink-muted); font-size:14px;">กำลังโหลด...</div></div>
+      <div class="section-title">เคล็ดลับสุขภาพ</div>
+      <div id="tips-list"></div>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
+      <img src="assets/nav-home.png" width="40" height="40" alt="">
+      <span>หน้าหลัก</span>
+    </button>
+    <button class="nav-item" id="nav-log" onclick="switchTab('log')">
+      <img src="assets/nav-log.png" width="40" height="40" alt="">
+      <span>บันทึกวันนี้</span>
+    </button>
+    <button class="nav-center" onclick="switchTab('ai')">
+      <img src="assets/nav-gda.png" width="60" height="60" alt="">
+      <span>GDA</span>
+    </button>
+    <button class="nav-item" id="nav-progress" onclick="switchTab('progress')">
+      <img src="assets/nav-progress.png" width="40" height="40" alt="">
+      <span>ผลตรวจ</span>
+    </button>
+    <button class="nav-item" id="nav-announcements" onclick="switchTab('announcements')">
+      <img src="assets/nav-announce.png" width="40" height="40" alt="">
+      <span>ประกาศ</span>
+    </button>
+  </div>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyA2ya_IbMqhTjfBROebL8zfJi8i5wEIFPw",
+  authDomain: "salt-smart-community.firebaseapp.com",
+  projectId: "salt-smart-community",
+  storageBucket: "salt-smart-community.firebasestorage.app",
+  messagingSenderId: "954091528602",
+  appId: "1:954091528602:web:63b97c307cddca71641a23"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const PROGRAM_START_DATE = "2026-08-25"; // ใช้ปี ค.ศ. เสมอในโค้ด (พ.ศ. 2569 = ค.ศ. 2026)
+const AI_SCAN_FUNCTION_URL = "https://scanlabel-b5z47v766q-as.a.run.app";
+
+const VILLAGES = [
+  {no:4,  name:"บ้านสังเคิล"},
+  {no:5,  name:"บ้านหนองแสง"},
+  {no:6,  name:"บ้านละลมเวง"},
+  {no:7,  name:"บ้านระแหง"},
+  {no:8,  name:"บ้านละลมพนู", note:"ที่ตั้ง รพ.สต."},
+  {no:9,  name:"บ้านกะโดน"},
+  {no:10, name:"บ้านหนองยาง"},
+  {no:12, name:"บ้านหนองจาน"},
+  {no:16, name:"บ้านหนองสระ"},
+];
+
+const TASTE_EXCLUSIVE = "อร่อยพอดี (กำลังกลมกล่อม)";
+const TASTE_OPTIONS = [TASTE_EXCLUSIVE, "จืดไปนิด (อยากปรุงเพิ่ม)", "ยังหวานอยู่", "ยังเค็มอยู่", "ยังมันอยู่"];
+const SEASONING_OPTIONS = ["น้ำปลา","ซีอิ๊ว","ผงชูรส","ผงปรุงรส","เกลือ","น้ำตาล","ไม่ได้ใส่เพิ่ม"];
+
+function slugify(text){ return text.normalize("NFC").replace(/\s+/g,"-").replace(/[^\u0E00-\u0E7Fa-zA-Z0-9-]/g,""); }
+function todayStr(){ const d=new Date(); return d.toISOString().slice(0,10); }
+function showToast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1800); }
+
+let state = { villageId:null, villageName:null, restaurantId:null, restaurantName:null };
+let logDraft = { reducedSaltiness:null, seasoningUsed:[], customerRequestedMore:null, tasteFeedback:[] };
+
+function showScreen(name){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById("screen-"+name).classList.add("active");
+}
+
+const HOUSE_ICON_SVG = `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>`;
+const CLINIC_ICON_SVG = `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>`;
+
+function renderVillages(){
+  document.getElementById("village-list").innerHTML = `<div class="village-grid">` + VILLAGES.map(v=>`
+    <button class="village-card ${v.note?'highlight':''}" onclick="selectVillage(${v.no}, '${v.name}')">
+      <div class="village-icon">${v.note ? CLINIC_ICON_SVG : HOUSE_ICON_SVG}</div>
+      <div class="village-no">หมู่ ${v.no}</div>
+      <div class="village-name">${v.name}</div>
+      ${v.note ? `<div class="village-badge">${v.note}</div>` : ""}
+    </button>`).join("") + `</div>`;
+}
+
+async function selectVillage(no, name){
+  state.villageId = `m${no}-${slugify(name)}`;
+  state.villageName = `หมู่ ${no} ${name}`;
+  await db.collection("villages").doc(state.villageId).set({ villageNo:no, name }, {merge:true});
+  document.getElementById("restaurant-village-label").textContent = state.villageName;
+  loadRestaurants();
+  showScreen("restaurant");
+}
+
+async function loadRestaurants(){
+  const el = document.getElementById("restaurant-list");
+  el.innerHTML = `<div style="color:var(--ink-muted);font-size:14px;">กำลังโหลด...</div>`;
+  const snap = await db.collection("villages").doc(state.villageId).collection("restaurants").orderBy("name").get();
+  if(snap.empty){ el.innerHTML = `<div style="color:var(--ink-muted);font-size:14px;">ยังไม่มีร้านค้าในหมู่บ้านนี้ กรุณาติดต่อเจ้าหน้าที่ รพ.สต.</div>`; return; }
+  el.innerHTML = snap.docs.map(d=>`
+    <button class="list-btn" onclick='selectRestaurant(${JSON.stringify(d.id)}, ${JSON.stringify(d.data().name)}, ${!!d.data().pin})'>
+      <span style="display:flex; align-items:center; gap:12px;">
+        <span class="shop-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9"/><path d="M9 20v-6h6v6"/><path d="M3 9h18"/></svg></span>
+        ${d.data().name}
+      </span><span>›</span>
+    </button>`).join("");
+}
+
+
+function selectRestaurant(id, name, hasPin){
+  state.restaurantId = id; state.restaurantName = name;
+  document.getElementById("pin-restaurant-label").textContent = name;
+  document.getElementById("pin-title").textContent = hasPin ? "กรอกรหัสร้านค้า" : "ตั้งรหัสร้านค้า";
+  document.getElementById("pin-label").textContent = hasPin ? "กรอกรหัส PIN 4 หลัก" : "ตั้งรหัส PIN 4 หลักใหม่";
+  document.getElementById("pin-input").value = "";
+  state.hasPin = hasPin;
+  showScreen("pin");
+}
+
+async function submitPin(){
+  const pin = document.getElementById("pin-input").value.trim();
+  if(pin.length !== 4){ showToast("กรุณากรอกรหัส 4 หลัก"); return; }
+  const ref = db.collection("villages").doc(state.villageId).collection("restaurants").doc(state.restaurantId);
+  if(!state.hasPin){
+    await ref.set({ pin }, {merge:true});
+    completeLogin();
+    return;
+  }
+  const doc = await ref.get();
+  if(doc.data().pin === pin){ completeLogin(); }
+  else { showToast("รหัสไม่ถูกต้อง ลองใหม่อีกครั้ง"); }
+}
+
+function completeLogin(){
+  localStorage.setItem("ssc_session", JSON.stringify(state));
+  showToast("เข้าสู่ระบบสำเร็จ");
+  enterApp();
+}
+
+function logout(){
+  localStorage.removeItem("ssc_session");
+  showScreen("village");
+}
+
+function switchTab(name){
+  document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
+  document.getElementById("tab-"+name).classList.add("active");
+  const navBtn = document.getElementById("nav-"+name);
+  if(navBtn) navBtn.classList.add("active");
+  if(name==="home") renderHomeStatus();
+  if(name==="log") loadLogTab();
+  if(name==="announcements") loadAnnouncements();
+  if(name==="progress") loadProgress();
+}
+
+async function enterApp(){
+  document.getElementById("app-restaurant-name").textContent = state.restaurantName;
+  document.getElementById("app-village-name").textContent = state.villageName;
+  showScreen("app");
+  switchTab("home");
+  await loadHomeAnnouncement();
+  await renderHomeStatus();
+}
+
+async function loadHomeAnnouncement(){
+  const el = document.getElementById("home-announcement");
+  const snap = await db.collection("announcements").orderBy("createdAt","desc").limit(1).get();
+  if(snap.empty){ el.innerHTML = ""; return; }
+  const a = snap.docs[0].data();
+  el.innerHTML = `<div class="home-announcement-card">
+    ${a.imageUrl ? `<img class="a-image" src="${a.imageUrl}" alt="">` : ""}
+    <div class="a-title">${a.title||""}</div>
+    <div class="a-body">${a.body||""}</div>
+  </div>`;
+}
+
+const HOME_TIPS = [
+  "ชิมก่อนปรุงทุกครั้ง ลดโอกาสใส่เกินความจำเป็นโดยไม่รู้ตัว",
+  "หลีกเลี่ยงใช้เครื่องปรุงหลายชนิดซ้ำซ้อนในเมนูเดียว เลือกอย่างใดอย่างหนึ่งก็พอ",
+  "ลองเลือกผลิตภัณฑ์สูตรโซเดียมน้อยกว่าเมื่อมีให้เลือก",
+];
+
+async function renderHomeStatus(){
+  const ref = db.collection("villages").doc(state.villageId).collection("restaurants").doc(state.restaurantId);
+  const doc = await ref.get();
+  const startDate = doc.data().programStartDate || PROGRAM_START_DATE;
+  const dayNumber = computeDayNumber(startDate);
+  const card = document.getElementById("home-status-card");
+
+  if(dayNumber < 1){
+    card.innerHTML = `<div class="day-badge">ยังไม่เริ่มโครงการ</div><p class="status-line">โครงการจะเริ่มวันที่ ${startDate}</p>`;
+    return;
+  }
+  if(dayNumber > 21){
+    card.innerHTML = `<div class="day-badge">ครบ 21 วันแล้ว</div><p class="status-line">ขอบคุณที่ร่วมโครงการครับ</p>`;
+    return;
+  }
+
+  const logDoc = await ref.collection("dailyLogs").doc(todayStr()).get();
+  const tip = HOME_TIPS[dayNumber % HOME_TIPS.length];
+
+  if(logDoc.exists){
+    card.innerHTML = `
+      <div class="day-badge">วันที่ ${dayNumber} จาก 21</div>
+      <p class="status-line">วันนี้บันทึกแล้ว ✓</p>
+      <div class="note" style="margin-top:12px;">💡 ${tip}</div>`;
+  } else {
+    card.innerHTML = `
+      <div class="day-badge">วันที่ ${dayNumber} จาก 21</div>
+      <p class="status-line">วันนี้ยังไม่ได้บันทึกพฤติกรรม</p>
+      <button class="btn btn-primary" style="margin-top:12px;" onclick="switchTab('log')">ไปบันทึกวันนี้</button>
+      <div class="note" style="margin-top:12px;">💡 ${tip}</div>`;
+  }
+}
+
+async function loadLogTab(){
+  const ref = db.collection("villages").doc(state.villageId).collection("restaurants").doc(state.restaurantId);
+  const doc = await ref.get();
+  const startDate = doc.data().programStartDate || PROGRAM_START_DATE;
+  const dayNumber = computeDayNumber(startDate);
+  const card = document.getElementById("log-card");
+
+  if(dayNumber < 1){
+    card.innerHTML = `<div class="day-badge">ยังไม่เริ่มโครงการ</div><p class="status-line">โครงการจะเริ่มวันที่ ${startDate}</p>`;
+    return;
+  }
+  if(dayNumber > 21){
+    card.innerHTML = `<div class="day-badge">ครบ 21 วันแล้ว</div><p class="status-line">ไม่ต้องบันทึกเพิ่มแล้วครับ</p>`;
+    return;
+  }
+
+  const logDoc = await ref.collection("dailyLogs").doc(todayStr()).get();
+  if(logDoc.exists){
+    const d = logDoc.data();
+    card.innerHTML = `
+      <div class="day-badge">วันที่ ${dayNumber} จาก 21</div>
+      <p class="status-line">วันนี้บันทึกแล้ว ✓</p>
+      <div class="section-title">สิ่งที่บันทึกไว้วันนี้</div>
+      <p style="font-size:14px;">ลดเครื่องปรุง: ${d.reducedSaltiness}<br>ลูกค้าขอเพิ่ม: ${d.customerRequestedMore}<br>รสชาติ: ${(d.tasteFeedback||[]).join(", ")}</p>
+      <button class="btn btn-ghost" onclick='renderLogForm(${dayNumber}, ${JSON.stringify(d)})'>แก้ไขการบันทึกวันนี้</button>`;
+  } else {
+    renderLogForm(dayNumber, null);
+  }
+}
+
+function computeDayNumber(startDateStr){
+  const start = new Date(startDateStr + "T00:00:00");
+  const now = new Date(todayStr() + "T00:00:00");
+  return Math.floor((now - start) / 86400000) + 1;
+}
+
+const ICON_ARROW_DOWN = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>`;
+const ICON_ARROW_UP = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V4M6 10l6-6 6 6"/></svg>`;
+const ICON_CHECK = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>`;
+const ICON_QUESTION = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7v.3"/><circle cx="12" cy="17" r=".4" fill="currentColor"/></svg>`;
+const SINGLE_CHOICE_ICONS = {"ลดลง":ICON_ARROW_DOWN, "ใกล้เคียงเดิม":ICON_CHECK, "มากกว่าเดิม":ICON_ARROW_UP, "ไม่แน่ใจ":ICON_QUESTION};
+
+function renderLogForm(dayNumber, existing){
+  logDraft = existing ? {
+    reducedSaltiness: existing.reducedSaltiness,
+    seasoningUsed: existing.seasoningUsed || [],
+    customerRequestedMore: existing.customerRequestedMore,
+    tasteFeedback: existing.tasteFeedback || [],
+  } : { reducedSaltiness:null, seasoningUsed:[], customerRequestedMore:null, tasteFeedback:[] };
+
+  const card = document.getElementById("log-card");
+  card.innerHTML = `
+    <div class="day-badge">วันที่ ${dayNumber} จาก 21</div>
+    <div class="field">
+      <div class="q-label"><span class="q-num">1</span><span>วันนี้คุณได้ลดปริมาณเครื่องปรุงเค็มจากที่เคยใช้ตามปกติหรือไม่?</span></div>
+      <div class="choice-grid" id="q1"></div>
+    </div>
+    <div class="field">
+      <div class="q-label"><span class="q-num">2</span><span>วันนี้ปรุงรสด้วยอะไรบ้าง (เลือกได้หลายข้อ)</span></div>
+      <div class="choice-grid" id="q2"></div>
+    </div>
+    <div class="field">
+      <div class="q-label"><span class="q-num">3</span><span>วันนี้มีลูกค้าขอเครื่องปรุงเพิ่มไหม</span></div>
+      <div class="choice-grid" id="q3"></div>
+    </div>
+    <div class="field">
+      <div class="q-label"><span class="q-num">4</span><span>สูตรนี้ปรับลดหวาน มัน เค็ม เพื่อสุขภาพ ลองชิมแล้ว รสชาติเป็นอย่างไรบ้าง (เลือกได้หลายข้อ)</span></div>
+      <div class="choice-grid" id="q4"></div>
+    </div>
+    <button class="btn btn-primary" onclick="saveLog(${dayNumber})">บันทึก</button>`;
+
+  renderSingleChoice("q1", ["ลดลง","ใกล้เคียงเดิม","มากกว่าเดิม","ไม่แน่ใจ"], "reducedSaltiness", SINGLE_CHOICE_ICONS);
+  renderMultiChoice("q2", SEASONING_OPTIONS, "seasoningUsed");
+  renderSingleChoice("q3", ["ไม่มีเลย","มีบ้าง","มีบ่อย"], "customerRequestedMore");
+  renderTasteChoice("q4");
+}
+
+function renderSingleChoice(containerId, options, field, iconMap){
+  const el = document.getElementById(containerId);
+  el.innerHTML = options.map(opt=>{
+    const selected = logDraft[field]===opt;
+    const icon = iconMap && iconMap[opt] ? iconMap[opt] : "";
+    return `<button type="button" class="choice-btn ${selected?'selected':''}" onclick="setSingle('${containerId}','${field}','${opt}')">
+      ${icon ? `<span class="choice-icon">${icon}</span>` : ""}<span>${opt}</span>
+    </button>`;
+  }).join("");
+}
+function setSingle(containerId, field, value){
+  logDraft[field] = value;
+  document.getElementById(containerId).querySelectorAll(".choice-btn").forEach(b=>{
+    b.classList.toggle("selected", b.textContent.trim()===value);
+  });
+}
+
+const ICON_CHECKBOX = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12.5l2.5 2.5L16 9" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+function renderMultiChoice(containerId, options, field){
+  const el = document.getElementById(containerId);
+  el.innerHTML = options.map(opt=>{
+    const selected = logDraft[field].includes(opt);
+    return `<button type="button" class="choice-btn ${selected?'selected':''}" onclick="toggleMulti('${containerId}','${field}','${opt}')">
+      <span class="choice-icon checkbox">${selected?ICON_CHECKBOX:""}</span><span>${opt}</span>
+    </button>`;
+  }).join("");
+}
+function toggleMulti(containerId, field, value){
+  const arr = logDraft[field];
+  const idx = arr.indexOf(value);
+  if(idx>-1) arr.splice(idx,1); else arr.push(value);
+  renderMultiChoice(containerId, containerId==="q2"?SEASONING_OPTIONS:TASTE_OPTIONS, field);
+}
+
+function renderTasteChoice(containerId){
+  const el = document.getElementById(containerId);
+  el.innerHTML = TASTE_OPTIONS.map(opt=>{
+    const selected = logDraft.tasteFeedback.includes(opt);
+    return `<button type="button" class="choice-btn ${selected?'selected':''}" onclick="toggleTaste('${opt}')">
+      <span class="choice-icon checkbox">${selected?ICON_CHECKBOX:""}</span><span>${opt}</span>
+    </button>`;
+  }).join("");
+}
+function toggleTaste(value){
+  let arr = logDraft.tasteFeedback;
+  if(value === TASTE_EXCLUSIVE){
+    arr = arr.includes(TASTE_EXCLUSIVE) ? [] : [TASTE_EXCLUSIVE];
+  } else {
+    arr = arr.filter(v=>v!==TASTE_EXCLUSIVE);
+    const idx = arr.indexOf(value);
+    if(idx>-1) arr.splice(idx,1); else arr.push(value);
+  }
+  logDraft.tasteFeedback = arr;
+  renderTasteChoice("q4");
+}
+
+async function saveLog(dayNumber){
+  if(!logDraft.reducedSaltiness || !logDraft.customerRequestedMore || logDraft.tasteFeedback.length===0){
+    showToast("กรุณาตอบให้ครบทุกข้อก่อนบันทึก");
+    return;
+  }
+  const ref = db.collection("villages").doc(state.villageId).collection("restaurants").doc(state.restaurantId)
+    .collection("dailyLogs").doc(todayStr());
+  await ref.set({
+    dayNumber,
+    reducedSaltiness: logDraft.reducedSaltiness,
+    seasoningUsed: logDraft.seasoningUsed,
+    customerRequestedMore: logDraft.customerRequestedMore,
+    tasteFeedback: logDraft.tasteFeedback,
+    loggedBy: "restaurant",
+    loggedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  }, {merge:true});
+  showToast("บันทึกเรียบร้อย");
+  loadLogTab();
+}
+
+// ---------- AI Vision tab ----------
+let aiImageBase64 = null, aiImageMediaType = null;
+
+function onAiImageSelected(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  aiImageMediaType = file.type;
+  const reader = new FileReader();
+  reader.onload = () => {
+    aiImageBase64 = reader.result.split(",")[1];
+    document.getElementById("ai-preview").innerHTML = `<img src="${reader.result}" style="width:100%;border-radius:10px;margin-top:10px;">`;
+    document.getElementById("ai-scan-btn").style.display = "block";
+    document.getElementById("ai-result").innerHTML = "";
+  };
+  reader.readAsDataURL(file);
+}
+
+async function scanLabel(){
+  const btn = document.getElementById("ai-scan-btn");
+  const originalText = btn.textContent;
+  btn.textContent = "กำลังอ่านฉลาก..."; btn.disabled = true;
+  try{
+    const res = await fetch(AI_SCAN_FUNCTION_URL, {
+      method: "POST",
+      headers: {"content-type":"application/json"},
+      body: JSON.stringify({ imageBase64: aiImageBase64, mediaType: aiImageMediaType })
+    });
+    const data = await res.json();
+    if(data.error){
+      console.error("scanLabel error:", data);
+      showToast(data.reason ? `อ่านฉลากไม่สำเร็จ: ${data.reason}` : "อ่านฉลากไม่สำเร็จ กรุณาลองใหม่");
+    } else {
+      renderAiConfirmCard(data);
+    }
+  } catch(e){
+    showToast("เชื่อมต่อ AI ไม่สำเร็จ ตรวจสอบอินเทอร์เน็ต");
+  }
+  btn.textContent = originalText; btn.disabled = false;
+}
+
+function renderAiConfirmCard(data){
+  const el = document.getElementById("ai-result");
+  el.innerHTML = `
+    <div class="card">
+      <div class="section-title" style="margin-top:0;">ตรวจสอบข้อมูลก่อนบันทึก</div>
+      <div class="note" style="margin-top:0;">AI อาจอ่านผิดพลาดได้ กรุณาเทียบกับฉลากจริงก่อนกดบันทึก</div>
+      <div class="field"><label>ชื่อสินค้า</label><input type="text" id="ai-name" value="${data.productName||''}"></div>
+      <div class="field"><label>พลังงาน (kcal ต่อหน่วยบริโภค)</label><input type="number" id="ai-energy" value="${data.energyKcal ?? ''}"></div>
+      <div class="field"><label>น้ำตาล (กรัม)</label><input type="number" id="ai-sugar" value="${data.sugarG ?? ''}"></div>
+      <div class="field"><label>ไขมัน (กรัม)</label><input type="number" id="ai-fat" value="${data.fatG ?? ''}"></div>
+      <div class="field"><label>โซเดียม (มก.)</label><input type="number" id="ai-sodium" value="${data.sodiumMg ?? ''}"></div>
+      <button class="btn btn-primary" onclick="saveAiProduct()">ยืนยันและบันทึก</button>
+    </div>`;
+}
+
+async function saveAiProduct(){
+  const name = document.getElementById("ai-name").value.trim();
+  if(!name){ showToast("กรุณากรอกชื่อสินค้าก่อนบันทึก"); return; }
+  await db.collection("villages").doc(state.villageId).collection("restaurants").doc(state.restaurantId)
+    .collection("packagedProducts").add({
+      productName: name,
+      energyKcal: parseFloat(document.getElementById("ai-energy").value) || null,
+      sugarG: parseFloat(document.getElementById("ai-sugar").value) || null,
+      fatG: parseFloat(document.getElementById("ai-fat").value) || null,
+      sodiumMg: parseFloat(document.getElementById("ai-sodium").value) || null,
+      scannedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+  showToast("บันทึกข้อมูลสินค้าแล้ว");
+  document.getElementById("ai-image-input").value = "";
+  document.getElementById("ai-preview").innerHTML = "";
+  document.getElementById("ai-result").innerHTML = "";
+  document.getElementById("ai-scan-btn").style.display = "none";
+  aiImageBase64 = null; aiImageMediaType = null;
+}
+
+// ---------- progress tab ----------
+let menuServingWeights = {};
+
+async function loadProgress(){
+  const sel = document.getElementById("progress-menu-select");
+  const menusSnap = await db.collection("villages").doc(state.villageId).collection("restaurants").doc(state.restaurantId)
+    .collection("menus").orderBy("name").get();
+  if(menusSnap.empty){
+    sel.innerHTML = `<option>ยังไม่มีเมนู</option>`;
+    document.getElementById("progress-chart").innerHTML = `<div class="placeholder-box">ยังไม่มีเมนูที่เจ้าหน้าที่บันทึกไว้</div>`;
+    document.getElementById("progress-sample-list").innerHTML = "";
+  } else {
+    menuServingWeights = {};
+    menusSnap.docs.forEach(d=>{ menuServingWeights[d.id] = d.data().servingWeightG || 300; });
+    sel.innerHTML = menusSnap.docs.map(d=>`<option value="${d.id}">${d.data().name}</option>`).join("");
+    onProgressMenuChange();
+  }
+  loadBehaviorTimeline();
+}
+
+function saltAssessment(saltPercent){
+  if(saltPercent < 0.7) return { color:"#1E8E3E", emoji:"🙂" };
+  if(saltPercent <= 0.9) return { color:"#B58900", emoji:"😐" };
+  return { color:"#D93025", emoji:"☹️" };
+}
+
+async function onProgressMenuChange(){
+  const menuId = document.getElementById("progress-menu-select").value;
+  const chartEl = document.getElementById("progress-chart");
+  const listEl = document.getElementById("progress-sample-list");
+  if(!menuId){ chartEl.innerHTML = `<div class="placeholder-box">เลือกเมนูเพื่อดูกราฟ</div>`; listEl.innerHTML = ""; return; }
+  const samplesSnap = await db.collection("villages").doc(state.villageId).collection("restaurants").doc(state.restaurantId)
+    .collection("menus").doc(menuId).collection("samples").orderBy("visitDate","asc").get();
+  if(samplesSnap.empty){ chartEl.innerHTML = `<div class="placeholder-box">ยังไม่มีผลตรวจของเมนูนี้</div>`; listEl.innerHTML = ""; return; }
+  const points = samplesSnap.docs.map(d=>({ date:d.data().visitDate, value:d.data().sodiumMg, type:d.data().visitType }));
+
+  const servingWeightG = menuServingWeights[menuId] || 300;
+  const lowMg = 0.7 * servingWeightG * 3.93;
+  const highMg = 0.9 * servingWeightG * 3.93;
+  chartEl.innerHTML = renderSodiumChartSvg(points, lowMg, highMg);
+
+  listEl.innerHTML = `<div class="section-title" style="margin-top:0;">รายละเอียดผลตรวจ</div>` + samplesSnap.docs.map(s=>{
+    const d = s.data();
+    const a = saltAssessment(d.saltPercent);
+    return `<div style="font-size:14px; padding:8px 0; border-bottom:1px solid var(--line); color:${a.color};">
+      <b>${d.visitDate}</b> (${d.visitType==='baseline'?'ก่อนเริ่ม (D0)':'สุ่มตรวจ'}) — เค็ม ${d.saltPercent}% · โซเดียม ${d.sodiumMg} มก. ${a.emoji}
+    </div>`;
+  }).join("");
+}
+
+function renderSodiumChartSvg(points, lowMg, highMg){
+  const w = 320, h = 160, padL = 36, padR = 12, padT = 12, padB = 24;
+  const values = points.map(p=>p.value);
+  const min = 0;
+  const max = Math.max(...values, highMg) * 1.1;
+  const range = (max - min) || 1;
+  const stepX = points.length > 1 ? (w - padL - padR) / (points.length - 1) : 0;
+  const scaleY = v => padT + (h - padT - padB) * (1 - (v - min) / range);
+
+  const coords = points.map((p,i)=>({ x: padL + stepX*i, y: scaleY(p.value), ...p }));
+  const linePath = coords.map((c,i)=> (i===0?"M":"L") + c.x.toFixed(1) + "," + c.y.toFixed(1)).join(" ");
+
+  const dots = coords.map(c=>`<circle cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" r="4" fill="${c.type==='baseline'?'#0D4DB8':'#0097A7'}"/>`).join("");
+  const labels = coords.map((c,i)=> i===0||i===coords.length-1 ? `<text x="${c.x.toFixed(1)}" y="${h-6}" font-size="9" fill="#6B7280" text-anchor="middle">${c.date.slice(5)}</text>` : "").join("");
+  const valueLabels = coords.map(c=>`<text x="${c.x.toFixed(1)}" y="${(c.y-10).toFixed(1)}" font-size="10" fill="#1F2937" text-anchor="middle">${c.value}</text>`).join("");
+
+  const yZeroPx = scaleY(0), yLowPx = scaleY(lowMg), yHighPx = scaleY(highMg), yTopPx = padT;
+  const zoneBands = `
+    <rect x="${padL}" y="${yLowPx.toFixed(1)}" width="${w-padL-padR}" height="${(yZeroPx-yLowPx).toFixed(1)}" fill="#DFF5E3"/>
+    <rect x="${padL}" y="${yHighPx.toFixed(1)}" width="${w-padL-padR}" height="${(yLowPx-yHighPx).toFixed(1)}" fill="#FFF3C4"/>
+    <rect x="${padL}" y="${yTopPx.toFixed(1)}" width="${w-padL-padR}" height="${(yHighPx-yTopPx).toFixed(1)}" fill="#FBDADA"/>`;
+
+  return `<svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">
+    ${zoneBands}
+    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${h-padB}" stroke="#E1E4E8"/>
+    <line x1="${padL}" y1="${h-padB}" x2="${w-padR}" y2="${h-padB}" stroke="#E1E4E8"/>
+    <path d="${linePath}" fill="none" stroke="#0D4DB8" stroke-width="2"/>
+    ${dots}${labels}${valueLabels}
+  </svg>
+  <div style="display:flex; gap:14px; font-size:11px; color:var(--ink-muted); margin-top:6px;">
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#0D4DB8;margin-right:4px;"></span>ก่อนเริ่ม (Baseline)</span>
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#0097A7;margin-right:4px;"></span>สุ่มตรวจ</span>
+  </div>`;
+}
+
+async function loadBehaviorTimeline(){
+  const el = document.getElementById("progress-timeline");
+  el.innerHTML = `<div style="color:var(--ink-muted); font-size:14px;">กำลังโหลด...</div>`;
+  const snap = await db.collection("villages").doc(state.villageId).collection("restaurants").doc(state.restaurantId)
+    .collection("dailyLogs").orderBy("dayNumber","asc").get();
+  if(snap.empty){ el.innerHTML = `<div style="color:var(--ink-muted); font-size:14px;">ยังไม่มีการบันทึกพฤติกรรม</div>`; return; }
+  el.innerHTML = snap.docs.map(d=>{
+    const l = d.data();
+    return `<div style="padding:10px 0; border-bottom:1px solid var(--line); font-size:13px;">
+      <b>วันที่ ${l.dayNumber}</b> (${d.id}) — ลดเครื่องปรุง: ${l.reducedSaltiness} · ลูกค้าขอเพิ่ม: ${l.customerRequestedMore}<br>
+      รสชาติ: ${(l.tasteFeedback||[]).join(", ")}
+    </div>`;
+  }).join("");
+}
+
+async function loadAnnouncements(){
+  const el = document.getElementById("announcements-list");
+  el.innerHTML = `<div style="color:var(--ink-muted); font-size:14px;">กำลังโหลด...</div>`;
+  const snap = await db.collection("announcements").orderBy("createdAt","desc").limit(20).get();
+  if(snap.empty){ el.innerHTML = `<div style="color:var(--ink-muted); font-size:14px;">ยังไม่มีประกาศ</div>`; }
+  else {
+    el.innerHTML = snap.docs.map(d=>{
+      const a = d.data();
+      return `<div class="announcement">
+        ${a.imageUrl ? `<img class="a-image" src="${a.imageUrl}" alt="">` : ""}
+        <div class="a-title">${a.title||""}</div><div class="a-body">${a.body||""}</div>
+      </div>`;
+    }).join("");
+  }
+  renderTipsList();
+}
+
+const ICON_TIP_SALT = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M8 3h8l1 3H7l1-3z"/><path d="M6 6h12l-1.2 13.5a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 6z"/></svg>`;
+const ICON_TIP_BOWL = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a9 6.5 0 0 1-18 0z"/><path d="M8 11V8.5a4 4 0 0 1 8 0V11"/></svg>`;
+const ICON_TIP_CART = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/><path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.8h7.2a2 2 0 0 0 2-1.6L21 8H6"/></svg>`;
+
+const TIP_CARDS = [
+  { icon: ICON_TIP_SALT, title: "เคล็ดลับ: ชิมก่อนปรุง", desc: "ชิมรสอาหารก่อนเติมเครื่องปรุงทุกครั้ง ลดโอกาสใส่เกินความจำเป็นโดยไม่รู้ตัว" },
+  { icon: ICON_TIP_BOWL, title: "เคล็ดลับ: ลดการใช้เครื่องปรุงซ้ำซ้อน", desc: "ปรุงรสเพียงพอ ไม่ใส่ซอสหลายชนิดพร้อมกัน เพื่อควบคุมปริมาณโซเดียม" },
+  { icon: ICON_TIP_CART, title: "เคล็ดลับ: เลือกผลิตภัณฑ์โซเดียมน้อยกว่า", desc: "สังเกตฉลากโภชนาการ เลือกซอสหรือเครื่องปรุงสูตรโซเดียมต่ำเมื่อมีให้เลือก" },
+];
+
+function renderTipsList(){
+  document.getElementById("tips-list").innerHTML = TIP_CARDS.map(t=>`
+    <div class="tip-card">
+      <div class="tip-icon">${t.icon}</div>
+      <div class="tip-text"><div class="tip-title">${t.title}</div><div class="tip-desc">${t.desc}</div></div>
+      <div class="tip-chevron">›</div>
+    </div>`).join("");
+}
+
+(function boot(){
+  renderVillages();
+  const saved = localStorage.getItem("ssc_session");
+  if(saved){
+    state = JSON.parse(saved);
+    enterApp();
+  }
+})();
+</script>
+</body>
+</html>
