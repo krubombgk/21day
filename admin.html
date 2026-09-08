@@ -2280,11 +2280,16 @@ async function loadReviewQueue(){
       const photoUrls = (s.evidencePhotoUrls && s.evidencePhotoUrls.length) ? s.evidencePhotoUrls : (s.evidencePhotoUrl ? [s.evidencePhotoUrl] : []);
       const photoHtml = photoUrls.length ? `<div style="display:flex; gap:6px; flex-wrap:wrap; margin:8px 0;">${photoUrls.map(u=>`<img src="${u}" style="width:${photoUrls.length>1?'140px':'220px'};height:${photoUrls.length>1?'140px':'auto'};object-fit:cover;border-radius:10px;">`).join('')}</div>` : '';
       const textHtml = s.evidenceText ? `<p style="font-size:13.5px; margin:6px 0;">"${s.evidenceText}"</p>` : '';
+      // AI ช่วยแนะนำ (ไม่ตัดสินแทนครู) — เขียนเข้ามาโดย Cloud Function checkMissionEvidence อัตโนมัติหลังส่งภารกิจไม่กี่วินาที
+      // อาจยังไม่มีถ้าเพิ่งส่งมาสดๆ (AI ยังทำงานไม่เสร็จ) หรือ AI เรียกไม่สำเร็จ — ไม่มีก็ไม่เป็นไร ครูตรวจแบบเดิมได้ปกติ
+      const aiColors = { likely_valid: {bg:'#E3F5EE', fg:'#2E8B75', label:'🟢 AI: น่าจะผ่าน'}, uncertain: {bg:'#FDF3DC', fg:'#B8860B', label:'🟡 AI: ไม่แน่ใจ'}, likely_invalid: {bg:'#FBE6E2', fg:'#C0392B', label:'🔴 AI: น่าจะไม่ผ่าน'} };
+      const ai = aiColors[s.aiSuggestion];
+      const aiHtml = ai ? `<div style="display:inline-block; background:${ai.bg}; color:${ai.fg}; font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px; margin:6px 0;">${ai.label}${s.aiReasoning ? ' — ' + s.aiReasoning : ''}</div>` : '';
       return `
         <div class="card" style="margin-bottom:12px; background:var(--sand);">
           <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px;">${name} — ${s.date}</div>
           <div style="font-size:13px; color:#6b7c80; margin:4px 0;">ภารกิจ: ${s.missionText}</div>
-          ${photoHtml}${textHtml}
+          ${photoHtml}${textHtml}${aiHtml}
           <div style="margin-top:8px; display:flex; gap:8px;">
             <button class="btn btn-primary" style="padding:8px 16px;font-size:13px;" onclick="reviewMission('${s.id}','approved')">✅ ผ่าน</button>
             <button class="btn btn-danger" style="padding:8px 16px;font-size:13px;" onclick="reviewMission('${s.id}','rejected')">❌ ไม่ผ่าน</button>
