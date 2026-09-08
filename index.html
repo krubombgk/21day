@@ -3897,6 +3897,10 @@ async function submitMission(){
       submittedAt: new Date().toISOString()
     }), 15000, 'บันทึกข้อมูล');
     showToast('ส่งภารกิจแล้ว รอครูตรวจนะ 🎉');
+    // เรียก AI ช่วยตรวจแบบไม่ block เลย — พังก็ไม่กระทบการส่งภารกิจที่สำเร็จไปแล้ว ครูตรวจเองแบบเดิมได้ปกติ (ไม่มี aiSuggestion โชว์แค่นั้นเอง)
+    const subId = state.selectedStudent.id + '_' + state.missionTargetDate;
+    firebase.app().functions('asia-southeast1').httpsCallable('checkMissionEvidence')({ subId })
+      .catch(e => console.error('checkMissionEvidence เรียกไม่สำเร็จ (ไม่กระทบการส่งภารกิจ):', e));
     loadMission();
     checkAndGrantDailyCard(state.missionTargetDate); // เช็คว่าครบเงื่อนไข (Quiz+บันทึก) ของวันนี้หรือยัง ถึงจะปลดล็อกการ์ด (ภารกิจไม่ผูกกับการ์ดแล้ว แต่ยังคุ้มค่าเช็คไว้เผื่ออนาคต)
   }catch(e){
