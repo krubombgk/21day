@@ -2515,7 +2515,6 @@ async function enterApp(){
     goScreen('screen-main');
     hideLoadingOverlay();
     saveSession();
-    startIdleTimer();
     initNotifyOptIn(); // เช็คว่าควรโชว์การ์ดชวนเปิดแจ้งเตือนไหม (ไม่บล็อกอะไร ทำหลังเข้าแอปสำเร็จแล้วเงียบๆ)
     checkPreTestReminder(); // เช็คว่าทำ Baseline Survey + Pre-test ใน assessment.html ไปแล้วหรือยัง ถ้ายังเตือนไว้เบาๆ (ไม่บล็อกอะไร)
   }catch(e){
@@ -2882,7 +2881,6 @@ function goHomeShortcut(tabId){
 
 function logout(){
   clearSession();
-  stopIdleTimer();
   stopMissionStatusListener();
   state.selectedStudent=null; state.todayLog=null; state.targetLog=null; state.sodiumChecks=[];
   state.quizAnswers=[]; state.quizFinished=false; state.pendingCard=null;
@@ -4271,7 +4269,6 @@ function renderLabelFormArea(){
   if(state.labelTypes.general){
     html += `<div style="background:var(--sand); border-radius:12px; padding:14px; margin-bottom:10px;">
       <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px; margin-bottom:8px;">ฉลากอาหารทั่วไป</div>
-      ${aiButtonHtml('general', locked)}
       ${labelField('general','productName','ชื่อผลิตภัณฑ์','เช่น นมกล่อง UHT')}
       ${labelField('general','expiryDate','วันหมดอายุ (ถ้ามี)','',  'date')}
     </div>`;
@@ -4353,13 +4350,19 @@ async function handleAiLabelFile(event){
       return;
     }
 
+    if(data.typeMismatchWarning){
+      msgEl.style.color = 'var(--red-high)';
+      const typeLabelText = {gda:'ฉลาก GDA', nutrition:'ฉลากโภชนาการ'}[t];
+      const guessText = t==='gda' ? 'น่าจะเป็นฉลากโภชนาการมากกว่า (เห็นคำว่า "โภชนาการ" ในภาพ)' : 'น่าจะไม่ใช่ฉลากโภชนาการ (ไม่เห็นคำว่า "ฉลากโภชนาการ"/"ข้อมูลโภชนาการ" เลย)';
+      msgEl.textContent = `รูปนี้ไม่น่าจะใช่ "${typeLabelText}" — ${guessText} ลองถ่ายใหม่หรือกรอกเองด้านล่างแทน`;
+      return; // ไม่กรอกฟิลด์ให้เลยเมื่อดูเหมือนถ่ายผิดประเภท — ให้นักเรียนถ่ายใหม่หรือกรอกเองแทน
+    }
+
     state.labelTypes[t] = true;
     if(!state.labelReadings[t]) state.labelReadings[t] = {};
     state.labelReadings[t].source = 'ai';
     state.labelReadings[t].productName = data.productName || '';
-    if(t === 'general'){
-      state.labelReadings[t].expiryDate = data.expiryDate || '';
-    } else if(t === 'gda'){
+    if(t === 'gda'){
       state.labelReadings[t].energyKcal = data.energyKcal ?? '';
       state.labelReadings[t].sugarG = data.sugarG ?? '';
       state.labelReadings[t].fatG = data.fatG ?? '';
@@ -4376,15 +4379,9 @@ async function handleAiLabelFile(event){
 
     renderLabelTypeChips();
     renderLabelFormArea();
-    const typeLabelText = {general:'ฉลากอาหารทั่วไป', gda:'ฉลาก GDA', nutrition:'ฉลากโภชนาการ'}[t];
-    if(data.typeMismatchWarning){
-      msgEl.style.color = 'var(--red-high)';
-      const oppositeHint = t==='gda' ? 'รูปนี้ดูเหมือนมีคำว่า "โภชนาการ" อยู่ อาจเป็นฉลากโภชนาการมากกว่า GDA' : 'รูปนี้ไม่เห็นคำว่า "ฉลากโภชนาการ"/"ข้อมูลโภชนาการ" เลย อาจเป็นฉลาก GDA มากกว่าฉลากโภชนาการ';
-      msgEl.textContent = `⚠️ AI กรอกให้แล้วแต่ไม่แน่ใจว่าถ่ายถูกประเภท — ${oppositeHint} เช็คฉลากจริงอีกครั้งก่อนบันทึก`;
-    } else {
-      msgEl.style.color = 'var(--lagoon)';
-      msgEl.textContent = `AI อ่าน "${typeLabelText}" ให้แล้ว เช็คให้ตรงกับฉลากจริงก่อนบันทึกด้วยนะ (เหลือ ${data.remainingToday} ครั้งวันนี้)`;
-    }
+    const typeLabelText = {gda:'ฉลาก GDA', nutrition:'ฉลากโภชนาการ'}[t];
+    msgEl.style.color = 'var(--lagoon)';
+    msgEl.textContent = `AI อ่าน "${typeLabelText}" ให้แล้ว เช็คให้ตรงกับฉลากจริงก่อนบันทึกด้วยนะ (เหลือ ${data.remainingToday} ครั้งวันนี้)`;
   }catch(e){
     console.error('handleAiLabelFile error:', e);
     msgEl.style.color = 'var(--red-high)';
@@ -5661,11 +5658,11 @@ async function loadAlbum(){
 
 /* =========================================================
    SESSION (sessionStorage) — กด refresh ไม่ต้อง login ใหม่ในแท็บเดียวกัน
-   แต่ปิดแท็บ/เบราว์เซอร์แล้วหายไปเองอัตโนมัติ ปลอดภัยกว่า localStorage สำหรับเครื่องคอมพิวเตอร์ส่วนรวมที่โรงเรียน
+   แต่ปิดแท็บ/เบราว์เซอร์แล้วหายไปเองอัตโนมัติ ปลอดภัยกว่า localStorage
+   (เดิมมี auto-logout เมื่อ idle เกิน 15 นาที ไว้เผื่อเครื่องคอมพิวเตอร์ส่วนรวมที่โรงเรียน —
+    ตัดออกแล้ว เพราะแอปนี้ไม่ได้ใช้เฉพาะในโรงเรียน มีคนใช้มือถือส่วนตัวด้วย ไม่ควรบังคับ logout ระหว่างใช้งานอยู่)
    ========================================================= */
 const SESSION_KEY = 'saltSmartSession';
-const IDLE_TIMEOUT_MS = 15 * 60 * 1000; // ออกจากระบบอัตโนมัติถ้าไม่มีการใช้งาน 15 นาที (ช่วยเรื่องเครื่องส่วนรวมที่โรงเรียน)
-let idleCheckHandle = null;
 
 function saveSession(){
   try{
@@ -5681,7 +5678,7 @@ function clearSession(){
   try{ sessionStorage.removeItem(SESSION_KEY); }catch(e){}
 }
 function touchSession(){
-  // อัปเดตเวลากิจกรรมล่าสุดเฉยๆ กันหมดเวลาทั้งที่ยังนั่งใช้งานอยู่จริง (no-op ถ้ายังไม่ได้ login)
+  // อัปเดตเวลากิจกรรมล่าสุดเฉยๆ (เก็บไว้เผื่อใช้วิเคราะห์ทีหลัง ไม่ผูกกับการ logout อัตโนมัติแล้ว)
   try{
     const raw = sessionStorage.getItem(SESSION_KEY);
     if(!raw) return;
@@ -5723,10 +5720,6 @@ async function tryRestoreSession(){
     const raw = sessionStorage.getItem(SESSION_KEY);
     if(!raw) return false;
     const data = JSON.parse(raw);
-    if(Date.now() - data.lastActivity > IDLE_TIMEOUT_MS){
-      clearSession();
-      return false; // ไม่มีการใช้งานนานเกินไป ถือว่าหมดอายุ ต้อง login ใหม่
-    }
     const studentSnap = await db.collection('students').doc(data.studentId).get();
     if(!studentSnap.exists){ clearSession(); return false; }
     state.selectedSchoolId = data.schoolId;
@@ -5738,22 +5731,6 @@ async function tryRestoreSession(){
     console.error('tryRestoreSession error:', e);
     return false;
   }
-}
-function startIdleTimer(){
-  stopIdleTimer();
-  idleCheckHandle = setInterval(()=>{
-    const raw = sessionStorage.getItem(SESSION_KEY);
-    if(!raw){ stopIdleTimer(); return; }
-    const data = JSON.parse(raw);
-    if(Date.now() - data.lastActivity > IDLE_TIMEOUT_MS){
-      stopIdleTimer();
-      alert('ไม่มีการใช้งานนานเกินไป ระบบออกจากระบบให้อัตโนมัติเพื่อความปลอดภัย (เผื่อใช้เครื่องส่วนรวม)');
-      logout();
-    }
-  }, 30000); // เช็คทุก 30 วิ พอ ไม่ต้องถี่มาก
-}
-function stopIdleTimer(){
-  if(idleCheckHandle){ clearInterval(idleCheckHandle); idleCheckHandle = null; }
 }
 
 /* ---- Realtime: สถานะภารกิจ — ฟังของ "วันที่กำลังดูอยู่" เสมอ (ไม่ใช่แค่วันนี้) ครูตรวจปุ๊บเห็นทันทีไม่ต้อง refresh
