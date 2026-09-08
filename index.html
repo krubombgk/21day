@@ -1381,7 +1381,6 @@
         <div class="log-card-head"><h3 style="margin:0;">4. วันนี้อ่านฉลากอะไรบ้าง?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
         <div class="info-box">เลือกประเภทฉลากที่อ่านวันนี้ได้มากกว่า 1 แบบ อย่างน้อย 1 รายการ</div>
         <div class="sticker-row" id="labelTypeChips"></div>
-        <button type="button" class="btn btn-primary" id="aiLabelBtn" style="margin-top:12px; width:auto; padding:10px 20px; font-size:13.5px;" onclick="triggerAiLabelScan()">📷 ให้ AI ช่วยอ่านฉลาก</button>
         <input type="file" id="aiLabelFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleAiLabelFile(event)">
         <div id="aiLabelMsg" style="font-size:12.5px; color:#6b7c80; margin-top:6px;"></div>
         <div id="labelFormArea" style="margin-top:12px;"></div>
@@ -2056,7 +2055,7 @@ let state = {
   todaysQuiz:[], quizIndex:0, quizAnswers:[], quizFinished:false,
   sodiumChecks:[], pendingCalc:null,
   exerciseChecked:{}, levels:{sweet:null, fat:null, salty:null},
-  todaysGoals:{}, labelTypes:{}, labelReadings:{general:{}, gda:{}, nutrition:{}},
+  todaysGoals:{}, labelTypes:{}, labelReadings:{general:{}, gda:{}, nutrition:{}}, aiLabelPendingType:null,
   fiveFoodGroups:null, waterGlasses:null,
 };
 
@@ -4261,6 +4260,10 @@ function labelField(typeKey, fieldKey, labelText, placeholder, inputType){
   </div>`;
 }
 
+function aiButtonHtml(typeKey, locked){
+  return `<button type="button" class="btn btn-primary" style="width:auto; padding:8px 16px; font-size:12.5px; margin-bottom:10px;" ${locked?'disabled':''} onclick="triggerAiLabelScan('${typeKey}')">📷 ให้ AI ช่วยอ่าน${typeKey==='general'?'ฉลากนี้':''}</button>`;
+}
+
 function renderLabelFormArea(){
   const area = document.getElementById('labelFormArea');
   const locked = !!(state.targetLog && state.targetLog.submitted);
@@ -4268,6 +4271,7 @@ function renderLabelFormArea(){
   if(state.labelTypes.general){
     html += `<div style="background:var(--sand); border-radius:12px; padding:14px; margin-bottom:10px;">
       <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px; margin-bottom:8px;">ฉลากอาหารทั่วไป</div>
+      ${aiButtonHtml('general', locked)}
       ${labelField('general','productName','ชื่อผลิตภัณฑ์','เช่น นมกล่อง UHT')}
       ${labelField('general','expiryDate','วันหมดอายุ (ถ้ามี)','',  'date')}
     </div>`;
@@ -4275,6 +4279,7 @@ function renderLabelFormArea(){
   if(state.labelTypes.gda){
     html += `<div style="background:var(--sand); border-radius:12px; padding:14px; margin-bottom:10px;">
       <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px; margin-bottom:8px;">ฉลาก GDA</div>
+      ${aiButtonHtml('gda', locked)}
       ${labelField('gda','productName','ชื่อผลิตภัณฑ์')}
       ${labelField('gda','energyKcal','พลังงาน (Kcal)','','number')}
       ${labelField('gda','sugarG','น้ำตาล (กรัม)','','number')}
@@ -4285,6 +4290,7 @@ function renderLabelFormArea(){
   if(state.labelTypes.nutrition){
     html += `<div style="background:var(--sand); border-radius:12px; padding:14px; margin-bottom:10px;">
       <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px; margin-bottom:8px;">ฉลากโภชนาการ</div>
+      ${aiButtonHtml('nutrition', locked)}
       ${labelField('nutrition','productName','ชื่อผลิตภัณฑ์')}
       ${labelField('nutrition','servingSize','ขนาดหน่วยบริโภค','เช่น 30 กรัม')}
       ${labelField('nutrition','energyKcal','พลังงาน (Kcal)','','number')}
@@ -4310,19 +4316,21 @@ function renderLabelFormArea(){
   });
 }
 
-/* ---- Daily Record: ปุ่ม AI ช่วยอ่านฉลาก — เดาประเภทฉลาก + ดึงค่าให้อัตโนมัติ ยังแก้ไขเองได้ทุกช่องก่อนบันทึก ---- */
-function triggerAiLabelScan(){
+/* ---- Daily Record: ปุ่ม AI ช่วยอ่านฉลาก — แยกปุ่มตามประเภทที่นักเรียนเลือกไว้แล้ว ไม่ให้ AI เดาประเภทเอง
+   เหตุผล: หน้านี้ต้องบันทึก GDA และโภชนาการแยกกันได้ในวันเดียวกัน ถ้าให้ AI เดาแล้วสินค้าเดียวมีทั้งคู่ในภาพ
+   จะเลือกได้แค่แบบเดียว ทำให้บันทึกอีกแบบไม่ได้ — ให้นักเรียนกดปุ่มของประเภทที่ต้องการก่อนถ่ายแทน ---- */
+function triggerAiLabelScan(typeKey){
   if(state.targetLog && state.targetLog.submitted) return;
+  state.aiLabelPendingType = typeKey;
   document.getElementById('aiLabelFileInput').value = '';
   document.getElementById('aiLabelFileInput').click();
 }
 
 async function handleAiLabelFile(event){
   const file = event.target.files && event.target.files[0];
-  if(!file) return;
+  const t = state.aiLabelPendingType;
+  if(!file || !t) return;
   const msgEl = document.getElementById('aiLabelMsg');
-  const btn = document.getElementById('aiLabelBtn');
-  btn.disabled = true;
   msgEl.style.color = 'var(--lagoon)';
   msgEl.textContent = 'กำลังย่อรูป...';
   try{
@@ -4336,7 +4344,7 @@ async function handleAiLabelFile(event){
 
     msgEl.textContent = 'AI กำลังอ่านฉลาก...';
     const checkProductLabel = firebase.app().functions('asia-southeast1').httpsCallable('checkProductLabel');
-    const res = await withTimeout(checkProductLabel({ studentId: state.selectedStudent.id, imageBase64: base64 }), 30000, 'AI อ่านฉลาก');
+    const res = await withTimeout(checkProductLabel({ studentId: state.selectedStudent.id, imageBase64: base64, expectedType: t }), 30000, 'AI อ่านฉลาก');
     const data = res.data;
 
     if(data.error === 'daily_limit_reached'){
@@ -4344,13 +4352,7 @@ async function handleAiLabelFile(event){
       msgEl.textContent = data.message;
       return;
     }
-    if(data.labelType === 'unclear'){
-      msgEl.style.color = 'var(--red-high)';
-      msgEl.textContent = 'AI ดูไม่ออกว่าเป็นฉลากแบบไหน ลองถ่ายใหม่ให้เห็นฉลากชัดๆ หรือกรอกเองด้านล่างได้เลย';
-      return;
-    }
 
-    const t = data.labelType; // 'general' | 'gda' | 'nutrition'
     state.labelTypes[t] = true;
     if(!state.labelReadings[t]) state.labelReadings[t] = {};
     state.labelReadings[t].source = 'ai';
@@ -4375,14 +4377,20 @@ async function handleAiLabelFile(event){
     renderLabelTypeChips();
     renderLabelFormArea();
     const typeLabelText = {general:'ฉลากอาหารทั่วไป', gda:'ฉลาก GDA', nutrition:'ฉลากโภชนาการ'}[t];
-    msgEl.style.color = 'var(--lagoon)';
-    msgEl.textContent = `AI อ่านได้ว่าเป็น "${typeLabelText}" แล้วกรอกให้ในฟอร์มด้านล่าง — เช็คให้ตรงกับฉลากจริงก่อนบันทึกด้วยนะ (เหลือ ${data.remainingToday} ครั้งวันนี้)`;
+    if(data.typeMismatchWarning){
+      msgEl.style.color = 'var(--red-high)';
+      const oppositeHint = t==='gda' ? 'รูปนี้ดูเหมือนมีคำว่า "โภชนาการ" อยู่ อาจเป็นฉลากโภชนาการมากกว่า GDA' : 'รูปนี้ไม่เห็นคำว่า "ฉลากโภชนาการ"/"ข้อมูลโภชนาการ" เลย อาจเป็นฉลาก GDA มากกว่าฉลากโภชนาการ';
+      msgEl.textContent = `⚠️ AI กรอกให้แล้วแต่ไม่แน่ใจว่าถ่ายถูกประเภท — ${oppositeHint} เช็คฉลากจริงอีกครั้งก่อนบันทึก`;
+    } else {
+      msgEl.style.color = 'var(--lagoon)';
+      msgEl.textContent = `AI อ่าน "${typeLabelText}" ให้แล้ว เช็คให้ตรงกับฉลากจริงก่อนบันทึกด้วยนะ (เหลือ ${data.remainingToday} ครั้งวันนี้)`;
+    }
   }catch(e){
     console.error('handleAiLabelFile error:', e);
     msgEl.style.color = 'var(--red-high)';
     msgEl.textContent = '⚠️ AI อ่านฉลากไม่สำเร็จ: ' + e.message + ' — กรอกเองด้านล่างได้เลย';
   }finally{
-    btn.disabled = false;
+    state.aiLabelPendingType = null;
   }
 }
 
