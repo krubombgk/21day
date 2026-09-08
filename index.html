@@ -18,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
@@ -889,8 +890,8 @@
   <button class="welcome-btn" id="welcomeBtn" onclick="enterFromWelcome()">เริ่มต้นใช้งาน</button>
 </div>
 
-<!-- ================= SCREEN: CLASS SELECT ================= -->
-<div class="screen" id="screen-class">
+<!-- ================= SCREEN: SCHOOL SEARCH/CREATE ================= -->
+<div class="screen" id="screen-school">
   <div class="brandbar">
     <div class="brand-row">
       <div class="brand-mark"><img src="user-logo.png" alt="Salt Smart"></div>
@@ -902,31 +903,88 @@
   </div>
   <div class="wrap">
     <div class="picker-title">
-      <h2>เลือกห้องเรียนของเรา</h2>
-      <p>แตะเลือกห้องเรียนเพื่อเริ่มต้น</p>
+      <h2>ค้นหาโรงเรียนของเรา</h2>
+      <p>พิมพ์ชื่อโรงเรียนแล้วเลือกจากรายการ</p>
     </div>
-    <div class="grid-pick" id="classGrid"></div>
+    <input type="text" id="schoolSearchInput" oninput="renderSchoolResults()"
+      placeholder="พิมพ์ชื่อโรงเรียน..."
+      style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box;">
+    <div class="grid-pick" id="schoolGrid" style="margin-top:12px;"></div>
+    <div id="schoolNotFoundBox" style="display:none; margin-top:16px; text-align:center;">
+      <p style="color:#9aa8ab; font-size:13.5px; margin-bottom:10px;">ไม่พบโรงเรียนนี้ในระบบ</p>
+      <button class="welcome-btn" style="width:auto; padding:10px 24px;" onclick="createNewSchool()">+ สร้างโรงเรียนใหม่ด้วยชื่อนี้</button>
+    </div>
   </div>
 </div>
 
-<!-- ================= SCREEN: STUDENT SELECT ================= -->
-<div class="screen" id="screen-student">
+<!-- ================= SCREEN: USERNAME (login หรือ สมัครใหม่) ================= -->
+<div class="screen" id="screen-username">
   <div class="brandbar">
     <div class="brand-row">
       <div class="brand-mark"><img src="user-logo.png" alt="Salt Smart"></div>
       <div>
         <div class="brand-title">Salt Smart</div>
-        <div class="brand-sub" id="studentBrandSub">เลือกชื่อของเรา</div>
+        <div class="brand-sub" id="usernameBrandSub">โรงเรียน …</div>
       </div>
     </div>
   </div>
-  <div class="wrap">
-    <div class="backlink" onclick="goScreen('screen-class')">‹ เปลี่ยนห้องเรียน</div>
+  <div class="wrap" style="max-width:420px;">
+    <div class="backlink" onclick="goScreen('screen-school')">‹ เปลี่ยนโรงเรียน</div>
     <div class="picker-title">
-      <h2 id="studentClassTitle">ห้อง …</h2>
-      <p>แตะชื่อของตัวเอง</p>
+      <h2>ชื่อผู้ใช้ของเรา</h2>
+      <p>เคยสมัครแล้วพิมพ์ชื่อเดิม / ยังไม่เคยสมัครพิมพ์ชื่อใหม่ได้เลย</p>
     </div>
-    <div class="grid-pick" id="studentGrid"></div>
+    <input type="text" id="usernameInput" oninput="clearUsernameError()" maxlength="20"
+      placeholder="เช่น บอมเก่ง99"
+      style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box;">
+    <div id="usernameError" style="color:var(--red-high); font-size:13px; font-weight:600; min-height:18px; margin:6px 0;"></div>
+    <button class="welcome-btn" onclick="submitUsername()">ต่อไป</button>
+    <button class="welcome-btn" style="background:var(--sand); color:var(--ink); margin-top:8px;" onclick="randomizeUsername()">🎲 สุ่มชื่อให้ฉัน</button>
+  </div>
+</div>
+
+<!-- ================= SCREEN: REGISTER PROFILE (เฉพาะสมัครใหม่) ================= -->
+<div class="screen" id="screen-register">
+  <div class="brandbar">
+    <div class="brand-row">
+      <div class="brand-mark"><img src="user-logo.png" alt="Salt Smart"></div>
+      <div><div class="brand-title">Salt Smart</div><div class="brand-sub">กรอกข้อมูลของเรา</div></div>
+    </div>
+  </div>
+  <div class="wrap" style="max-width:420px;">
+    <div class="backlink" onclick="goScreen('screen-username')">‹ ย้อนกลับ</div>
+    <label style="display:block; font-size:13px; font-weight:600; color:var(--ink); margin:10px 0 6px;">ชื่อ-นามสกุลจริง</label>
+    <input type="text" id="regFullName" style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box;">
+    <label style="display:block; font-size:13px; font-weight:600; color:var(--ink); margin:14px 0 6px;">ชื่อเล่น</label>
+    <input type="text" id="regNickname" style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box;">
+    <label style="display:block; font-size:13px; font-weight:600; color:var(--ink); margin:14px 0 6px;">วันเกิด</label>
+    <input type="date" id="regDob" style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box;">
+    <label style="display:block; font-size:13px; font-weight:600; color:var(--ink); margin:14px 0 6px;">ระดับชั้น</label>
+    <select id="regGrade" style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box;">
+      <option value="">เลือกระดับชั้น</option>
+      <option value="ป.1-3">ป.1-3</option>
+      <option value="ป.4-6">ป.4-6</option>
+      <option value="ม.1-3">ม.1-3</option>
+      <option value="ม.4-6">ม.4-6</option>
+    </select>
+    <div id="registerError" style="color:var(--red-high); font-size:13px; font-weight:600; min-height:18px; margin:10px 0;"></div>
+    <button class="welcome-btn" onclick="submitRegisterProfile()">ต่อไป: ตั้งรหัสผ่าน</button>
+  </div>
+</div>
+
+<!-- ================= SCREEN: FORGOT PIN ================= -->
+<div class="screen" id="screen-forgot-pin">
+  <div class="brandbar">
+    <div class="brand-row"><div class="brand-mark">🔑</div><div><div class="brand-title">ลืมรหัสผ่าน</div><div class="brand-sub">ยืนยันตัวตนด้วยชื่อจริง+วันเกิด</div></div></div>
+  </div>
+  <div class="wrap" style="max-width:420px;">
+    <div class="backlink" onclick="goScreen('screen-pin')">‹ ย้อนกลับ</div>
+    <label style="display:block; font-size:13px; font-weight:600; color:var(--ink); margin:10px 0 6px;">ชื่อ-นามสกุลจริง</label>
+    <input type="text" id="forgotFullName" style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box;">
+    <label style="display:block; font-size:13px; font-weight:600; color:var(--ink); margin:14px 0 6px;">วันเกิด</label>
+    <input type="date" id="forgotDob" style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box;">
+    <div id="forgotError" style="color:var(--red-high); font-size:13px; font-weight:600; min-height:18px; margin:10px 0;"></div>
+    <button class="welcome-btn" onclick="submitForgotPin()">ยืนยันตัวตน</button>
   </div>
 </div>
 
@@ -942,7 +1000,8 @@
     </div>
   </div>
   <div class="wrap" style="max-width:400px;">
-    <div class="backlink" onclick="goScreen('screen-student')">‹ ไม่ใช่ฉัน เปลี่ยนคน</div>
+    <div class="backlink" onclick="goScreen('screen-username')">‹ ไม่ใช่ฉัน เปลี่ยนคน</div>
+    <div class="backlink" id="forgotPinLink" onclick="goForgotPin()" style="display:none;">ลืมรหัสผ่าน?</div>
     <div class="pin-dots" id="pinDots">
       <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
     </div>
@@ -1454,9 +1513,9 @@
       </div>
 
       <div class="section-title">🏆 อันดับของฉัน</div>
-      <div class="section-title" style="font-size:14px; margin-top:14px;">ในห้องเรียน</div>
+      <div class="section-title" style="font-size:14px; margin-top:14px;">ในโรงเรียน</div>
       <div class="card" id="classLeaderboard"><div class="empty-note">กำลังโหลด…</div></div>
-      <div class="section-title" style="font-size:14px;">ทั้งโรงเรียน</div>
+      <div class="section-title" style="font-size:14px;">ทั้งประเทศ</div>
       <div class="card" id="schoolLeaderboard"><div class="empty-note">กำลังโหลด…</div></div>
     </div>
 
@@ -1732,6 +1791,17 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const storage = firebase.storage();
+const auth = firebase.auth();
+
+// สมัคร/login ทุกครั้งต้องมี anonymous uid พร้อมก่อนถึงจะเขียน Firestore ได้ (ตาม rules ใหม่)
+// ไม่บล็อกหน้าจอ Welcome — resolve เบื้องหลังเงียบๆ แล้วค่อย await ตอนจะเขียนจริงเท่านั้น
+let authReadyPromise = new Promise((resolve) => {
+  auth.onAuthStateChanged(async (user) => {
+    if (user) { resolve(user); return; }
+    try { await auth.signInAnonymously(); }
+    catch (e) { console.error('signInAnonymously error:', e); }
+  });
+});
 
 // แอป Firebase แยกต่างหากเฉพาะสำหรับ Push Notification เท่านั้น
 // เหตุผล: Firebase Messaging มีพฤติกรรมที่รู้จักกันว่าบางครั้งพยายามเช็ค/ลงทะเบียน service worker ที่ path รากของโดเมนเองเป็นค่าเริ่มต้น
@@ -1941,8 +2011,9 @@ function categoryColor(category){ return CARD_CATEGORY_COLORS[category] || '#9aa
 
 
 let state = {
-  classes:[], selectedClassId:null, selectedClassName:null,
-  students:[], selectedStudent:null,
+  schools:[], selectedSchoolId:null, selectedSchoolName:null,
+  selectedStudent:null,
+  pendingUsername:'', pendingProfile:null, isNewRegistration:false, mustResetPin:false,
   pinBuffer:'', pinMode:'verify', // 'verify' or 'setup' or 'confirm'
   pendingPin:'',
   campaign:{startDate:null,endDate:null,active:true},
@@ -2030,9 +2101,8 @@ async function init(){
       const diff = Math.round((dateFromStr(state.todaysDateStr) - dateFromStr(state.campaign.startDate))/(1000*60*60*24)) + 1;
       state.dayNumber = Math.min(Math.max(diff,1), state.totalDays);
     }
-    const classSnap = await db.collection('classes').orderBy('order').get();
-    state.classes = classSnap.docs.map(d=>({id:d.id, ...d.data()}));
-    renderClassGrid();
+    const schoolsSnap = await db.collection('schools').get();
+    state.schools = schoolsSnap.docs.map(d=>({id:d.id, ...d.data()}));
     state.dataReady = true;
     // ถ้ามาจาก checklabel.html พร้อม PIN ที่ยืนยันแล้ว (?claimKiosk=1) ให้ auto-login ข้ามหน้า login ไปเลย
     // เช็คก่อน tryRestoreSession() เสมอ เพราะ session ปกติอาจยังไม่มี (ยังไม่เคย login ในแท็บนี้)
@@ -2058,7 +2128,7 @@ function enterFromWelcome(){
     const checkReady = setInterval(()=>{
       if(state.dataReady){
         clearInterval(checkReady);
-        goScreen('screen-class');
+        goScreen('screen-school');
       } else if(state.dataLoadError){
         clearInterval(checkReady);
         btn.textContent = 'เริ่มต้นใช้งาน'; btn.disabled = false;
@@ -2067,70 +2137,114 @@ function enterFromWelcome(){
     }, 300);
     return;
   }
-  goScreen('screen-class');
+  goScreen('screen-school');
 }
 
-function renderClassGrid(){
-  const grid = document.getElementById('classGrid');
-  grid.innerHTML='';
-  state.classes.forEach(c=>{
+/* ============ SCHOOL SEARCH / CREATE ============ */
+function renderSchoolResults(){
+  const q = document.getElementById('schoolSearchInput').value.trim();
+  const grid = document.getElementById('schoolGrid');
+  const notFoundBox = document.getElementById('schoolNotFoundBox');
+  grid.innerHTML = '';
+  if(!q){ notFoundBox.style.display='none'; return; }
+  const matches = state.schools.filter(s => s.schoolName.includes(q));
+  matches.slice(0,15).forEach(s=>{
     const el = document.createElement('div');
-    el.className='pick-tile';
-    el.innerHTML = `<span class="emoji">${c.icon || '🏫'}</span>${c.name}`;
-    el.onclick = ()=>selectClass(c);
+    el.className = 'pick-tile';
+    el.innerHTML = `<span class="emoji">🏫</span>${s.schoolName}` +
+      (s.status==='pending' ? ' <span style="font-size:11px;color:#9aa8ab;">(รอตรวจสอบ)</span>' : '');
+    el.onclick = () => selectSchool(s);
     grid.appendChild(el);
   });
-  if(state.classes.length===0){
-    grid.innerHTML = '<div class="empty-note">ยังไม่มีห้องเรียน กรุณาให้ครูเพิ่มห้องเรียนในหน้าแอดมิน</div>';
-  }
+  notFoundBox.style.display = matches.length===0 ? 'block' : 'none';
 }
 
-async function selectClass(c){
+function selectSchool(s){
+  state.selectedSchoolId = s.id;
+  state.selectedSchoolName = s.schoolName;
+  document.getElementById('usernameBrandSub').textContent = 'โรงเรียน ' + s.schoolName;
+  document.getElementById('usernameInput').value = '';
+  document.getElementById('usernameError').textContent = '';
+  goScreen('screen-username');
+}
+
+async function createNewSchool(){
+  const name = document.getElementById('schoolSearchInput').value.trim();
+  if(!name) return;
   try{
-    state.selectedClassId = c.id;
-    state.selectedClassName = c.name;
-    document.getElementById('studentClassTitle').textContent = 'ห้อง ' + c.name;
-    document.getElementById('studentBrandSub').textContent = 'เลือกชื่อของเรา · ' + c.name;
-    const snap = await db.collection('students').where('classId','==',c.id).get();
-    state.students = snap.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>(a.studentNo||0)-(b.studentNo||0));
-    renderStudentGrid();
-    goScreen('screen-student');
+    await authReadyPromise;
+    const ref = await db.collection('schools').add({
+      schoolName: name,
+      province: '',
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      createdByStudentId: null,
+      mergedIntoSchoolId: null
+    });
+    const newSchool = {id: ref.id, schoolName: name, status:'pending'};
+    state.schools.push(newSchool);
+    selectSchool(newSchool);
   }catch(e){
     console.error(e);
-    showToast('โหลดรายชื่อไม่สำเร็จ: ' + e.message);
+    alert('สร้างโรงเรียนไม่สำเร็จ: ' + e.message);
   }
 }
 
-function renderStudentGrid(){
-  const grid = document.getElementById('studentGrid');
-  grid.innerHTML='';
-  state.students.forEach((s,i)=>{
-    const color = AVATAR_COLORS[i % AVATAR_COLORS.length];
-    const el = document.createElement('div');
-    el.className='pick-tile';
-    // ถ้ารู้เพศ (ครูอัปโหลดมาพร้อมชื่อ) โชว์เป็นไอคอน ♂/♀ แทนวงกลมสี+อักษรย่อ ถ้าไม่รู้ ใช้แบบเดิม
-    let avatarHtml;
-    if(s.sex === 'male'){
-      avatarHtml = `<div class="pick-avatar" style="background:#7FC7EA;">♂</div>`;
-    }else if(s.sex === 'female'){
-      avatarHtml = `<div class="pick-avatar" style="background:#F4A6C6;">♀</div>`;
-    }else{
-      const initial = s.name.trim().charAt(0);
-      avatarHtml = `<div class="pick-avatar" style="background:${color}">${initial}</div>`;
+/* ============ USERNAME (login หรือ สมัครใหม่) ============ */
+function clearUsernameError(){ document.getElementById('usernameError').textContent=''; }
+
+const RANDOM_NAME_PARTS = ['บอม','แจง','พลอย','มิ้น','กล้า','ฟ้า','ต้นข้าว','พลัม','เก่ง','ยิ้ม'];
+function randomizeUsername(){
+  const part = RANDOM_NAME_PARTS[Math.floor(Math.random()*RANDOM_NAME_PARTS.length)];
+  const num = Math.floor(Math.random()*900+100);
+  document.getElementById('usernameInput').value = part + num;
+  clearUsernameError();
+}
+
+async function submitUsername(){
+  const username = document.getElementById('usernameInput').value.trim();
+  if(!username){ document.getElementById('usernameError').textContent = 'กรุณาพิมพ์ชื่อผู้ใช้'; return; }
+  if(/\s/.test(username)){ document.getElementById('usernameError').textContent = 'ห้ามมีช่องว่างในชื่อผู้ใช้'; return; }
+  try{
+    const unameRef = db.collection('schools').doc(state.selectedSchoolId).collection('usernames').doc(username);
+    const unameSnap = await unameRef.get();
+    if(unameSnap.exists){
+      const studentId = unameSnap.data().studentId;
+      const studentSnap = await db.collection('students').doc(studentId).get();
+      if(!studentSnap.exists){ document.getElementById('usernameError').textContent = 'ไม่พบข้อมูลบัญชีนี้ ลองใหม่อีกครั้ง'; return; }
+      state.pendingUsername = username;
+      state.isNewRegistration = false;
+      selectStudent({id: studentSnap.id, ...studentSnap.data()});
+    } else {
+      state.pendingUsername = username;
+      state.isNewRegistration = true;
+      document.getElementById('regFullName').value='';
+      document.getElementById('regNickname').value='';
+      document.getElementById('regDob').value='';
+      document.getElementById('regGrade').value='';
+      document.getElementById('registerError').textContent='';
+      goScreen('screen-register');
     }
-    el.innerHTML = `${avatarHtml}${s.studentNo}. ${s.name}`;
-    el.onclick = ()=>selectStudent(s);
-    grid.appendChild(el);
-  });
-  if(state.students.length===0){
-    grid.innerHTML = '<div class="empty-note">ยังไม่มีนักเรียนในห้องนี้</div>';
+  }catch(e){
+    console.error(e);
+    document.getElementById('usernameError').textContent = 'เชื่อมต่อไม่สำเร็จ: ' + e.message;
   }
 }
 
-function selectStudent(s){
-  state.selectedStudent = s;
-  document.getElementById('pinStudentName').textContent = 'สวัสดี ' + s.name;
-  state.pinMode = s.pin ? 'verify' : 'setup';
+/* ============ REGISTER PROFILE (สมัครใหม่) ============ */
+function submitRegisterProfile(){
+  const fullName = document.getElementById('regFullName').value.trim();
+  const nickname = document.getElementById('regNickname').value.trim();
+  const dob = document.getElementById('regDob').value;
+  const grade = document.getElementById('regGrade').value;
+  if(!fullName || !nickname || !dob || !grade){
+    document.getElementById('registerError').textContent = 'กรุณากรอกให้ครบทุกช่อง';
+    return;
+  }
+  state.pendingProfile = {fullName, nickname, dob, grade};
+  document.getElementById('pinStudentName').textContent = 'สวัสดี ' + nickname;
+  state.selectedStudent = null;
+  state.pinMode = 'setup';
   state.pinBuffer=''; state.pendingPin='';
   updatePinModeText();
   renderKeypad();
@@ -2139,13 +2253,29 @@ function selectStudent(s){
   goScreen('screen-pin');
 }
 
+/* ============ SELECT STUDENT (login เข้าบัญชีเดิม) ============ */
+function selectStudent(s){
+  state.selectedStudent = s;
+  document.getElementById('pinStudentName').textContent = 'สวัสดี ' + s.nickname;
+  state.pinMode = 'verify';
+  state.pinBuffer=''; state.pendingPin=''; state.mustResetPin=false;
+  updatePinModeText();
+  renderKeypad();
+  updatePinDots();
+  document.getElementById('pinError').textContent='';
+  goScreen('screen-pin');
+}
+
+/* ============ PIN ============ */
 function updatePinModeText(){
   const txt = {
     verify:'ใส่รหัสผ่าน 4 หลักของเรา',
-    setup:'ครั้งแรก! ตั้งรหัสผ่าน 4 หลักของตัวเอง',
+    setup:'ตั้งรหัสผ่าน 4 หลักของตัวเอง',
     confirm:'ใส่รหัส 4 หลักอีกครั้งเพื่อยืนยัน'
   };
   document.getElementById('pinModeText').textContent = txt[state.pinMode];
+  const link = document.getElementById('forgotPinLink');
+  if(link) link.style.display = (state.pinMode==='verify' && state.selectedStudent) ? 'block' : 'none';
 }
 
 function renderKeypad(){
@@ -2167,7 +2297,7 @@ function updatePinDots(){
 }
 
 function pressKey(k){
-  if(k==='เปลี่ยนคน'){ goScreen('screen-student'); return; }
+  if(k==='เปลี่ยนคน'){ goScreen('screen-username'); return; }
   if(k==='ลบ'){ state.pinBuffer = state.pinBuffer.slice(0,-1); updatePinDots(); return; }
   if(state.pinBuffer.length>=4) return;
   state.pinBuffer += k;
@@ -2179,7 +2309,15 @@ async function handlePinComplete(){
   const entered = state.pinBuffer;
   if(state.pinMode==='verify'){
     if(entered === state.selectedStudent.pin){
-      await enterApp();
+      if(state.mustResetPin){
+        state.mustResetPin = false;
+        state.pinBuffer=''; updatePinDots();
+        state.pinMode = 'setup';
+        updatePinModeText();
+        document.getElementById('pinError').textContent = 'ตั้งรหัสผ่านใหม่ของตัวเองได้เลย';
+      } else {
+        await enterApp();
+      }
     }else{
       document.getElementById('pinError').textContent = 'รหัสไม่ถูกต้อง ลองใหม่อีกครั้ง';
       state.pinBuffer=''; updatePinDots();
@@ -2190,15 +2328,92 @@ async function handlePinComplete(){
     state.pinMode='confirm';
     updatePinModeText();
   } else if(state.pinMode==='confirm'){
-    if(entered === state.pendingPin){
-      await db.collection('students').doc(state.selectedStudent.id).update({pin:entered});
-      state.selectedStudent.pin = entered;
-      await enterApp();
-    }else{
+    if(entered !== state.pendingPin){
       document.getElementById('pinError').textContent = 'รหัสไม่ตรงกัน กรุณาตั้งใหม่';
       state.pinBuffer=''; state.pendingPin=''; state.pinMode='setup';
       updatePinModeText(); updatePinDots();
+      return;
     }
+    if(state.isNewRegistration){
+      try{
+        await authReadyPromise;
+        const uid = auth.currentUser.uid;
+        const schoolId = state.selectedSchoolId;
+        const username = state.pendingUsername;
+        const profile = state.pendingProfile;
+        const unameRef = db.collection('schools').doc(schoolId).collection('usernames').doc(username);
+        const studentRef = db.collection('students').doc();
+
+        await db.runTransaction(async (tx) => {
+          const unameSnap = await tx.get(unameRef);
+          if(unameSnap.exists){ throw new Error('USERNAME_TAKEN'); }
+          tx.set(unameRef, { studentId: studentRef.id, createdAt: new Date().toISOString() });
+          tx.set(studentRef, {
+            schoolId, username,
+            authUid: uid,
+            pin: entered,
+            fullName: profile.fullName, nickname: profile.nickname,
+            dob: profile.dob, grade: profile.grade,
+            phone: null, email: null,
+            registeredAt: new Date().toISOString(),
+            currentDay: 1,
+            totalPoints: 0, streakDays: 0, badges: []
+          });
+        });
+
+        const studentSnap = await studentRef.get();
+        state.selectedStudent = {id: studentSnap.id, ...studentSnap.data()};
+        state.isNewRegistration = false;
+        await enterApp();
+      }catch(e){
+        console.error(e);
+        state.pinBuffer=''; state.pinMode='setup'; updatePinModeText(); updatePinDots();
+        document.getElementById('pinError').textContent = (e.message === 'USERNAME_TAKEN')
+          ? 'ชื่อผู้ใช้นี้เพิ่งถูกใช้ไปแล้ว กรุณาย้อนกลับไปตั้งชื่อใหม่'
+          : ('⚠️ สมัครไม่สำเร็จ: ' + e.message);
+      }
+    }else{
+      await db.collection('students').doc(state.selectedStudent.id).update({pin:entered});
+      state.selectedStudent.pin = entered;
+      await enterApp();
+    }
+  }
+}
+
+/* ============ FORGOT PIN (self-service ด้วยชื่อจริง+วันเกิด) ============ */
+function goForgotPin(){
+  document.getElementById('forgotFullName').value='';
+  document.getElementById('forgotDob').value='';
+  document.getElementById('forgotError').textContent='';
+  goScreen('screen-forgot-pin');
+}
+
+async function submitForgotPin(){
+  const fullName = document.getElementById('forgotFullName').value.trim();
+  const dob = document.getElementById('forgotDob').value;
+  if(!fullName || !dob){
+    document.getElementById('forgotError').textContent = 'กรุณากรอกให้ครบทั้งสองช่อง';
+    return;
+  }
+  if(!state.selectedStudent || state.selectedStudent.fullName !== fullName || state.selectedStudent.dob !== dob){
+    document.getElementById('forgotError').textContent = 'ข้อมูลไม่ตรงกับที่ลงทะเบียนไว้ กรุณาตรวจสอบอีกครั้ง';
+    return;
+  }
+  try{
+    const tempPin = dob.replace(/-/g,'').slice(-4);
+    await db.collection('students').doc(state.selectedStudent.id).update({ pin: tempPin });
+    state.selectedStudent.pin = tempPin;
+    state.mustResetPin = true;
+    alert('ตั้งรหัสผ่านชั่วคราวให้แล้ว: ' + tempPin + '\nกรุณาใส่รหัสนี้ แล้วระบบจะให้ตั้งรหัสใหม่ต่อทันที');
+    state.pinMode = 'verify';
+    state.pinBuffer=''; state.pendingPin='';
+    document.getElementById('pinStudentName').textContent = 'สวัสดี ' + state.selectedStudent.nickname;
+    updatePinModeText(); renderKeypad(); updatePinDots();
+    document.getElementById('pinError').textContent = 'ใส่รหัสชั่วคราวที่ได้รับด้านบน';
+    goScreen('screen-pin');
+  }catch(e){
+    console.error(e);
+    document.getElementById('forgotError').textContent = 'เชื่อมต่อไม่สำเร็จ: ' + e.message;
   }
 }
 
@@ -2223,7 +2438,7 @@ function hideLoadingOverlay(){
 async function enterApp(){
   showLoadingOverlay('กำลังเข้าสู่ระบบ...');
   try{
-    document.getElementById('mainStudentName').textContent = state.selectedStudent.name + ' · ' + state.selectedClassName;
+    document.getElementById('mainStudentName').textContent = state.selectedStudent.nickname + ' · ' + state.selectedSchoolName;
     document.getElementById('mainDayLabel').textContent = 'วันที่ ' + state.dayNumber + ' / ' + state.totalDays;
 
     // บันทึกเวลาล็อกอินล่าสุด ใช้เช็ค inactive user ในหลังบ้าน (ไม่ await กันหน่วงเวลาเข้าแอป ถ้าล้มเหลวไม่กระทบการใช้งาน)
@@ -2380,7 +2595,7 @@ async function checkPreTestReminder(){
 // อัปเดตข้อมูลสรุปในแท็บ Home (เดิมคือ openHomeScreen ของ screen-home ที่แยกไว้ต่างหาก)
 function refreshHomeTab(){
   const s = state.selectedStudent;
-  document.getElementById('homeGreeting').textContent = 'สวัสดี ' + s.name + ' 👋';
+  document.getElementById('homeGreeting').textContent = 'สวัสดี ' + s.nickname + ' 👋';
   document.getElementById('homeStreak').textContent = s.currentStreak || 0;
   document.getElementById('homePoints').textContent = s.totalPoints || 0;
   document.getElementById('homeCards').textContent = state.albumCollectedCount || 0;
@@ -2619,7 +2834,7 @@ function logout(){
   state.pendingCardQueue=[]; state.cardModalShowing=false; // เคลียร์คิวการ์ดด้วย กันค้างข้ามคนตอนใช้เครื่องส่วนรวม
   state.exerciseChecked={}; state.levels={sweet:null,fat:null,salty:null}; state.otherChecked={};
   document.getElementById('kcardOverlay').style.display = 'none';
-  goScreen('screen-student');
+  goScreen('screen-username');
 }
 
 function switchTab(tabId, skipHistory){
@@ -3136,7 +3351,7 @@ async function saveSodiumCheck(consumed){
   });
   await db.collection('dailyLogs').doc(logDocId()).set({
     studentId: state.selectedStudent.id,
-    classId: state.selectedClassId,
+    schoolId: state.selectedSchoolId,
     date: state.todaysDateStr,
     dayNumber: state.dayNumber,
     sodiumChecks: state.sodiumChecks
@@ -3219,7 +3434,7 @@ function renderAllTimeCheckHistory(){
 async function persistTodaySodiumArrays(){
   await db.collection('dailyLogs').doc(logDocId()).set({
     studentId: state.selectedStudent.id,
-    classId: state.selectedClassId,
+    schoolId: state.selectedSchoolId,
     date: state.todaysDateStr,
     dayNumber: state.dayNumber,
     sodiumChecks: state.sodiumChecks,
@@ -3363,7 +3578,7 @@ async function confirmMealEntry(){
     state.mealSodiumEntries.push(entry);
     await db.collection('dailyLogs').doc(logDocId()).set({
       studentId: state.selectedStudent.id,
-      classId: state.selectedClassId,
+      schoolId: state.selectedSchoolId,
       date: state.todaysDateStr,
       mealSodiumEntries: state.mealSodiumEntries
     }, {merge:true});
@@ -3604,7 +3819,7 @@ async function submitMission(){
     msgEl.textContent = 'กำลังบันทึก...';
     await withTimeout(db.collection('missionSubmissions').doc(state.selectedStudent.id + '_' + state.missionTargetDate).set({
       studentId: state.selectedStudent.id,
-      classId: state.selectedClassId,
+      schoolId: state.selectedSchoolId,
       missionId: mission.id,
       missionText: mission.text,
       date: state.missionTargetDate,
@@ -3748,7 +3963,7 @@ async function answerQuiz(idx){
   try{
     await db.collection('dailyLogs').doc(docIdFor(targetDate)).set({
       studentId: state.selectedStudent.id,
-      classId: state.selectedClassId,
+      schoolId: state.selectedSchoolId,
       date: targetDate,
       dayNumber: dayNumberForDate(targetDate),
       quizAnswers: state.quizAnswers,
@@ -3791,7 +4006,7 @@ async function finishQuiz(){
   const points = correctCount * 5;
   await db.collection('dailyLogs').doc(docIdFor(targetDate)).set({
     studentId: state.selectedStudent.id,
-    classId: state.selectedClassId,
+    schoolId: state.selectedSchoolId,
     date: targetDate,
     dayNumber: dayNumberForDate(targetDate),
     quizAnswers: state.quizAnswers,
@@ -4029,7 +4244,7 @@ async function submitDailyLog(){
   try{
     await db.collection('dailyLogs').doc(docIdFor(targetDate)).set({
       studentId: state.selectedStudent.id,
-      classId: state.selectedClassId,
+      schoolId: state.selectedSchoolId,
       date: targetDate,
       exercise: state.exerciseChecked,
       levels: state.levels,
@@ -5216,8 +5431,8 @@ let idleCheckHandle = null;
 function saveSession(){
   try{
     sessionStorage.setItem(SESSION_KEY, JSON.stringify({
-      classId: state.selectedClassId,
-      className: state.selectedClassName,
+      schoolId: state.selectedSchoolId,
+      schoolName: state.selectedSchoolName,
       studentId: state.selectedStudent.id,
       lastActivity: Date.now()
     }));
@@ -5248,10 +5463,13 @@ async function tryAutoLoginFromKioskClaim(){
   try{
     const studentSnap = await db.collection('students').doc(payload.studentId).get();
     if(!studentSnap.exists) return false;
-    const classSnap = await db.collection('classes').doc(payload.classId).get();
-    state.selectedStudent = { id: studentSnap.id, ...studentSnap.data() };
-    state.selectedClassId = payload.classId;
-    state.selectedClassName = classSnap.exists ? classSnap.data().name : '';
+    // หมายเหตุ: checklabel.html (kiosk) เดิมส่ง classId มาใน payload — เปลี่ยนมาใช้ schoolId ของ student เอกสารเองแทน
+    // ต้องไปแก้ checklabel.html ให้ส่ง schoolId แทน classId ด้วย (ไฟล์นั้นไม่ได้อยู่ในสโคปที่แก้รอบนี้)
+    const studentData = studentSnap.data();
+    const schoolSnap = await db.collection('schools').doc(studentData.schoolId).get();
+    state.selectedStudent = { id: studentSnap.id, ...studentData };
+    state.selectedSchoolId = studentData.schoolId;
+    state.selectedSchoolName = schoolSnap.exists ? schoolSnap.data().schoolName : '';
     saveSession(); // บันทึก session ปกติด้วย กันหลุดถ้า refresh ซ้ำ
     await enterApp(); // ข้ามหน้าจอ login ทั้งหมด เข้าแอปตรงเลย (handleKioskClaim() จะทำงานต่อในนี้เองหลัง enterApp เสร็จ อยู่แล้ว ไม่ต้องแก้จุดนั้น)
     return true;
@@ -5272,8 +5490,8 @@ async function tryRestoreSession(){
     }
     const studentSnap = await db.collection('students').doc(data.studentId).get();
     if(!studentSnap.exists){ clearSession(); return false; }
-    state.selectedClassId = data.classId;
-    state.selectedClassName = data.className;
+    state.selectedSchoolId = data.schoolId;
+    state.selectedSchoolName = data.schoolName;
     state.selectedStudent = {id: studentSnap.id, ...studentSnap.data()};
     await enterApp();
     return true;
@@ -5343,11 +5561,13 @@ function stopMissionStatusListener(){
 
 async function loadLeaderboards(){
   try{
-    const classSnap = await db.collection('students').where('classId','==',state.selectedClassId).get();
-    const classList = classSnap.docs.map(d=>d.data()).sort((a,b)=>(b.totalPoints||0)-(a.totalPoints||0)).slice(0,5);
-    renderLB('classLeaderboard', classList);
-    const schoolSnap = await db.collection('students').orderBy('totalPoints','desc').limit(5).get();
-    renderLB('schoolLeaderboard', schoolSnap.docs.map(d=>d.data()));
+    // classLeaderboard elId คงชื่อเดิมไว้ (ไม่แก้ id ใน HTML) แต่ตอนนี้คือ "อันดับในโรงเรียน" ไม่ใช่ในห้องเรียนแล้ว
+    const schoolPeersSnap = await db.collection('students').where('schoolId','==',state.selectedSchoolId).get();
+    const schoolPeersList = schoolPeersSnap.docs.map(d=>d.data()).sort((a,b)=>(b.totalPoints||0)-(a.totalPoints||0)).slice(0,5);
+    renderLB('classLeaderboard', schoolPeersList);
+    // schoolLeaderboard elId คงชื่อเดิมไว้ แต่ตอนนี้คือ "อันดับทั้งประเทศ" (รวมทุกโรงเรียน) ไม่ใช่แค่โรงเรียนเดียวแล้ว
+    const nationalSnap = await db.collection('students').orderBy('totalPoints','desc').limit(5).get();
+    renderLB('schoolLeaderboard', nationalSnap.docs.map(d=>d.data()));
   }catch(e){ console.error(e); showToast('โหลดอันดับไม่สำเร็จ'); }
 }
 function renderLB(elId, list){
@@ -5356,7 +5576,7 @@ function renderLB(elId, list){
   el.innerHTML = list.map((s,i)=>`
     <div class="lb-row">
       <div class="lb-rank">${i+1}</div>
-      <div class="lb-name">${s.name||'-'}</div>
+      <div class="lb-name">${s.nickname||'-'}</div>
       <div class="lb-pts">${s.totalPoints||0} ⭐</div>
     </div>`).join('');
 }
