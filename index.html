@@ -1381,6 +1381,9 @@
         <div class="log-card-head"><h3 style="margin:0;">4. วันนี้อ่านฉลากอะไรบ้าง?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
         <div class="info-box">เลือกประเภทฉลากที่อ่านวันนี้ได้มากกว่า 1 แบบ อย่างน้อย 1 รายการ</div>
         <div class="sticker-row" id="labelTypeChips"></div>
+        <button type="button" class="btn btn-primary" id="aiLabelBtn" style="margin-top:12px; width:auto; padding:10px 20px; font-size:13.5px;" onclick="triggerAiLabelScan()">📷 ให้ AI ช่วยอ่านฉลาก</button>
+        <input type="file" id="aiLabelFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleAiLabelFile(event)">
+        <div id="aiLabelMsg" style="font-size:12.5px; color:#6b7c80; margin-top:6px;"></div>
         <div id="labelFormArea" style="margin-top:12px;"></div>
       </div>
 
@@ -4302,8 +4305,85 @@ function renderLabelFormArea(){
       const t = inp.dataset.labelType, f = inp.dataset.labelField;
       if(!state.labelReadings[t]) state.labelReadings[t] = {};
       state.labelReadings[t][f] = inp.value;
+      state.labelReadings[t].source = 'manual'; // แก้มือแล้ว ไม่ว่าเดิมจะมาจาก AI หรือไม่ก็ตาม ถือเป็น manual จากจุดนี้ไป
     };
   });
+}
+
+/* ---- Daily Record: ปุ่ม AI ช่วยอ่านฉลาก — เดาประเภทฉลาก + ดึงค่าให้อัตโนมัติ ยังแก้ไขเองได้ทุกช่องก่อนบันทึก ---- */
+function triggerAiLabelScan(){
+  if(state.targetLog && state.targetLog.submitted) return;
+  document.getElementById('aiLabelFileInput').value = '';
+  document.getElementById('aiLabelFileInput').click();
+}
+
+async function handleAiLabelFile(event){
+  const file = event.target.files && event.target.files[0];
+  if(!file) return;
+  const msgEl = document.getElementById('aiLabelMsg');
+  const btn = document.getElementById('aiLabelBtn');
+  btn.disabled = true;
+  msgEl.style.color = 'var(--lagoon)';
+  msgEl.textContent = 'กำลังย่อรูป...';
+  try{
+    const blob = await resizeImageToBlob(file, 1568, 0.85);
+    const base64 = await new Promise((resolve, reject)=>{
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = () => reject(new Error('อ่านไฟล์รูปไม่สำเร็จ'));
+      reader.readAsDataURL(blob);
+    });
+
+    msgEl.textContent = 'AI กำลังอ่านฉลาก...';
+    const checkProductLabel = firebase.app().functions('asia-southeast1').httpsCallable('checkProductLabel');
+    const res = await withTimeout(checkProductLabel({ studentId: state.selectedStudent.id, imageBase64: base64 }), 30000, 'AI อ่านฉลาก');
+    const data = res.data;
+
+    if(data.error === 'daily_limit_reached'){
+      msgEl.style.color = 'var(--red-high)';
+      msgEl.textContent = data.message;
+      return;
+    }
+    if(data.labelType === 'unclear'){
+      msgEl.style.color = 'var(--red-high)';
+      msgEl.textContent = 'AI ดูไม่ออกว่าเป็นฉลากแบบไหน ลองถ่ายใหม่ให้เห็นฉลากชัดๆ หรือกรอกเองด้านล่างได้เลย';
+      return;
+    }
+
+    const t = data.labelType; // 'general' | 'gda' | 'nutrition'
+    state.labelTypes[t] = true;
+    if(!state.labelReadings[t]) state.labelReadings[t] = {};
+    state.labelReadings[t].source = 'ai';
+    state.labelReadings[t].productName = data.productName || '';
+    if(t === 'general'){
+      state.labelReadings[t].expiryDate = data.expiryDate || '';
+    } else if(t === 'gda'){
+      state.labelReadings[t].energyKcal = data.energyKcal ?? '';
+      state.labelReadings[t].sugarG = data.sugarG ?? '';
+      state.labelReadings[t].fatG = data.fatG ?? '';
+      state.labelReadings[t].sodiumMg = data.sodiumMg ?? '';
+    } else if(t === 'nutrition'){
+      state.labelReadings[t].servingSize = data.servingSize || '';
+      state.labelReadings[t].energyKcal = data.energyKcal ?? '';
+      state.labelReadings[t].proteinG = data.proteinG ?? '';
+      state.labelReadings[t].carbG = data.carbG ?? '';
+      state.labelReadings[t].sugarG = data.sugarG ?? '';
+      state.labelReadings[t].fatG = data.fatG ?? '';
+      state.labelReadings[t].sodiumMg = data.sodiumMg ?? '';
+    }
+
+    renderLabelTypeChips();
+    renderLabelFormArea();
+    const typeLabelText = {general:'ฉลากอาหารทั่วไป', gda:'ฉลาก GDA', nutrition:'ฉลากโภชนาการ'}[t];
+    msgEl.style.color = 'var(--lagoon)';
+    msgEl.textContent = `AI อ่านได้ว่าเป็น "${typeLabelText}" แล้วกรอกให้ในฟอร์มด้านล่าง — เช็คให้ตรงกับฉลากจริงก่อนบันทึกด้วยนะ (เหลือ ${data.remainingToday} ครั้งวันนี้)`;
+  }catch(e){
+    console.error('handleAiLabelFile error:', e);
+    msgEl.style.color = 'var(--red-high)';
+    msgEl.textContent = '⚠️ AI อ่านฉลากไม่สำเร็จ: ' + e.message + ' — กรอกเองด้านล่างได้เลย';
+  }finally{
+    btn.disabled = false;
+  }
 }
 
 /* ---- Daily Record: กินครบ 5 หมู่ + ดื่มน้ำเปล่า ---- */
