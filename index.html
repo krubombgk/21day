@@ -1360,44 +1360,73 @@
       <div id="logDateHeading" style="font-family:'Kanit'; font-weight:700; font-size:15px; color:var(--deep-sea); margin-bottom:10px;"></div>
 
       <div class="card">
-        <div class="log-card-head"><h3 style="margin:0;">1. วันนี้ขยับร่างกายอะไรบ้าง?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
-        <div class="info-box">ยิ่งเคลื่อนไหวร่างกายบ่อย ก็ยิ่งช่วยให้ร่างกายจัดการเกลือแร่ได้ดีขึ้น</div>
-        <p style="color:#6b7c80; font-size:13.5px; margin:2px 0 10px;">แตะได้มากกว่า 1 อย่าง</p>
+        <div class="log-card-head"><h3 style="margin:0;">1. เป้าหมายวันนี้ของฉัน</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
+        <div class="info-box">เลือกได้มากกว่า 1 ข้อ เลือกใหม่ได้ทุกวัน</div>
+        <div class="sticker-row" id="todayGoalChips"></div>
+      </div>
+
+      <div class="card">
+        <div class="log-card-head"><h3 style="margin:0;">2. วันนี้ขยับร่างกายอะไรบ้าง?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
+        <div class="info-box">แตะได้มากกว่า 1 อย่าง</div>
         <div class="sticker-row" id="exerciseChips"></div>
       </div>
 
       <div class="card">
-        <div class="log-card-head"><h3 style="margin:0;">2. วันนี้อาหารของคุณ รู้สึกเค็มแค่ไหน?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
-        <div class="info-box">ตอบตามความรู้สึกจริงของคุณ ไม่มีคำตอบไหนถูกหรือผิด</div>
+        <div class="log-card-head"><h3 style="margin:0;">3. วันนี้บริโภคหวาน มัน เค็ม แค่ไหน?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
+        <div class="info-box">ตอบตามความรู้สึกจริงของคุณ ไม่มีคำตอบไหนถูกหรือผิด — "พอดี" คือ หวาน/มัน ไม่เกิน 65 กรัม, เค็ม (โซเดียม) ไม่เกิน 2,000 มิลลิกรัม/วัน</div>
         <div id="levelRows"></div>
-        <div id="tastePrefRow" style="display:none; margin-top:14px;">
-          <div class="lvl-label" style="font-family:'Kanit'; font-weight:600; font-size:14.5px; margin-bottom:8px;">ชอบรสเค็มระดับนั้นไหม</div>
-          <div class="sticker-row" id="tastePrefChips"></div>
-        </div>
       </div>
 
       <div class="card">
-        <div class="log-card-head"><h3 style="margin:0;">3. วันนี้เติมเครื่องปรุงเพิ่มไหม?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
-        <div class="info-box">ทุกคำตอบให้คะแนนเท่ากันหมด แค่อยากรู้พฤติกรรมจริงของคุณ</div>
-        <p style="color:#6b7c80; font-size:13.5px; margin:2px 0 10px;">แตะได้มากกว่า 1 อย่าง (ไม่มีคำตอบไหนได้คะแนนมากกว่ากัน)</p>
-        <div class="sticker-row" id="condimentChips"></div>
+        <div class="log-card-head"><h3 style="margin:0;">4. วันนี้อ่านฉลากอะไรบ้าง?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
+        <div class="info-box">เลือกประเภทฉลากที่อ่านวันนี้ได้มากกว่า 1 แบบ อย่างน้อย 1 รายการ</div>
+        <div class="sticker-row" id="labelTypeChips"></div>
+        <div id="labelFormArea" style="margin-top:12px;"></div>
       </div>
 
       <div class="card">
-        <div class="log-card-head"><h3 style="margin:0;">4. พฤติกรรมเล็ก ๆ ที่ทำได้วันนี้</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
-        <div class="info-box">ทำได้กี่ข้อก็ได้ ไม่ต้องกดดันตัวเอง</div>
-        <div class="sticker-row" id="otherBehaviorList"></div>
+        <div class="log-card-head"><h3 style="margin:0;">5. อาหารครบ 5 หมู่ + น้ำเปล่า</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
+        <div class="info-box">ตอบตามความเป็นจริง ไม่มีคำตอบไหนถูกหรือผิด</div>
+        <div class="lvl-label" style="font-family:'Kanit'; font-weight:600; font-size:14.5px; margin-bottom:8px;">วันนี้กินอาหารครบ 5 หมู่ไหม</div>
+        <div class="level-btns" id="fiveFoodGroupsBtns" style="margin-bottom:16px;"></div>
+        <div class="lvl-label" style="font-family:'Kanit'; font-weight:600; font-size:14.5px; margin-bottom:8px;">วันนี้ดื่มน้ำเปล่ากี่แก้ว</div>
+        <div class="level-btns" id="waterGlassesBtns"></div>
       </div>
 
       <div class="card">
-        <h3 style="margin-top:0;">5. เล่าเพิ่มนิดเดียว <span class="log-optional-badge">ไม่บังคับ</span></h3>
+        <h3 style="margin-top:0;">6. บันทึกการบริโภควันนี้</h3>
         <div class="field">
-          <label>มื้ออาหาร/เครื่องดื่ม (สรุปสั้น ๆ)</label>
+          <label>มื้อเช้า</label>
           <div class="voice-input-row">
-            <textarea id="mealNote" placeholder="เช่น เช้า-ข้าวไข่เจียว, กลางวัน-ก๋วยเตี๋ยว, ของว่าง-ชานมไข่มุก" style="min-height:60px;"></textarea>
-            <button type="button" class="mic-btn" id="micBtn-mealNote" onclick="toggleVoiceInput('mealNote')">🎤</button>
+            <textarea id="mealBreakfast" placeholder="เช่น ข้าวไข่เจียว" style="min-height:44px;"></textarea>
+            <button type="button" class="mic-btn" id="micBtn-mealBreakfast" onclick="toggleVoiceInput('mealBreakfast')">🎤</button>
           </div>
         </div>
+        <div class="field">
+          <label>มื้อกลางวัน</label>
+          <div class="voice-input-row">
+            <textarea id="mealLunch" placeholder="เช่น ก๋วยเตี๋ยว" style="min-height:44px;"></textarea>
+            <button type="button" class="mic-btn" id="micBtn-mealLunch" onclick="toggleVoiceInput('mealLunch')">🎤</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>มื้อเย็น</label>
+          <div class="voice-input-row">
+            <textarea id="mealDinner" placeholder="เช่น ข้าวผัด" style="min-height:44px;"></textarea>
+            <button type="button" class="mic-btn" id="micBtn-mealDinner" onclick="toggleVoiceInput('mealDinner')">🎤</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>ของว่าง/เครื่องดื่ม</label>
+          <div class="voice-input-row">
+            <textarea id="mealSnack" placeholder="เช่น ชานมไข่มุก" style="min-height:44px;"></textarea>
+            <button type="button" class="mic-btn" id="micBtn-mealSnack" onclick="toggleVoiceInput('mealSnack')">🎤</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">7. เล่าเพิ่มนิดเดียว <span class="log-optional-badge">ไม่บังคับ</span></h3>
         <div class="field">
           <label>วันนี้เลือกได้ดีตรงไหน เพราะอะไร</label>
           <div class="voice-input-row">
@@ -1958,25 +1987,25 @@ const EXERCISE_OPTIONS = [
   {key:'jog',    label:'วิ่งเบา ๆ', emoji:'ex-jog.png'},
   {key:'bike',   label:'ปั่นจักรยาน', emoji:'ex-bike.png'},
   {key:'sport',  label:'เล่นกีฬา', emoji:'ex-sport.png'},
+  {key:'dance',  label:'เต้น/แอโรบิก', emoji:'ex-dance.png'},
   {key:'stretch',label:'ยืดเหยียด', emoji:'ex-stretch.png'},
   {key:'chore',  label:'งานบ้าน/กิจกรรมโรงเรียน', emoji:'ex-chore.png'},
   {key:'other',  label:'อื่น ๆ',   emoji:'ex-other.png'}
 ];
-// เครื่องปรุงที่เติมเพิ่ม: วัดพฤติกรรม (เติมหรือไม่) ไม่ใช่ปริมาณ mg ที่ประเมินยาก
-// คะแนนเท่ากันทุกตัวเลือกรวม "ไม่เติมเลย" กันไม่ให้เด็กเลี่ยงตอบเพื่อเอาคะแนน
-const CONDIMENT_OPTIONS = [
-  {key:'fishSauce', label:'น้ำปลา',     emoji:'cond-fishSauce.png'},
-  {key:'soySauce',  label:'ซีอิ๊ว',      emoji:'cond-soySauce.png'},
-  {key:'sauce',     label:'ซอสปรุงรส',  emoji:'cond-sauce.png'},
-  {key:'msg',       label:'ผงชูรส',     emoji:'cond-msg.png'},
-  {key:'none',      label:'ไม่เติมเลย', emoji:'cond-none.png'}
+// เป้าหมายวันนี้ของฉัน — ชุดเดียวกับที่เลือกตอน Before/After Challenge ตามหนังสือ 21 Day Challenge (เลือกใหม่ได้ทุกวัน)
+const TODAY_GOAL_OPTIONS = [
+  {key:'reduceSweet',        label:'ลดหวาน',       emoji:'goal-sweet.png'},
+  {key:'reduceFat',          label:'ลดมัน',        emoji:'goal-fat.png'},
+  {key:'reduceSalty',        label:'ลดเค็ม',       emoji:'goal-salty.png'},
+  {key:'exercise',           label:'ออกกำลังกาย',   emoji:'goal-exercise.png'},
+  {key:'readNutritionLabel', label:'อ่านฉลากโภชนาการ', emoji:'goal-nutrition.png'},
+  {key:'readGDA',            label:'อ่านฉลาก GDA',  emoji:'goal-gda.png'},
+  {key:'healthyChoice',      label:'เลือกผลิตภัณฑ์สัญลักษณ์ทางเลือกสุขภาพ', emoji:'goal-healthy.png'}
 ];
-// ระดับหวาน/มัน/เค็ม: มาจากหน้า "ปรับพฤติกรรมของตนเอง" ในสมุด (ข้อ 4)
-// ==== ตอนนี้โครงงานโฟกัสแค่ "เค็ม/โซเดียม" เรื่องเดียวก่อน ====
-// เมื่อพร้อมขยายเป็นครบ หวาน มัน เค็ม แค่เอา // ออกหน้า 2 บรรทัดด้านล่างนี้
+// ระดับหวาน/มัน/เค็ม: จากหน้า "ปรับพฤติกรรมของตนเอง" ในสมุด — ครบทั้ง 3 แกนตามสเปคหนังสือ (ไม่ใช่แค่เค็มแล้ว)
 const LEVEL_ROWS = [
-  // {key:'sweet', label:'หวาน'},
-  // {key:'fat',   label:'มัน'},
+  {key:'sweet', label:'หวาน'},
+  {key:'fat',   label:'มัน'},
   {key:'salty', label:'เค็ม'}
 ];
 const LEVEL_CHOICES = [
@@ -1984,18 +2013,17 @@ const LEVEL_CHOICES = [
   {key:'ok',  label:'พอดี'},
   {key:'high',label:'มาก'}
 ];
-// ความรู้สึกชอบรสเค็มระดับที่ตอบไป (วัดการปรับตัวของลิ้น / taste adaptation ตลอด 21 วัน)
-const TASTE_CHOICES = [
-  {key:'like',    label:'ชอบระดับนี้', emoji:'😋'},
-  {key:'neutral', label:'เฉย ๆ',      emoji:'😐'},
-  {key:'dislike', label:'ไม่ชอบ',     emoji:'😕'}
+// ประเภทฉลากที่อ่านวันนี้ — 3 แบบตามนิยามจริงจากหนังสือ (แต่ละแบบมีฟิลด์กรอกต่างกัน)
+const LABEL_TYPE_OPTIONS = [
+  {key:'general',   label:'ฉลากอาหารทั่วไป', emoji:'label-general.png'},
+  {key:'gda',       label:'ฉลาก GDA',       emoji:'label-gda.png'},
+  {key:'nutrition', label:'ฉลากโภชนาการ',   emoji:'label-nutrition.png'}
 ];
-// พฤติกรรมสุขภาพอื่น ๆ: มาจากหน้า "เป้าหมายวันนี้ของฉัน" ในสมุด (ปรับคำให้เน้นโซเดียมสำหรับเฟสนี้)
-const OTHER_BEHAVIORS = [
-  {key:'readLabel',    label:'อ่านฉลากโภชนาการก่อนกิน (ดูค่าโซเดียม)', emoji:'beh-readLabel.png'},
-  {key:'readGDA',      label:'อ่านฉลาก GDA เพื่อเช็กปริมาณโซเดียม',    emoji:'beh-readGDA.png'},
-  {key:'healthyChoice',label:'เลือกผลิตภัณฑ์สัญลักษณ์ทางเลือกสุขภาพ',  emoji:'beh-healthyChoice.png'},
-  {key:'drinkWater',   label:'ดื่มน้ำเปล่าให้เพียงพอ (ช่วยสมดุลโซเดียมในร่างกาย)', emoji:'beh-drinkWater.png'}
+const WATER_GLASS_OPTIONS = [
+  {key:'1-2', label:'1-2 แก้ว'},
+  {key:'3-4', label:'3-4 แก้ว'},
+  {key:'5-6', label:'5-6 แก้ว'},
+  {key:'7-8', label:'7-8 แก้ว'}
 ];
 const AVATAR_COLORS = ['#2A9D8F','#F4A261','#E76F51','#0B3D4C','#7FD8CC','#E8A33D'];
 const STICKER_BG = ['#EAF7F4','#FDEEE1','#FBE9E5','#F3ECDD'];
@@ -2018,13 +2046,15 @@ let state = {
   pendingPin:'',
   campaign:{startDate:null,endDate:null,active:true},
   todaysDateStr:null, dayNumber:1, totalDays:21, targetDate:null, recallDate:null,
-  condiments:{}, tastePref:null, pendingCard:null, albumCardsCache:[],
+  pendingCard:null, albumCardsCache:[],
   todaysMission:null, missionPendingPhotoFiles:[],
   currentProductMatches:[], lastAiReadExtra:null, mealSodiumEntries:[], mealPickerLevel:'mid',
   todayLog:null, // loaded/created dailyLog doc data
   todaysQuiz:[], quizIndex:0, quizAnswers:[], quizFinished:false,
   sodiumChecks:[], pendingCalc:null,
-  exerciseChecked:{}, levels:{sweet:null, fat:null, salty:null}, otherChecked:{}
+  exerciseChecked:{}, levels:{sweet:null, fat:null, salty:null},
+  todaysGoals:{}, labelTypes:{}, labelReadings:{general:{}, gda:{}, nutrition:{}},
+  fiveFoodGroups:null, waterGlasses:null,
 };
 
 function todayStr(){
@@ -2855,7 +2885,9 @@ function logout(){
   state.selectedStudent=null; state.todayLog=null; state.targetLog=null; state.sodiumChecks=[];
   state.quizAnswers=[]; state.quizFinished=false; state.pendingCard=null;
   state.pendingCardQueue=[]; state.cardModalShowing=false; // เคลียร์คิวการ์ดด้วย กันค้างข้ามคนตอนใช้เครื่องส่วนรวม
-  state.exerciseChecked={}; state.levels={sweet:null,fat:null,salty:null}; state.otherChecked={};
+  state.exerciseChecked={}; state.levels={sweet:null,fat:null,salty:null};
+  state.todaysGoals={}; state.labelTypes={}; state.labelReadings={general:{}, gda:{}, nutrition:{}};
+  state.fiveFoodGroups=null; state.waterGlasses=null;
   document.getElementById('kcardOverlay').style.display = 'none';
   goScreen('screen-username');
 }
@@ -2937,28 +2969,37 @@ function updateLogFormVisibility(){
 async function loadLogForDate(dateStr){
   state.targetDate = dateStr;
   const snap = await db.collection('dailyLogs').doc(docIdFor(dateStr)).get();
+  const mealIds = ['mealBreakfast','mealLunch','mealDinner','mealSnack'];
   if(snap.exists){
     state.targetLog = snap.data();
     state.exerciseChecked = state.targetLog.exercise || {};
     state.levels = state.targetLog.levels || {sweet:null,fat:null,salty:null};
-    state.otherChecked = state.targetLog.otherBehaviors || {};
-    state.condiments = state.targetLog.condiments || {};
-    state.tastePref = state.targetLog.tastePref || null;
+    state.todaysGoals = state.targetLog.todaysGoals || {};
+    state.labelTypes = state.targetLog.labelTypes || {};
+    state.labelReadings = state.targetLog.labelReadings || {general:{}, gda:{}, nutrition:{}};
+    state.fiveFoodGroups = (typeof state.targetLog.fiveFoodGroups === 'boolean') ? state.targetLog.fiveFoodGroups : null;
+    state.waterGlasses = state.targetLog.waterGlasses || null;
     // ถ้า AI เคยเห็นสัญลักษณ์ทางเลือกสุขภาพตอนตรวจฉลากของวันนี้ไว้ ให้ติ๊กล่วงหน้าให้ (ยังแก้ไขได้ก่อนบันทึกจริง)
-    if(state.targetLog.aiDetectedHealthyChoice && !state.targetLog.submitted && state.otherChecked.healthyChoice === undefined){
-      state.otherChecked.healthyChoice = true;
+    if(state.targetLog.aiDetectedHealthyChoice && !state.targetLog.submitted && state.todaysGoals.healthyChoice === undefined){
+      state.todaysGoals.healthyChoice = true;
     }
-    document.getElementById('mealNote').value = state.targetLog.mealNote || '';
+    const meals = state.targetLog.meals || {};
+    document.getElementById('mealBreakfast').value = meals.breakfast || '';
+    document.getElementById('mealLunch').value = meals.lunch || '';
+    document.getElementById('mealDinner').value = meals.dinner || '';
+    document.getElementById('mealSnack').value = meals.snack || '';
     document.getElementById('reflectionText').value = state.targetLog.reflection || '';
     document.getElementById('improveText').value = state.targetLog.improveNote || '';
   } else {
     state.targetLog = {submitted:false};
     state.exerciseChecked = {};
     state.levels = {sweet:null,fat:null,salty:null};
-    state.otherChecked = {};
-    state.condiments = {};
-    state.tastePref = null;
-    document.getElementById('mealNote').value = '';
+    state.todaysGoals = {};
+    state.labelTypes = {};
+    state.labelReadings = {general:{}, gda:{}, nutrition:{}};
+    state.fiveFoodGroups = null;
+    state.waterGlasses = null;
+    mealIds.forEach(id => document.getElementById(id).value = '');
     document.getElementById('reflectionText').value = '';
     document.getElementById('improveText').value = '';
   }
@@ -2967,10 +3008,13 @@ async function loadLogForDate(dateStr){
     : dateStr===state.todaysDateStr ? '📝 บันทึกของวันนี้ (' + dayLabelThai(dateStr) + ')'
     : '📝 บันทึกย้อนหลังวันหยุด: ' + dayLabelThai(dateStr);
   applyLogLockState();
+  renderTodayGoalChips();
   renderExerciseChips();
   renderLevelRows();
-  renderCondimentChips();
-  renderOtherBehaviorList();
+  renderLabelTypeChips();
+  renderLabelFormArea();
+  renderFiveFoodGroupsBtns();
+  renderWaterGlassesBtns();
   await renderBackfillChips(); // อัปเดตปุ่ม active ให้ตรงกับวันที่เลือกล่าสุด
 }
 
@@ -4147,31 +4191,21 @@ function renderExerciseChips(){
   });
 }
 
-/* ---- Behavior log: เครื่องปรุงที่เติมเพิ่ม ---- */
-function renderCondimentChips(){
-  const wrap = document.getElementById('condimentChips');
+/* ---- Daily Record: เป้าหมายวันนี้ของฉัน ---- */
+function renderTodayGoalChips(){
+  const wrap = document.getElementById('todayGoalChips');
   wrap.innerHTML='';
-  CONDIMENT_OPTIONS.forEach(o=>{
-    const active = !!state.condiments[o.key];
+  TODAY_GOAL_OPTIONS.forEach(o=>{
+    const active = !!state.todaysGoals[o.key];
     wrap.appendChild(stickerButton(o.key, o.emoji, o.label, active, ()=>{
       if(state.targetLog && state.targetLog.submitted) return;
-      const turningOn = !state.condiments[o.key];
-      if(o.key==='none' && turningOn){
-        // เลือก "ไม่เติมเลย" แล้ว ต้องล้างตัวเลือกเครื่องปรุงอื่นทั้งหมด เพราะขัดแย้งกันในความเป็นจริง
-        state.condiments = { none: true };
-      } else if(o.key!=='none' && turningOn){
-        // เลือกเครื่องปรุงจริงอันใดอันหนึ่ง ต้องยกเลิก "ไม่เติมเลย" ทิ้งไปด้วย เพราะขัดแย้งกัน
-        state.condiments[o.key] = true;
-        state.condiments.none = false;
-      } else {
-        state.condiments[o.key] = false;
-      }
-      renderCondimentChips();
+      state.todaysGoals[o.key] = !state.todaysGoals[o.key];
+      renderTodayGoalChips();
     }));
   });
 }
 
-/* ---- Behavior log: sweet/fat/salty level rows + taste preference ---- */
+/* ---- Daily Record: sweet/fat/salty level rows (ครบ 3 แกนตามสเปคหนังสือ) ---- */
 function renderLevelRows(){
   const wrap = document.getElementById('levelRows');
   wrap.innerHTML='';
@@ -4191,39 +4225,112 @@ function renderLevelRows(){
       if(state.targetLog && state.targetLog.submitted) return;
       state.levels[btn.dataset.row] = btn.dataset.choice;
       renderLevelRows();
-      renderTastePrefRow();
     };
   });
-  renderTastePrefRow();
 }
 
-function renderTastePrefRow(){
-  const rowWrap = document.getElementById('tastePrefRow');
-  const chipsWrap = document.getElementById('tastePrefChips');
-  if(!state.levels.salty){ rowWrap.style.display='none'; return; } // ถามหลังตอบระดับเค็มแล้วเท่านั้น
-  rowWrap.style.display='block';
-  chipsWrap.innerHTML='';
-  TASTE_CHOICES.forEach(o=>{
-    const active = state.tastePref === o.key;
-    chipsWrap.appendChild(stickerButton(o.key, o.emoji, o.label, active, ()=>{
+/* ---- Daily Record: ประเภทฉลากที่อ่านวันนี้ + ฟอร์มย่อยตามประเภท ---- */
+function renderLabelTypeChips(){
+  const wrap = document.getElementById('labelTypeChips');
+  wrap.innerHTML='';
+  LABEL_TYPE_OPTIONS.forEach(o=>{
+    const active = !!state.labelTypes[o.key];
+    wrap.appendChild(stickerButton(o.key, o.emoji, o.label, active, ()=>{
       if(state.targetLog && state.targetLog.submitted) return;
-      state.tastePref = o.key;
-      renderTastePrefRow();
+      state.labelTypes[o.key] = !state.labelTypes[o.key];
+      renderLabelTypeChips();
+      renderLabelFormArea();
     }));
   });
 }
 
-/* ---- Behavior log: other behaviors ---- */
-function renderOtherBehaviorList(){
-  const list = document.getElementById('otherBehaviorList');
-  list.innerHTML='';
-  OTHER_BEHAVIORS.forEach(b=>{
-    const checked = !!state.otherChecked[b.key];
-    list.appendChild(stickerButton(b.key, b.emoji, b.label, checked, ()=>{
+function labelField(typeKey, fieldKey, labelText, placeholder, inputType){
+  const val = (state.labelReadings[typeKey] && state.labelReadings[typeKey][fieldKey]) || '';
+  return `<div class="field" style="margin-bottom:10px;">
+    <label style="font-size:13px;">${labelText}</label>
+    <input type="${inputType||'text'}" value="${val}" data-label-type="${typeKey}" data-label-field="${fieldKey}"
+      placeholder="${placeholder||''}"
+      style="width:100%; padding:10px 12px; border:1.5px solid #ddd; border-radius:8px; font-family:Kanit,sans-serif; font-size:14px; box-sizing:border-box;">
+  </div>`;
+}
+
+function renderLabelFormArea(){
+  const area = document.getElementById('labelFormArea');
+  const locked = !!(state.targetLog && state.targetLog.submitted);
+  let html = '';
+  if(state.labelTypes.general){
+    html += `<div style="background:var(--sand); border-radius:12px; padding:14px; margin-bottom:10px;">
+      <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px; margin-bottom:8px;">ฉลากอาหารทั่วไป</div>
+      ${labelField('general','productName','ชื่อผลิตภัณฑ์','เช่น นมกล่อง UHT')}
+      ${labelField('general','expiryDate','วันหมดอายุ (ถ้ามี)','',  'date')}
+    </div>`;
+  }
+  if(state.labelTypes.gda){
+    html += `<div style="background:var(--sand); border-radius:12px; padding:14px; margin-bottom:10px;">
+      <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px; margin-bottom:8px;">ฉลาก GDA</div>
+      ${labelField('gda','productName','ชื่อผลิตภัณฑ์')}
+      ${labelField('gda','energyKcal','พลังงาน (Kcal)','','number')}
+      ${labelField('gda','sugarG','น้ำตาล (กรัม)','','number')}
+      ${labelField('gda','fatG','ไขมัน (กรัม)','','number')}
+      ${labelField('gda','sodiumMg','โซเดียม (มิลลิกรัม)','','number')}
+    </div>`;
+  }
+  if(state.labelTypes.nutrition){
+    html += `<div style="background:var(--sand); border-radius:12px; padding:14px; margin-bottom:10px;">
+      <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px; margin-bottom:8px;">ฉลากโภชนาการ</div>
+      ${labelField('nutrition','productName','ชื่อผลิตภัณฑ์')}
+      ${labelField('nutrition','servingSize','ขนาดหน่วยบริโภค','เช่น 30 กรัม')}
+      ${labelField('nutrition','energyKcal','พลังงาน (Kcal)','','number')}
+      ${labelField('nutrition','proteinG','โปรตีน (กรัม)','','number')}
+      ${labelField('nutrition','carbG','คาร์โบไฮเดรต (กรัม)','','number')}
+      ${labelField('nutrition','sugarG','น้ำตาล (กรัม)','','number')}
+      ${labelField('nutrition','fatG','ไขมัน (กรัม)','','number')}
+      ${labelField('nutrition','sodiumMg','โซเดียม (มิลลิกรัม)','','number')}
+    </div>`;
+  }
+  area.innerHTML = html;
+  if(locked){
+    area.querySelectorAll('input').forEach(inp => inp.disabled = true);
+    return;
+  }
+  area.querySelectorAll('input').forEach(inp=>{
+    inp.oninput = ()=>{
+      const t = inp.dataset.labelType, f = inp.dataset.labelField;
+      if(!state.labelReadings[t]) state.labelReadings[t] = {};
+      state.labelReadings[t][f] = inp.value;
+    };
+  });
+}
+
+/* ---- Daily Record: กินครบ 5 หมู่ + ดื่มน้ำเปล่า ---- */
+function renderFiveFoodGroupsBtns(){
+  const wrap = document.getElementById('fiveFoodGroupsBtns');
+  const opts = [{key:true,label:'ใช่ ครบ 5 หมู่'},{key:false,label:'ไม่ครบ'}];
+  wrap.innerHTML = opts.map(o=>{
+    const active = state.fiveFoodGroups === o.key;
+    return `<div class="level-btn ${active?'active ok':''}" data-val="${o.key}">${o.label}</div>`;
+  }).join('');
+  wrap.querySelectorAll('.level-btn').forEach(btn=>{
+    btn.onclick = ()=>{
       if(state.targetLog && state.targetLog.submitted) return;
-      state.otherChecked[b.key] = !state.otherChecked[b.key];
-      renderOtherBehaviorList();
-    }));
+      state.fiveFoodGroups = (btn.dataset.val === 'true');
+      renderFiveFoodGroupsBtns();
+    };
+  });
+}
+
+function renderWaterGlassesBtns(){
+  const wrap = document.getElementById('waterGlassesBtns');
+  wrap.innerHTML = WATER_GLASS_OPTIONS.map(o=>{
+    const active = state.waterGlasses === o.key;
+    return `<div class="level-btn ${active?'active ok':''}" data-val="${o.key}">${o.label}</div>`;
+  }).join('');
+  wrap.querySelectorAll('.level-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      if(state.targetLog && state.targetLog.submitted) return;
+      state.waterGlasses = btn.dataset.val;
+      renderWaterGlassesBtns();
+    };
   });
 }
 
@@ -4237,28 +4344,42 @@ async function submitDailyLog(){
   if(btn.disabled) return; // กันกดซ้ำระหว่างกำลังบันทึกอยู่ (เน็ตช้าอาจกดซ้ำโดยไม่ตั้งใจ)
   btn.disabled = true; btn.textContent = 'กำลังบันทึก...';
 
-  const mealNote = document.getElementById('mealNote').value.trim();
+  const meals = {
+    breakfast: document.getElementById('mealBreakfast').value.trim(),
+    lunch: document.getElementById('mealLunch').value.trim(),
+    dinner: document.getElementById('mealDinner').value.trim(),
+    snack: document.getElementById('mealSnack').value.trim()
+  };
   const reflection = document.getElementById('reflectionText').value.trim();
   const improveNote = document.getElementById('improveText').value.trim();
 
   const exerciseCount = Object.values(state.exerciseChecked).filter(Boolean).length;
-  const otherCount = Object.values(state.otherChecked).filter(Boolean).length;
-  const condimentAnswered = Object.values(state.condiments).some(Boolean); // รวม "ไม่เติมเลย" ด้วย ตอบอะไรก็ได้คะแนนเท่ากัน
-  const saltyAnswered = !!state.levels.salty; // ให้คะแนนเพราะ "ตอบ" ไม่ใช่เพราะ "ตอบว่าน้อย/พอดี" กันไม่ให้เด็กเลี่ยงตอบเพื่อเอาแต้ม
-  const tasteAnswered = !!state.tastePref;
-  // ช่องเขียนเอง 3 ช่อง (มื้ออาหาร/สะท้อนตัวเอง/สิ่งที่จะปรับปรุง) ใช้ความพยายามมากกว่าติ๊กเฉยๆ จึงควรได้คะแนนด้วย
+  const goalsAnswered = Object.values(state.todaysGoals).some(Boolean);
+  // ให้คะแนนเพราะ "ตอบ" ไม่ใช่เพราะ "ตอบว่าน้อย/พอดี/มาก" กันไม่ให้เด็กเลี่ยงตอบเพื่อเอาแต้ม (bias-free เหมือนเดิม)
+  const sweetAnswered = !!state.levels.sweet;
+  const fatAnswered = !!state.levels.fat;
+  const saltyAnswered = !!state.levels.salty;
+  // อ่านฉลาก: นับว่า "ตอบ" เมื่อเลือกประเภทอย่างน้อย 1 แบบ และกรอกชื่อผลิตภัณฑ์ของแบบนั้นไว้แล้ว
+  const labelAnswered = Object.keys(state.labelTypes).some(t => state.labelTypes[t]
+    && state.labelReadings[t] && (state.labelReadings[t].productName||'').trim().length > 0);
+  const fiveFoodAnswered = state.fiveFoodGroups !== null;
+  const waterAnswered = !!state.waterGlasses;
+  // ช่องเขียนเอง (มื้ออาหารอย่างน้อย 1 มื้อ/สะท้อนตัวเอง/สิ่งที่จะปรับปรุง) ใช้ความพยายามมากกว่าติ๊กเฉยๆ จึงควรได้คะแนนด้วย
   // กำหนดขั้นต่ำ 5 ตัวอักษรกันพิมพ์มั่วเอาคะแนน (เนื้อหาจะเป็นอะไรก็ได้ ไม่ตัดสิน เหมือนช่องอื่น)
-  const mealNoteAnswered = mealNote.length >= 5;
+  const mealsAnswered = Object.values(meals).some(m => m.length >= 2);
   const reflectionAnswered = reflection.length >= 5;
   const improveAnswered = improveNote.length >= 5;
 
   const points = 10
+    + (goalsAnswered ? 3 : 0)
     + Math.min(exerciseCount,4)*2
-    + (saltyAnswered ? 5 : 0)
-    + (tasteAnswered ? 2 : 0)
-    + (condimentAnswered ? 5 : 0)
-    + otherCount*2
-    + (mealNoteAnswered ? 3 : 0)
+    + (sweetAnswered ? 3 : 0)
+    + (fatAnswered ? 3 : 0)
+    + (saltyAnswered ? 3 : 0)
+    + (labelAnswered ? 5 : 0)
+    + (fiveFoodAnswered ? 3 : 0)
+    + (waterAnswered ? 3 : 0)
+    + (mealsAnswered ? 3 : 0)
     + (reflectionAnswered ? 3 : 0)
     + (improveAnswered ? 3 : 0);
   const targetDate = state.targetDate;
@@ -4269,12 +4390,14 @@ async function submitDailyLog(){
       studentId: state.selectedStudent.id,
       schoolId: state.selectedSchoolId,
       date: targetDate,
+      todaysGoals: state.todaysGoals,
       exercise: state.exerciseChecked,
       levels: state.levels,
-      tastePref: state.tastePref,
-      condiments: state.condiments,
-      otherBehaviors: state.otherChecked,
-      mealNote: mealNote,
+      labelTypes: state.labelTypes,
+      labelReadings: state.labelReadings,
+      fiveFoodGroups: state.fiveFoodGroups,
+      waterGlasses: state.waterGlasses,
+      meals: meals,
       reflection: reflection,
       improveNote: improveNote,
       submitted: true,
@@ -4680,10 +4803,10 @@ function renderJourney(){
 /* ---- ไฮไลต์ของฉัน — เลือก 3 ตัวที่ meaningful ที่สุดจากข้อมูลจริง ไม่สร้างค่าที่ไม่มี ---- */
 function renderHighlights(){
   const logs = state.allDailyLogs || [];
-  const readLabelCount = logs.filter(l=>l.otherBehaviors && l.otherBehaviors.readLabel).length;
-  const readGDACount = logs.filter(l=>l.otherBehaviors && l.otherBehaviors.readGDA).length;
-  const healthyChoiceCount = logs.filter(l=>l.otherBehaviors && l.otherBehaviors.healthyChoice).length;
-  const drinkWaterCount = logs.filter(l=>l.otherBehaviors && l.otherBehaviors.drinkWater).length;
+  const readLabelCount = logs.filter(l=>l.labelTypes && l.labelTypes.nutrition).length;
+  const readGDACount = logs.filter(l=>l.labelTypes && l.labelTypes.gda).length;
+  const healthyChoiceCount = logs.filter(l=>l.todaysGoals && l.todaysGoals.healthyChoice).length;
+  const drinkWaterCount = logs.filter(l=>!!l.waterGlasses).length;
   const sodiumCheckCount = state.selectedStudent.sodiumCheckCount || 0;
   const approvedMissionCount = state.approvedMissionCount || 0;
   const streak = state.selectedStudent.currentStreak || 0;
@@ -4833,7 +4956,7 @@ function renderStats(){
   const quizAccuracy = quizTotalSum>0 ? quizCorrectSum/quizTotalSum : 0;
   document.getElementById('stQuiz').textContent = quizTotalSum>0 ? Math.round(quizAccuracy*100)+'%' : '-';
 
-  const healthyChoiceCount = logs.filter(log=> log.otherBehaviors && log.otherBehaviors.healthyChoice).length;
+  const healthyChoiceCount = logs.filter(log=> log.todaysGoals && log.todaysGoals.healthyChoice).length;
   const approvedMissionCount = state.approvedMissionCount || 0;
   const halfway = Math.ceil(state.totalDays/2);
 
@@ -5179,9 +5302,10 @@ async function loadProgressTable(){
         if(log.levels.salty==='ok') return 'ok';
         return 'poor';
       }},
-      {label:'อ่านฉลากโภชนาการ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.otherBehaviors && log.otherBehaviors.readLabel ? 'good' : 'poor')},
-      {label:'อ่านฉลาก GDA', fn:(log)=> !log||!log.submitted ? 'empty' : (log.otherBehaviors && log.otherBehaviors.readGDA ? 'good' : 'poor')},
-      {label:'เลือกสัญลักษณ์สุขภาพ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.otherBehaviors && log.otherBehaviors.healthyChoice ? 'good' : 'poor')},
+      {label:'อ่านฉลากโภชนาการ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.labelTypes && log.labelTypes.nutrition ? 'good' : 'poor')},
+      {label:'อ่านฉลาก GDA', fn:(log)=> !log||!log.submitted ? 'empty' : (log.labelTypes && log.labelTypes.gda ? 'good' : 'poor')},
+      {label:'เลือกสัญลักษณ์สุขภาพ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.todaysGoals && log.todaysGoals.healthyChoice ? 'good' : 'poor')},
+      // TODO (ข้อ 8 ในแผน): แทนที่ตารางนี้ทั้งชุดด้วย progress grid 10 หมวดตามสเปคหนังสือ — ตอนนี้ "เติมเครื่องปรุง" ไม่มีข้อมูลเก็บแล้ว (ตัดออกตามสเปคหนังสือ) จะโชว์ว่างเสมอจนกว่าจะทำข้อ 8
       {label:'ไม่เติมเครื่องปรุงเพิ่ม', fn:(log)=>{
         if(!log || !log.condiments || Object.values(log.condiments).every(v=>!v)) return 'empty';
         const count = ['fishSauce','soySauce','sauce','msg'].filter(k=>log.condiments[k]).length;
@@ -5189,7 +5313,7 @@ async function loadProgressTable(){
         if(count===1) return 'ok';
         return 'poor';
       }},
-      {label:'ดื่มน้ำเปล่าเพียงพอ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.otherBehaviors && log.otherBehaviors.drinkWater ? 'good' : 'poor')},
+      {label:'ดื่มน้ำเปล่าเพียงพอ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.waterGlasses==='5-6'||log.waterGlasses==='7-8' ? 'good' : (log.waterGlasses ? 'ok' : 'poor'))},
       {label:'ออกกำลังกาย', fn:(log)=> !log||!log.submitted ? 'empty' : (log.exercise && Object.values(log.exercise).some(Boolean) ? 'good' : 'poor')}
     ];
 
