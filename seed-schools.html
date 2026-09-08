@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Seed 24 โรงเรียน (ใช้ครั้งเดียว)</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+  body{font-family:sans-serif; max-width:600px; margin:40px auto; padding:0 16px;}
+  button{font-size:16px; padding:12px 24px; background:#0B3D4C; color:#fff; border:none; border-radius:8px; cursor:pointer;}
+  button:disabled{background:#999;}
+  #log{margin-top:20px; white-space:pre-wrap; font-family:monospace; font-size:13px; background:#f5f5f5; padding:12px; border-radius:8px; max-height:400px; overflow:auto;}
+</style>
+</head>
+<body>
+<h2>Seed 24 โรงเรียนเปิดตัว (ใช้ครั้งเดียวแล้วปิดทิ้งได้เลย)</h2>
+<p>กดปุ่มด้านล่างครั้งเดียว จะสร้างเอกสาร 24 โรงเรียนใน collection <code>schools</code> โดยใช้ slug เป็น document ID ตรงๆ (เผื่อใช้กับ <code>?school=slug</code> ตอนทำ QR) ถ้ากดซ้ำจะแค่เขียนทับข้อมูลเดิมด้วยค่าเดียวกัน ไม่สร้างซ้ำซ้อน ไม่มีอันตราย</p>
+<button id="seedBtn" onclick="runSeed()">เริ่ม Seed ข้อมูล</button>
+<div id="log"></div>
+
+<script>
+// ===== แก้ตรงนี้ให้เป็น config ของโปรเจกต์ day-challenge-saltsmart =====
+const firebaseConfig = {
+  apiKey: "AIzaSyBehgaSNdTeL5OeAqSkYim72_6WNjI5bpw",
+  authDomain: "day-challenge-saltsmart.firebaseapp.com",
+  projectId: "day-challenge-saltsmart",
+  storageBucket: "day-challenge-saltsmart.firebasestorage.app",
+  messagingSenderId: "41386701617",
+  appId: "1:41386701617:web:639c31b79cb155bb0ff610"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const SCHOOLS = [
+  {id:"sripingmuang",   name:"เทศบาลวัดศรีปิงเมือง"},
+  {id:"teeratada",      name:"ธีรธาดา พิษณุโลก"},
+  {id:"khokchaeng",     name:"วัดโคกแจง (ประชานุกูลสำนักงานสลากกินแบ่งสมทบสร้าง 337)"},
+  {id:"tansian",        name:"วัดตาลเสี้ยน (สีมาราษฎร์)"},
+  {id:"suntonthepkiri", name:"วัดสุนทรเทพคีรี"},
+  {id:"khaosamorabang", name:"วัดเขาสมอระบัง"},
+  {id:"nongbenja",      name:"บ้านหนองเบญจ"},
+  {id:"napho",          name:"อนุบาลนาโพธิ์"},
+  {id:"nonkung",        name:"บ้านโนนกุง"},
+  {id:"bangmaikaew",    name:"บ้านบางไม้แก้วประชาสามัคคี"},
+  {id:"falami",         name:"วัดฝาละมี"},
+  {id:"theplila",       name:"วัดเทพลีลา"},
+  {id:"sanpatong",      name:"สันป่าตองวิทยาคม"},
+  {id:"nampad",         name:"น้ำปาดชนูปถัมภ์"},
+  {id:"huadong",        name:"หัวดงรัฐชนูปถัมภ์"},
+  {id:"donkha",         name:"ดอนคาวิทยา"},
+  {id:"nongyama",       name:"เทศบาลหนองหญ้าม้า"},
+  {id:"triamudom-ne",   name:"เตรียมอุดมศึกษา ภาคตะวันออกเฉียงเหนือ"},
+  {id:"kanlaya",        name:"อนุบาลกัลยาประสิทธิ์"},
+  {id:"sisaket",        name:"ศรีสะเกษวิทยาลัย"},
+  {id:"takuktai",       name:"ตะกุกใต้ศึกษา"},
+  {id:"lamthap",        name:"ลำทับประชานุเคราะห์"},
+  {id:"satunwit",       name:"สตูลวิทยา"},
+  {id:"kusatit",        name:"สาธิตแห่งมหาวิทยาลัยเกษตรศาสตร์ ศูนย์วิจัยและพัฒนาการศึกษา"}
+];
+
+function log(msg){
+  document.getElementById('log').textContent += msg + '\n';
+}
+
+async function runSeed(){
+  const btn = document.getElementById('seedBtn');
+  btn.disabled = true;
+  log('เริ่ม seed ' + SCHOOLS.length + ' โรงเรียน...');
+  let okCount = 0;
+  for(const s of SCHOOLS){
+    try{
+      await db.collection('schools').doc(s.id).set({
+        schoolName: s.name,
+        province: '',
+        status: 'approved',
+        createdAt: new Date().toISOString(),
+        createdByStudentId: null,
+        mergedIntoSchoolId: null
+      }, {merge:true});
+      log('✅ ' + s.id + ' — ' + s.name);
+      okCount++;
+    }catch(e){
+      log('❌ ' + s.id + ' ล้มเหลว: ' + e.message);
+    }
+  }
+  log('\nเสร็จแล้ว: ' + okCount + '/' + SCHOOLS.length + ' โรงเรียน');
+  btn.disabled = false;
+  btn.textContent = 'Seed อีกครั้ง (เผื่อแก้ชื่อ)';
+}
+</script>
+</body>
+</html>

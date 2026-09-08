@@ -2103,6 +2103,18 @@ async function init(){
     }
     const schoolsSnap = await db.collection('schools').get();
     state.schools = schoolsSnap.docs.map(d=>({id:d.id, ...d.data()}));
+
+    // ถ้ามาจาก QR ที่ผูก ?school=slug ไว้ (ต่อโรงเรียนตอนงานนำเสนอ) ให้ล็อกโรงเรียนไว้ล่วงหน้าเลย ไม่ต้องค้นหาเอง
+    const urlSchoolId = new URLSearchParams(window.location.search).get('school');
+    if(urlSchoolId){
+      const preselected = state.schools.find(s => s.id === urlSchoolId);
+      if(preselected){
+        state.selectedSchoolId = preselected.id;
+        state.selectedSchoolName = preselected.schoolName;
+        state.schoolPreselectedFromQr = true;
+      }
+    }
+
     state.dataReady = true;
     // ถ้ามาจาก checklabel.html พร้อม PIN ที่ยืนยันแล้ว (?claimKiosk=1) ให้ auto-login ข้ามหน้า login ไปเลย
     // เช็คก่อน tryRestoreSession() เสมอ เพราะ session ปกติอาจยังไม่มี (ยังไม่เคย login ในแท็บนี้)
@@ -2128,7 +2140,7 @@ function enterFromWelcome(){
     const checkReady = setInterval(()=>{
       if(state.dataReady){
         clearInterval(checkReady);
-        goScreen('screen-school');
+        goToSchoolOrUsername();
       } else if(state.dataLoadError){
         clearInterval(checkReady);
         btn.textContent = 'เริ่มต้นใช้งาน'; btn.disabled = false;
@@ -2137,7 +2149,18 @@ function enterFromWelcome(){
     }, 300);
     return;
   }
-  goScreen('screen-school');
+  goToSchoolOrUsername();
+}
+
+function goToSchoolOrUsername(){
+  if(state.schoolPreselectedFromQr && state.selectedSchoolId){
+    document.getElementById('usernameBrandSub').textContent = 'โรงเรียน ' + state.selectedSchoolName;
+    document.getElementById('usernameInput').value = '';
+    document.getElementById('usernameError').textContent = '';
+    goScreen('screen-username');
+  } else {
+    goScreen('screen-school');
+  }
 }
 
 /* ============ SCHOOL SEARCH / CREATE ============ */
