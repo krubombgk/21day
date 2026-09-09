@@ -540,6 +540,9 @@
           <div class="field"><label>วันเริ่มต้น</label><input type="date" id="campStart" onchange="updateSchoolDaySummary()"></div>
           <div class="field"><label>วันสิ้นสุด</label><input type="date" id="campEnd" onchange="updateSchoolDaySummary()"></div>
           <div class="msg" id="schoolDaySummary" style="color:var(--lagoon);"></div>
+          <label style="display:flex; align-items:center; gap:8px; font-size:13.5px; margin:14px 0; padding:10px; background:var(--sand); border-radius:8px;">
+            <input type="checkbox" id="campAfterUnlocked"> ปลดล็อกหน้า "After Challenge" ให้นักเรียนทำได้ (เปิดเมื่อครบ 21 วันพร้อมกันทั้งโครงการ)
+          </label>
           <div class="field" style="margin-top:10px;"><label>รหัสผ่านผู้ดูแล (แก้ไขได้)</label><input type="text" id="campAdminPw" oninput="toggleOldPwField()"></div>
           <div class="field"><label>รหัสผ่านยุวทูต อย.น้อย (เข้าได้แค่หน้าตรวจภารกิจ)</label><input type="text" id="campYouthPw" oninput="toggleOldPwField()"></div>
           <div class="field" id="campOldPwField" style="display:none;"><label>ใส่รหัสผ่านผู้ดูแล<u>เดิม</u>เพื่อยืนยันตัวตนก่อนเปลี่ยน</label><input type="text" id="campOldPw"></div>
@@ -2521,7 +2524,8 @@ async function saveCampaign(){
   const pw = document.getElementById('campAdminPw').value;
   const youthPw = document.getElementById('campYouthPw').value;
   if(!start || !end || end < start){ setMsg('campMsg','กรุณาใส่วันเริ่มต้น-สิ้นสุดให้ถูกต้อง',true); return; }
-  await db.collection('settings').doc('campaign').set({startDate:start, endDate:end, active:true}, {merge:true});
+  const afterChallengeUnlocked = document.getElementById('campAfterUnlocked').checked;
+  await db.collection('settings').doc('campaign').set({startDate:start, endDate:end, active:true, afterChallengeUnlocked}, {merge:true});
   if(pw || youthPw){
     if(currentRole !== 'admin'){ setMsg('campMsg','เปลี่ยนรหัสผ่านได้เฉพาะผู้ดูแล (ยุวทูตเปลี่ยนไม่ได้)',true); return; }
     const oldPw = document.getElementById('campOldPw').value;
@@ -2545,6 +2549,7 @@ async function loadCampaignForm(){
   if(snap.exists){
     if(snap.data().startDate) document.getElementById('campStart').value = snap.data().startDate;
     if(snap.data().endDate) document.getElementById('campEnd').value = snap.data().endDate;
+    document.getElementById('campAfterUnlocked').checked = !!snap.data().afterChallengeUnlocked;
     holidaysCache = Array.isArray(snap.data().holidays) ? snap.data().holidays : [];
     updateSchoolDaySummary();
   }

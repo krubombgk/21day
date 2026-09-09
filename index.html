@@ -1010,6 +1010,127 @@
   </div>
 </div>
 
+<!-- ================= SCREEN: BEFORE CHALLENGE ================= -->
+<div class="screen" id="screen-before-challenge">
+  <div class="brandbar">
+    <div class="brand-row">
+      <div class="brand-mark">📋</div>
+      <div><div class="brand-title">ก่อนเริ่ม 21 วัน</div><div class="brand-sub">แบบสำรวจพฤติกรรม + เป้าหมาย + ข้อมูลสุขภาพ</div></div>
+    </div>
+  </div>
+  <div class="wrap" style="max-width:520px;">
+    <div class="backlink" onclick="goScreen('screen-main')">‹ ทำทีหลัง</div>
+    <p style="color:#6b7c80; font-size:13px;">ตอบตามความเป็นจริงของตัวเองตอนนี้ ไม่มีคำตอบไหนถูกหรือผิด — ใช้เทียบผลตอนจบ 21 วัน</p>
+
+    <div class="card">
+      <h3 style="margin-top:0;">แบบสำรวจพฤติกรรม</h3>
+      <div id="beforeSurveyQuestions"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">เป้าหมายการเปลี่ยนแปลงพฤติกรรมใน 21 วันของฉัน</h3>
+      <p style="color:#6b7c80; font-size:12.5px; margin-top:-6px;">เลือกได้มากกว่า 1 ข้อ</p>
+      <div class="sticker-row" id="beforeGoalChips"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">ข้อมูลสุขภาพก่อนเริ่ม</h3>
+      <div class="field" id="beforeSexField" style="display:none;">
+        <label>เพศ</label>
+        <select id="beforeSex"><option value="male">ชาย</option><option value="female">หญิง</option></select>
+      </div>
+      <div class="field"><label>น้ำหนัก (กิโลกรัม)</label><input type="number" step="0.1" id="beforeWeight" placeholder="เช่น 38.5"></div>
+      <div class="field"><label>ส่วนสูง (เซนติเมตร)</label><input type="number" step="0.1" id="beforeHeight" placeholder="เช่น 140"></div>
+      <div class="field"><label>รอบเอว (เซนติเมตร)</label><input type="number" step="0.1" id="beforeWaist" placeholder="เช่น 60"></div>
+    </div>
+
+    <button class="btn btn-primary btn-block" onclick="submitBeforeChallenge()">บันทึกและเริ่ม 21 วัน 🎉</button>
+    <div class="msg" id="beforeChallengeMsg" style="min-height:20px; margin-top:8px;"></div>
+  </div>
+</div>
+
+<!-- ================= SCREEN: AFTER CHALLENGE ================= -->
+<div class="screen" id="screen-after-challenge">
+  <div class="brandbar">
+    <div class="brand-row">
+      <div class="brand-mark">🏁</div>
+      <div><div class="brand-title">After Challenge</div><div class="brand-sub">21 วัน ฉันเปลี่ยนไปอย่างไร</div></div>
+    </div>
+  </div>
+  <div class="wrap" style="max-width:520px;">
+    <div class="backlink" onclick="goScreen('screen-main')">‹ กลับ</div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">ข้อมูลสุขภาพหลังครบ 21 วัน</h3>
+      <div class="field"><label>น้ำหนัก (กิโลกรัม)</label><input type="number" step="0.1" id="afterWeight"></div>
+      <div class="field"><label>ส่วนสูง (เซนติเมตร)</label><input type="number" step="0.1" id="afterHeight"></div>
+      <div class="field"><label>รอบเอว (เซนติเมตร)</label><input type="number" step="0.1" id="afterWaist"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">สิ่งที่ฉันทำได้จริงใน 21 วันติดต่อกัน</h3>
+      <p style="color:#6b7c80; font-size:12.5px; margin-top:-6px;">เลือกได้มากกว่า 1 ข้อ (เทียบกับเป้าหมายที่ตั้งไว้ตอนก่อนเริ่ม)</p>
+      <div class="sticker-row" id="afterGoalChips"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">สะท้อนคิด</h3>
+      <div class="field">
+        <label>1. ก่อนและหลัง 21 วัน พฤติกรรมการบริโภคของฉันเปลี่ยนแปลงอย่างไร</label>
+        <textarea id="afterQ1" placeholder="เช่น อ่านฉลากก่อนบริโภคทุกครั้ง ลดการบริโภคหวานมันเค็ม ออกกำลังกายทุกวัน"></textarea>
+      </div>
+      <div class="field">
+        <label>2. ความรู้เรื่องอาหาร/ฉลากโภชนาการที่ฉันได้เพิ่ม</label>
+        <textarea id="afterQ2"></textarea>
+      </div>
+      <div class="field">
+        <label>3. บทบาทของฉันในฐานะ "อย.น้อย" ที่จะนำไปใช้หรือสื่อสารต่อ</label>
+        <textarea id="afterQ3"></textarea>
+      </div>
+      <div class="field">
+        <label>4. เป้าหมายการดูแลสุขภาพของฉันหลังจากนี้</label>
+        <textarea id="afterQ4"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">ผู้รับรอง</h3>
+      <div class="field"><label>ชื่อนักเรียน</label><input type="text" id="afterStudentSignName"></div>
+      <div class="field"><label>ชื่อครูที่ปรึกษา อย.น้อย/พี่เลี้ยง</label><input type="text" id="afterTeacherSignName"></div>
+      <p style="color:#9aa8ab; font-size:11.5px; margin-top:-6px;">เป็นช่องพิมพ์ชื่อรับรองในระบบเท่านั้น ไม่ใช่ลายเซ็นจริง — เอกสารตัวจริงที่ต้องมีลายเซ็นครูใช้ตอนอัปโหลดเข้า Google Form ของ อย. อีกที</p>
+    </div>
+
+    <button class="btn btn-primary btn-block" onclick="submitAfterChallenge()">บันทึกผล After Challenge</button>
+    <div class="msg" id="afterChallengeMsg" style="min-height:20px; margin-top:8px;"></div>
+  </div>
+</div>
+
+<!-- ================= SCREEN: POST SURVEY ================= -->
+<div class="screen" id="screen-post-survey">
+  <div class="brandbar">
+    <div class="brand-row">
+      <div class="brand-mark">📋</div>
+      <div><div class="brand-title">แบบสำรวจพฤติกรรมหลัง Challenge</div><div class="brand-sub">มาดูกันว่าเรามีพฤติกรรมสุขภาพที่ดีขึ้นกันไหม</div></div>
+    </div>
+  </div>
+  <div class="wrap" style="max-width:520px;">
+    <div class="backlink" onclick="goScreen('screen-main')">‹ ทำทีหลัง</div>
+    <p style="color:#6b7c80; font-size:13px;">แบบสำรวจชุดเดียวกับตอนก่อนเริ่ม 21 วัน ตอบตามความเป็นจริงตอนนี้</p>
+
+    <div class="card">
+      <div id="postSurveyQuestions"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">บันทึกความภาคภูมิใจ หรือความสำเร็จในการปรับเปลี่ยนพฤติกรรมสุขภาพ</h3>
+      <textarea id="postPrideText" style="min-height:80px;"></textarea>
+    </div>
+
+    <button class="btn btn-primary btn-block" onclick="submitPostSurvey()">บันทึกแบบสำรวจ</button>
+    <div class="msg" id="postSurveyMsg" style="min-height:20px; margin-top:8px;"></div>
+  </div>
+</div>
+
 <!-- ================= SCREEN: MAIN APP ================= -->
 <div class="screen" id="screen-main">
   <div class="headerbar">
@@ -1046,15 +1167,27 @@
       <div class="section-title" id="homeGreeting" style="font-size:16px; margin-top:0;">สวัสดี! 👋</div>
       <div style="text-align:right; margin:-6px 0 8px;"><span style="color:var(--lagoon); font-family:'Kanit'; font-weight:600; font-size:12px; cursor:pointer;" onclick="openAnnounceHistory()">📋 ดูประกาศทั้งหมด</span></div>
 
-      <!-- เตือนทำ Baseline Survey + Pre-test (assessment.html) ถ้ายังไม่เคยทำ — โผล่ทุกครั้งที่ login จนกว่าจะทำเสร็จ -->
+      <!-- เตือนทำ Before Challenge ถ้ายังไม่เคยทำ — โผล่ทุกครั้งที่ login จนกว่าจะทำเสร็จ (กดข้ามได้ ไม่บังคับ) -->
       <div class="card" id="preTestReminderCard" style="display:none; background:#FDE9E4; border-color:var(--clay);">
         <div style="display:flex; align-items:center; gap:10px;">
           <div style="font-size:24px;">📋</div>
           <div style="flex:1;">
-            <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px;">ยังไม่ได้ทำแบบสำรวจ/แบบทดสอบก่อนเริ่มโครงการ</div>
-            <div style="font-size:12px; color:#6b7c80;">ทำ Baseline Survey + Pre-test ให้เสร็จก่อน จะได้เทียบผลตอนจบแคมเปญได้ครบ</div>
+            <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px;">ยังไม่ได้ทำแบบสำรวจก่อนเริ่มโครงการ</div>
+            <div style="font-size:12px; color:#6b7c80;">ทำ Before Challenge ให้เสร็จก่อน จะได้เทียบผลตอนจบ 21 วันได้ครบ</div>
           </div>
-          <a href="./assessment.html" class="btn btn-primary" style="width:auto; padding:8px 14px; font-size:12.5px; text-decoration:none; text-align:center;">ไปทำเลย</a>
+          <button class="btn btn-primary" style="width:auto; padding:8px 14px; font-size:12.5px;" onclick="openBeforeChallenge()">ไปทำเลย</button>
+        </div>
+      </div>
+
+      <!-- เตือนทำ After Challenge + Post Survey — โผล่เฉพาะตอนแอดมินปลดล็อกแล้วเท่านั้น (afterChallengeUnlocked) -->
+      <div class="card" id="afterChallengeReminderCard" style="display:none; background:#E3F5EE; border-color:var(--teal);">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="font-size:24px;">🏁</div>
+          <div style="flex:1;">
+            <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px;">ครบ 21 วันแล้ว! มาดูกันว่าเปลี่ยนไปแค่ไหน</div>
+            <div style="font-size:12px; color:#6b7c80;">ทำ After Challenge + แบบสำรวจหลัง เพื่อขอเกียรติบัตรจาก อย.</div>
+          </div>
+          <button class="btn btn-primary" style="width:auto; padding:8px 14px; font-size:12.5px;" onclick="openAfterChallenge()">ไปทำเลย</button>
         </div>
       </div>
 
@@ -1684,6 +1817,16 @@
   </div>
   <div class="wrap" style="padding-top:18px; max-width:480px;">
 
+    <div class="card">
+      <h3 style="margin-top:0;">ข้อมูลติดต่อ</h3>
+      <p style="color:#6b7c80; font-size:12.5px; margin-top:-8px;">ไม่บังคับกรอกตอนนี้ก็ได้ แต่ต้องกรอกให้ครบก่อนขอเกียรติบัตรตอนจบโครงการ</p>
+      <div class="field"><label>จังหวัด</label><input type="text" id="profileProvince"></div>
+      <div class="field"><label>เบอร์โทรศัพท์</label><input type="tel" id="profilePhone"></div>
+      <div class="field"><label>อีเมล (สำหรับรับเกียรติบัตร)</label><input type="email" id="profileEmail"></div>
+      <button class="btn btn-primary btn-block" onclick="saveContactInfo()">บันทึกข้อมูลติดต่อ</button>
+      <div class="msg" id="contactInfoMsg" style="min-height:18px; margin-top:6px;"></div>
+    </div>
+
     <div id="healthSetupArea" style="display:none;">
       <div class="card">
         <h3 style="margin-top:0;">ตั้งค่าครั้งแรก</h3>
@@ -2027,6 +2170,21 @@ const WATER_GLASS_OPTIONS = [
   {key:'5-6', label:'5-6 แก้ว'},
   {key:'7-8', label:'7-8 แก้ว'}
 ];
+// แบบสำรวจพฤติกรรม 11 ข้อ — ชุดเดียวกันทั้ง Before (หน้า 15-16) และ Post (หน้า 69-71) ในหนังสือ 21 Day Challenge
+// เก็บคำตอบเป็น index 0-3 ตามลำดับตัวเลือกที่โชว์ (ไม่ได้เรียง "ดี→แย่" ทิศทางเดียวกันทุกข้อ ตรงตามหนังสือต้นฉบับ)
+const BEHAVIOR_SURVEY_QUESTIONS = [
+  {q:'กินอาหารหวาน (ลูกอม ขนมเค้ก ไอศกรีม เบเกอรี่ ฯลฯ) บ่อยแค่ไหนใน 1 สัปดาห์', choices:['กินทุกวัน','3-4 วัน/สัปดาห์','1-2 วัน/สัปดาห์','ไม่กินเลย']},
+  {q:'กินน้ำหวาน (น้ำอัดลม ชาเขียว ชาเย็น ชานมไข่มุก ฯลฯ) บ่อยแค่ไหน', choices:['มากกว่า 1 แก้ว/วัน','วันละ 1 แก้ว','3-4 แก้ว/สัปดาห์','ไม่กินเลย']},
+  {q:'กินของทอดหรือมันๆ (เฟรนช์ฟราย ไก่ทอด มันฝรั่งแผ่น ฯลฯ) บ่อยแค่ไหนใน 1 สัปดาห์', choices:['กินทุกวัน','3-4 วัน/สัปดาห์','1-2 วัน/สัปดาห์','ไม่กินเลย']},
+  {q:'ชอบกินอาหารรสเค็ม หรือชอบเติมน้ำปลา/ซีอิ๊ว บ่อยแค่ไหน', choices:['ชอบมาก กินทุกมื้อ','กินบ้างบางครั้ง','นานๆ กินที','ไม่กินเลย']},
+  {q:'กินอาหารกึ่งสำเร็จรูป (บะหมี่/โจ๊ก ฯลฯ) บ่อยแค่ไหน', choices:['กินทุกวัน','3-4 วัน/สัปดาห์','1-2 วัน/สัปดาห์','ไม่กินเลย']},
+  {q:'กินอาหารแปรรูป (ไส้กรอก ลูกชิ้น หมูยอ กุนเชียง ฯลฯ) บ่อยแค่ไหน', choices:['กินทุกวัน','3-4 วัน/สัปดาห์','1-2 วัน/สัปดาห์','ไม่กินเลย']},
+  {q:'กินอาหารแช่แข็ง (ข้าวกล่องแช่เย็น/แช่แข็งในร้านสะดวกซื้อ) บ่อยแค่ไหน', choices:['กินทุกวัน','3-4 วัน/สัปดาห์','1-2 วัน/สัปดาห์','ไม่กินเลย']},
+  {q:'กินน้ำเปล่าเยอะแค่ไหน', choices:['1-2 แก้ว/วัน','3-4 แก้ว/วัน','5-6 แก้ว/วัน','7-8 แก้ว/วัน']},
+  {q:'กินผัก-ผลไม้ บ่อยแค่ไหน', choices:['ไม่กินเลย','1-2 วัน/สัปดาห์','3-4 วัน/สัปดาห์','กินทุกวัน']},
+  {q:'กินอาหารครบ 5 หมู่ (คาร์โบไฮเดรต โปรตีน ไขมัน วิตามิน แร่ธาตุ) บ่อยแค่ไหน', choices:['ไม่กินเลย','1-2 วัน/สัปดาห์','3-4 วัน/สัปดาห์','กินทุกวัน']},
+  {q:'อ่านฉลากก่อนซื้อ หรือก่อนกินอาหาร บ่อยแค่ไหน', choices:['กินทุกวัน','3-4 วัน/สัปดาห์','1-2 วัน/สัปดาห์','ไม่กินเลย']}
+];
 const AVATAR_COLORS = ['#2A9D8F','#F4A261','#E76F51','#0B3D4C','#7FD8CC','#E8A33D'];
 const STICKER_BG = ['#EAF7F4','#FDEEE1','#FBE9E5','#F3ECDD'];
 // สีประจำหมวดหมู่การ์ดความรู้ — ใช้กับแถบหัวข้อบนการ์ดและป้ายในอัลบั้ม
@@ -2059,6 +2217,9 @@ let state = {
   exerciseChecked:{}, levels:{sweet:null, fat:null, salty:null},
   todaysGoals:{}, labelTypes:{}, labelReadings:{general:{}, gda:{}, nutrition:{}}, aiLabelPendingType:null,
   fiveFoodGroups:null, waterGlasses:null,
+  beforeAnswers: new Array(11).fill(null), beforeGoals:{},
+  postAnswers: new Array(11).fill(null),
+  afterAchievedGoals:{},
 };
 
 function todayStr(){
@@ -2512,7 +2673,7 @@ async function enterApp(){
     hideLoadingOverlay();
     saveSession();
     initNotifyOptIn(); // เช็คว่าควรโชว์การ์ดชวนเปิดแจ้งเตือนไหม (ไม่บล็อกอะไร ทำหลังเข้าแอปสำเร็จแล้วเงียบๆ)
-    checkPreTestReminder(); // เช็คว่าทำ Baseline Survey + Pre-test ใน assessment.html ไปแล้วหรือยัง ถ้ายังเตือนไว้เบาๆ (ไม่บล็อกอะไร)
+    checkPreTestReminder(); // เช็คว่าทำ Before Challenge / After Challenge ไปแล้วหรือยัง ถ้ายังเตือนไว้เบาๆ (ไม่บล็อกอะไร)
   }catch(e){
     console.error('enterApp error:', e);
     hideLoadingOverlay();
@@ -2626,19 +2787,172 @@ async function enablePushNotifications(){
   }
 }
 
-/* ---- เตือนทำ Baseline Survey + Pre-test (assessment.html) ตอน login ทุกครั้งจนกว่าจะทำเสร็จ ---- */
-async function checkPreTestReminder(){
-  const card = document.getElementById('preTestReminderCard');
+/* ---- เตือนทำ Before Challenge / After Challenge ตอน login ทุกครั้งจนกว่าจะทำเสร็จ (กดข้ามได้ ไม่บังคับ) ---- */
+function checkPreTestReminder(){
+  const s = state.selectedStudent;
+  document.getElementById('preTestReminderCard').style.display = s.beforeSurvey ? 'none' : 'block';
+  // After Challenge โผล่เตือนเฉพาะตอนแอดมินปลดล็อกแคมเปญนี้แล้ว (campaign.afterChallengeUnlocked) และยังไม่เคยทำ
+  const afterUnlocked = !!(state.campaign && state.campaign.afterChallengeUnlocked);
+  document.getElementById('afterChallengeReminderCard').style.display = (afterUnlocked && !s.afterChallenge) ? 'block' : 'none';
+}
+
+/* ---- แบบสำรวจพฤติกรรม 11 ข้อ (ใช้ร่วมกันทั้ง Before/Post) ---- */
+function renderSurveyQuestions(containerId, answersArray, onPick){
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = BEHAVIOR_SURVEY_QUESTIONS.map((item, qi)=>{
+    const btns = item.choices.map((label, ci)=>{
+      const active = answersArray[qi] === ci;
+      return `<div class="level-btn ${active?'active ok':''}" data-qi="${qi}" data-ci="${ci}" style="flex:1 1 40%; margin:2px;">${label}</div>`;
+    }).join('');
+    return `<div style="margin-bottom:16px;">
+      <div style="font-family:'Kanit'; font-weight:600; font-size:13.5px; margin-bottom:8px;">${qi+1}. ${item.q}</div>
+      <div class="level-btns" style="flex-wrap:wrap;">${btns}</div>
+    </div>`;
+  }).join('');
+  wrap.querySelectorAll('.level-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      answersArray[parseInt(btn.dataset.qi)] = parseInt(btn.dataset.ci);
+      renderSurveyQuestions(containerId, answersArray, onPick);
+    };
+  });
+}
+
+/* ---- Before Challenge ---- */
+function openBeforeChallenge(){
+  renderSurveyQuestions('beforeSurveyQuestions', state.beforeAnswers);
+  const wrap = document.getElementById('beforeGoalChips');
+  wrap.innerHTML = '';
+  TODAY_GOAL_OPTIONS.forEach(o=>{
+    const active = !!state.beforeGoals[o.key];
+    wrap.appendChild(stickerButton(o.key, o.emoji, o.label, active, ()=>{
+      state.beforeGoals[o.key] = !state.beforeGoals[o.key];
+      openBeforeChallenge();
+    }));
+  });
+  document.getElementById('beforeSexField').style.display = state.selectedStudent.sex ? 'none' : 'block';
+  document.getElementById('beforeChallengeMsg').textContent = '';
+  goScreen('screen-before-challenge');
+}
+
+async function submitBeforeChallenge(){
+  const msgEl = document.getElementById('beforeChallengeMsg');
+  if(state.beforeAnswers.some(a=>a===null)){ msgEl.style.color='var(--red-high)'; msgEl.textContent='ตอบแบบสำรวจให้ครบทุกข้อก่อนนะ'; return; }
+  if(!Object.values(state.beforeGoals).some(Boolean)){ msgEl.style.color='var(--red-high)'; msgEl.textContent='เลือกเป้าหมายอย่างน้อย 1 ข้อก่อนนะ'; return; }
+  const weight = parseFloat(document.getElementById('beforeWeight').value);
+  const height = parseFloat(document.getElementById('beforeHeight').value);
+  const waist = parseFloat(document.getElementById('beforeWaist').value);
+  if(!weight || !height || !waist){ msgEl.style.color='var(--red-high)'; msgEl.textContent='กรอกน้ำหนัก ส่วนสูง รอบเอว ให้ครบก่อนนะ'; return; }
+  const sexInput = document.getElementById('beforeSexField').style.display !== 'none' ? document.getElementById('beforeSex').value : state.selectedStudent.sex;
+
   try{
-    const [behaviorSnap, testSnap] = await Promise.all([
-      db.collection('behaviorSurveys').where('studentId','==',state.selectedStudent.id).where('phase','==','pre').limit(1).get(),
-      db.collection('knowledgeTests').where('studentId','==',state.selectedStudent.id).where('phase','==','pre').limit(1).get(),
-    ]);
-    const doneBoth = !behaviorSnap.empty && !testSnap.empty;
-    card.style.display = doneBoth ? 'none' : 'block';
+    const heightM = height/100;
+    const bmi = Math.round((weight/(heightM*heightM))*10)/10;
+    const studentUpdate = { sex: sexInput };
+    await db.collection('students').doc(state.selectedStudent.id).update({
+      sex: sexInput,
+      beforeSurvey: {
+        answers: state.beforeAnswers, goals: state.beforeGoals,
+        weightKg: weight, heightCm: height, waistCm: waist, bmi,
+        completedAt: new Date().toISOString()
+      }
+    });
+    // เขียนลง behaviorSurveys ด้วย (denormalized) ให้ตรงกับที่หน้า admin ใช้สรุปผลอยู่แล้ว
+    await db.collection('behaviorSurveys').add({
+      studentId: state.selectedStudent.id, schoolId: state.selectedSchoolId, schoolName: state.selectedSchoolName,
+      studentName: state.selectedStudent.fullName, phase: 'pre', answers: state.beforeAnswers,
+      submittedAt: new Date().toISOString()
+    });
+    state.selectedStudent.sex = sexInput;
+    state.selectedStudent.beforeSurvey = studentUpdate.beforeSurvey;
+    showToast('บันทึกแล้ว พร้อมเริ่ม 21 วันเลย! 🎉');
+    goScreen('screen-main');
+    checkPreTestReminder();
   }catch(e){
-    console.error('เช็คสถานะ Pre-test ไม่สำเร็จ:', e);
-    card.style.display = 'none'; // เช็คไม่ได้ (เช่นเน็ตหลุด) ไม่ต้องโชว์ค้าง กันดูเหมือนบังคับทั้งที่เช็คไม่ได้จริง
+    console.error(e);
+    msgEl.style.color='var(--red-high)'; msgEl.textContent='บันทึกไม่สำเร็จ: ' + e.message;
+  }
+}
+
+/* ---- After Challenge ---- */
+function openAfterChallenge(){
+  const wrap = document.getElementById('afterGoalChips');
+  wrap.innerHTML = '';
+  TODAY_GOAL_OPTIONS.forEach(o=>{
+    const active = !!state.afterAchievedGoals[o.key];
+    wrap.appendChild(stickerButton(o.key, o.emoji, o.label, active, ()=>{
+      state.afterAchievedGoals[o.key] = !state.afterAchievedGoals[o.key];
+      openAfterChallenge();
+    }));
+  });
+  document.getElementById('afterChallengeMsg').textContent = '';
+  goScreen('screen-after-challenge');
+}
+
+async function submitAfterChallenge(){
+  const msgEl = document.getElementById('afterChallengeMsg');
+  const weight = parseFloat(document.getElementById('afterWeight').value);
+  const height = parseFloat(document.getElementById('afterHeight').value);
+  const waist = parseFloat(document.getElementById('afterWaist').value);
+  const q1 = document.getElementById('afterQ1').value.trim();
+  const q2 = document.getElementById('afterQ2').value.trim();
+  const q3 = document.getElementById('afterQ3').value.trim();
+  const q4 = document.getElementById('afterQ4').value.trim();
+  const studentSignName = document.getElementById('afterStudentSignName').value.trim();
+  const teacherSignName = document.getElementById('afterTeacherSignName').value.trim();
+  if(!weight || !height || !waist){ msgEl.style.color='var(--red-high)'; msgEl.textContent='กรอกน้ำหนัก ส่วนสูง รอบเอว ให้ครบก่อนนะ'; return; }
+  if(!Object.values(state.afterAchievedGoals).some(Boolean)){ msgEl.style.color='var(--red-high)'; msgEl.textContent='เลือกสิ่งที่ทำได้จริงอย่างน้อย 1 ข้อก่อนนะ'; return; }
+  if(!q1 || !q2 || !q3 || !q4){ msgEl.style.color='var(--red-high)'; msgEl.textContent='ตอบคำถามสะท้อนคิดให้ครบทั้ง 4 ข้อก่อนนะ'; return; }
+  if(!studentSignName || !teacherSignName){ msgEl.style.color='var(--red-high)'; msgEl.textContent='กรอกชื่อนักเรียนและชื่อครูที่ปรึกษาให้ครบก่อนนะ'; return; }
+
+  try{
+    const heightM = height/100;
+    const bmi = Math.round((weight/(heightM*heightM))*10)/10;
+    const afterChallenge = {
+      weightKg: weight, heightCm: height, waistCm: waist, bmi,
+      achievedGoals: state.afterAchievedGoals,
+      reflections: { q1, q2, q3, q4 },
+      studentSignName, teacherSignName,
+      completedAt: new Date().toISOString()
+    };
+    await db.collection('students').doc(state.selectedStudent.id).update({ afterChallenge });
+    state.selectedStudent.afterChallenge = afterChallenge;
+    showToast('บันทึก After Challenge แล้ว 🏁');
+    goScreen('screen-main');
+    checkPreTestReminder();
+    openPostSurvey(); // ต่อด้วยแบบสำรวจหลังทันที เพราะเป็นชุดข้อมูลที่ทำต่อเนื่องกันตามหนังสือ
+  }catch(e){
+    console.error(e);
+    msgEl.style.color='var(--red-high)'; msgEl.textContent='บันทึกไม่สำเร็จ: ' + e.message;
+  }
+}
+
+/* ---- Post Survey ---- */
+function openPostSurvey(){
+  renderSurveyQuestions('postSurveyQuestions', state.postAnswers);
+  document.getElementById('postSurveyMsg').textContent = '';
+  goScreen('screen-post-survey');
+}
+
+async function submitPostSurvey(){
+  const msgEl = document.getElementById('postSurveyMsg');
+  if(state.postAnswers.some(a=>a===null)){ msgEl.style.color='var(--red-high)'; msgEl.textContent='ตอบแบบสำรวจให้ครบทุกข้อก่อนนะ'; return; }
+  const prideText = document.getElementById('postPrideText').value.trim();
+  if(!prideText){ msgEl.style.color='var(--red-high)'; msgEl.textContent='เขียนความภาคภูมิใจ/ความสำเร็จก่อนนะ'; return; }
+
+  try{
+    const postSurvey = { answers: state.postAnswers, prideText, completedAt: new Date().toISOString() };
+    await db.collection('students').doc(state.selectedStudent.id).update({ postSurvey });
+    await db.collection('behaviorSurveys').add({
+      studentId: state.selectedStudent.id, schoolId: state.selectedSchoolId, schoolName: state.selectedSchoolName,
+      studentName: state.selectedStudent.fullName, phase: 'post', answers: state.postAnswers,
+      submittedAt: new Date().toISOString()
+    });
+    state.selectedStudent.postSurvey = postSurvey;
+    showToast('ขอบคุณที่ร่วม 21 Days Challenge จนจบนะ! 🎉');
+    goScreen('screen-main');
+  }catch(e){
+    console.error(e);
+    msgEl.style.color='var(--red-high)'; msgEl.textContent='บันทึกไม่สำเร็จ: ' + e.message;
   }
 }
 
@@ -2884,6 +3198,8 @@ function logout(){
   state.exerciseChecked={}; state.levels={sweet:null,fat:null,salty:null};
   state.todaysGoals={}; state.labelTypes={}; state.labelReadings={general:{}, gda:{}, nutrition:{}};
   state.fiveFoodGroups=null; state.waterGlasses=null;
+  state.beforeAnswers=new Array(11).fill(null); state.beforeGoals={};
+  state.postAnswers=new Array(11).fill(null); state.afterAchievedGoals={};
   document.getElementById('kcardOverlay').style.display = 'none';
   goScreen('screen-username');
 }
@@ -5464,6 +5780,10 @@ function monthsBetween(birthDateStr, todayDateStr){
 function openHealthScreen(){
   goScreen('screen-health');
   const s = state.selectedStudent;
+  document.getElementById('profileProvince').value = s.province || '';
+  document.getElementById('profilePhone').value = s.phone || '';
+  document.getElementById('profileEmail').value = s.email || '';
+  document.getElementById('contactInfoMsg').textContent = '';
   const hasProfile = s && s.sex && s.birthDate;
   document.getElementById('healthSetupArea').style.display = hasProfile ? 'none' : 'block';
   document.getElementById('healthMainArea').style.display = hasProfile ? 'block' : 'none';
@@ -5471,6 +5791,25 @@ function openHealthScreen(){
 }
 function closeHealthScreen(){
   goScreen('screen-main');
+}
+
+async function saveContactInfo(){
+  const province = document.getElementById('profileProvince').value.trim();
+  const phone = document.getElementById('profilePhone').value.trim();
+  const email = document.getElementById('profileEmail').value.trim();
+  const msgEl = document.getElementById('contactInfoMsg');
+  try{
+    await db.collection('students').doc(state.selectedStudent.id).update({ province, phone, email });
+    state.selectedStudent.province = province;
+    state.selectedStudent.phone = phone;
+    state.selectedStudent.email = email;
+    msgEl.style.color = 'var(--lagoon)';
+    msgEl.textContent = 'บันทึกแล้ว';
+  }catch(e){
+    console.error(e);
+    msgEl.style.color = 'var(--red-high)';
+    msgEl.textContent = 'บันทึกไม่สำเร็จ: ' + e.message;
+  }
 }
 
 async function saveHealthProfile(){
