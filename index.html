@@ -774,7 +774,7 @@
   }
   .kcard-imgwrap{
     margin:14px 14px 0; border-radius:12px; overflow:hidden; background:var(--sand);
-    border:2px solid #E4DFCF; height:170px; display:flex; align-items:center; justify-content:center;
+    border:2px solid #E4DFCF; aspect-ratio:16/10; display:flex; align-items:center; justify-content:center;
   }
   .kcard-imgwrap img{width:100%; height:100%; object-fit:cover; display:block;}
   .kcard-emoji{font-size:52px;}
@@ -2030,11 +2030,13 @@ const AVATAR_COLORS = ['#2A9D8F','#F4A261','#E76F51','#0B3D4C','#7FD8CC','#E8A33
 const STICKER_BG = ['#EAF7F4','#FDEEE1','#FBE9E5','#F3ECDD'];
 // สีประจำหมวดหมู่การ์ดความรู้ — ใช้กับแถบหัวข้อบนการ์ดและป้ายในอัลบั้ม
 const CARD_CATEGORY_COLORS = {
-  'โซเดียมแฝง': '#E76F51',
-  'อ่านฉลาก': '#2A9D8F',
-  'เลือกขนม': '#E8A33D',
-  'ชิมก่อนปรุง': '#8B7FD6',
-  'เรื่องจริงหรือหลอก': '#D9503F'
+  'สุขภาพดีและ NCDs': '#2A9D8F',
+  'ลดหวาน': '#D95D87',
+  'ลดมัน': '#E9A23B',
+  'ลดเค็ม': '#E76F51',
+  'อ่านฉลาก': '#4F7FD8',
+  'GDA': '#8B7FD6',
+  'ทางเลือกสุขภาพ': '#62A66C'
 };
 function categoryColor(category){ return CARD_CATEGORY_COLORS[category] || '#9aa8ab'; }
 
@@ -4689,12 +4691,12 @@ function viewCollectedCard(cardId){
   renderCardModal(card, !!card.isSpecial, false);
 }
 
-// ---- เอฟเฟกต์เอียงการ์ด/แสงวิ้งแบบโฮโลแกรม (เฉพาะการ์ดพิเศษ) — ลากนิ้ว/เมาส์บนการ์ดแล้วแสงจะขยับตาม เหมือนการ์ดโฮโลแกรมจริง ----
+// ---- เอฟเฟกต์เอียงการ์ดตามเมาส์/นิ้ว — ใช้กับการ์ดทุกใบ (ปกติ+พิเศษ) ส่วนแสงวิ้งโฮโลแกรม (::after) ผูกกับ class .special ใน CSS แยกต่างหากอยู่แล้ว
+// จึงยังเห็นแค่การ์ดพิเศษเท่านั้นที่มีแสงวิ้ง แม้การ์ดปกติจะเอียงตามเมาส์ได้เหมือนกันแล้วก็ตาม (ตั้งใจให้การ์ดพิเศษดูสำคัญกว่า)
 function initHoloTilt(){
   const box = document.getElementById('kcardBox');
   if(!box) return;
   function handleMove(clientX, clientY){
-    if(!box.classList.contains('special')) return;
     const rect = box.getBoundingClientRect();
     const px = (clientX - rect.left) / rect.width;
     const py = (clientY - rect.top) / rect.height;
