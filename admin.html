@@ -2426,11 +2426,13 @@ async function deleteCard(id){ if(confirm('ลบการ์ดนี้?')){ a
 
 // สีแท็บตามหมวดหมู่ — ใช้ชุดสีเดียวกับที่แอปนักเรียนใช้จริง เพื่อให้ preview ตรงกับของจริงเป๊ะ
 const CARD_CATEGORY_COLORS = {
-  'โซเดียมแฝง': '#E76F51',
-  'อ่านฉลาก': '#2A9D8F',
-  'เลือกขนม': '#E8A33D',
-  'ชิมก่อนปรุง': '#8B7FD6',
-  'เรื่องจริงหรือหลอก': '#D9503F'
+  'สุขภาพดีและ NCDs': '#2A9D8F',
+  'ลดหวาน': '#D95D87',
+  'ลดมัน': '#E9A23B',
+  'ลดเค็ม': '#E76F51',
+  'อ่านฉลาก': '#4F7FD8',
+  'GDA': '#8B7FD6',
+  'ทางเลือกสุขภาพ': '#62A66C'
 };
 function cardCategoryColor(category){ return CARD_CATEGORY_COLORS[category] || '#9aa8ab'; }
 
@@ -2762,11 +2764,11 @@ async function loadAssessmentResults(){
     <span class="pill">Pre-test: ${nPretest}</span>
     <span class="pill">Post Survey: ${nPostSurvey}</span>
     <span class="pill">Post-test: ${nPosttest}</span>
-    <span class="pill" style="background:#E4F5F3;">คู่ Pre-Post ครบ (ใช้วิเคราะห์ได้): ${paired.length}</span>
+    <span class="pill" style="background:#EAF6E2;">คู่ Pre-Post ครบ (ใช้วิเคราะห์ได้): ${paired.length}</span>
   `;
   if(avgPre!==null){
     const diff = avgPost - avgPre;
-    summaryHtml += `<span class="pill" style="background:#E4F5F3;">คะแนนเฉลี่ย Pre→Post: ${avgPre.toFixed(1)} → ${avgPost.toFixed(1)} (${diff>=0?'+':''}${diff.toFixed(1)})</span>`;
+    summaryHtml += `<span class="pill" style="background:#EAF6E2;">คะแนนเฉลี่ย Pre→Post: ${avgPre.toFixed(1)} → ${avgPost.toFixed(1)} (${diff>=0?'+':''}${diff.toFixed(1)})</span>`;
   }
   document.getElementById('assessSummary').innerHTML = summaryHtml;
 

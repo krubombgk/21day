@@ -8,7 +8,7 @@
 <!-- PWA: ทำให้เพิ่มไอคอนหน้าจอหลักได้ทั้ง Android และ iOS -->
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="favicon.png">
-<meta name="theme-color" content="#2A9D8F">
+<meta name="theme-color" content="#7BCB5A">
 <!-- iOS ไม่อ่าน manifest.json เต็มรูปแบบ ต้องใส่ meta/link พวกนี้เพิ่มเฉพาะสำหรับ Safari -->
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -29,17 +29,17 @@
 <style>
   :root{
     /* ===== Sprout 21 Day palette (เดิม Salt Smart Teal/Mint) — เปลี่ยนแค่โทนสี ยังไม่แตะมาสคอต/ไอคอน ===== */
-    --deep-sea:#58A93F;      /* เดิม Teal เข้ม (#0B3D4C) → Leaf Green */
-    --deep-sea-2:#7BCB5A;    /* เดิม Teal เข้มรอง (#124A5C) → Sprout Green */
-    --lagoon:#7BCB5A;        /* เดิม Teal หลัก (#2A9D8F) → Sprout Green (สีแบรนด์หลัก ใช้เป็นปุ่ม/ลิงก์ทั่วแอป) */
-    --lagoon-light:#EAF6E2;  /* เดิม Teal อ่อน (#7FD8CC) → Soft Green พื้นหลังอ่อน */
+    --deep-sea:#58A93F;      /* เดิม Teal เข้ม (#58A93F) → Leaf Green */
+    --deep-sea-2:#7BCB5A;    /* เดิม Teal เข้มรอง (#58A93F) → Sprout Green */
+    --lagoon:#7BCB5A;        /* เดิม Teal หลัก (#7BCB5A) → Sprout Green (สีแบรนด์หลัก ใช้เป็นปุ่ม/ลิงก์ทั่วแอป) */
+    --lagoon-light:#EAF6E2;  /* เดิม Teal อ่อน (#EAF6E2) → Soft Green พื้นหลังอ่อน */
     --coral:#F6A86B;         /* เดิม Coral (#F4A261) → Soft Peach */
     --clay:#F6A86B;          /* เดิม Clay เข้ม (#E76F51) → Soft Peach (ไม่มีเฉดที่ 2 แยกในธีมใหม่) */
     --sand:#F8F6EE;          /* เดิม Sand/Cream (#F3ECDD) → Surface */
     --salt-white:#FFFDF7;    /* เดิม Salt White (#FDFBF6) → Warm White */
-    --ink:#2F4F46;           /* เดิมใช้ค่าเดียวกับ deep-sea (#0B3D4C) → แยกเป็น Forest Slate ของตัวเอง */
-    --green-ok:#58A93F;      /* เดิม (#3FA66B) → Leaf Green (เข้มกว่า lagoon นิดหน่อยไว้แยกสถานะ "ยืนยันแล้ว") */
-    --amber-warn:#F7C94A;    /* เดิม (#E8A33D) → Sunny Yellow */
+    --ink:#2F4F46;           /* เดิมใช้ค่าเดียวกับ deep-sea (#58A93F) → แยกเป็น Forest Slate ของตัวเอง */
+    --green-ok:#58A93F;      /* เดิม (#58A93F) → Leaf Green (เข้มกว่า lagoon นิดหน่อยไว้แยกสถานะ "ยืนยันแล้ว") */
+    --amber-warn:#F7C94A;    /* เดิม (#F7C94A) → Sunny Yellow */
     --red-high:#D9503F;      /* สีอันตราย/แจ้งเตือน ไม่ใช่สีแบรนด์ ไม่เปลี่ยนตามธีม */
     --radius:20px;
     --radius-sm:12px;
@@ -154,7 +154,7 @@
   .dish-tile .di{font-size:22px; display:block; margin-bottom:3px;}
   .dish-tile .di img{width:32px; height:32px; object-fit:contain; display:block; margin:0 auto;}
   .dish-tile:active{transform:scale(0.96);}
-  .dish-tile.active{border-color:var(--lagoon); background:#E4F5F3;}
+  .dish-tile.active{border-color:var(--lagoon); background:#EAF6E2;}
   .pick-avatar{
     width:56px;height:56px;border-radius:50%; margin:0 auto 8px;
     display:flex;align-items:center;justify-content:center;
@@ -246,7 +246,7 @@
 
   /* ---- Home tab redesign (Hero mission card, today's progress, sodium bar, quick actions) ---- */
   .home-hero{
-    background:linear-gradient(135deg, #E4F5F3, #D7F0EA);
+    background:linear-gradient(135deg, #EAF6E2, #DFF3D6);
     border-radius:20px; padding:20px; margin:16px 0;
     box-shadow:0 4px 14px rgba(11,61,76,0.08); cursor:pointer;
   }
@@ -273,12 +273,12 @@
     font-size:11px; color:#6b7c80; font-family:'Kanit'; font-weight:600; cursor:pointer; line-height:1.5;
   }
   .status-pill span{display:block; font-size:10.5px; font-weight:500;}
-  .status-pill.done{background:#E4F5F3; color:var(--lagoon);}
+  .status-pill.done{background:#EAF6E2; color:var(--lagoon);}
   .status-pill.pending{background:#FBF0DC; color:var(--amber-warn);}
   .status-pill.rejected{background:#FBE6E2; color:var(--red-high);}
   .sodium-summary-row{display:flex; align-items:center; gap:14px;}
   .sodium-icon-badge{
-    width:52px; height:52px; border-radius:50%; background:#E4F5F3; color:var(--lagoon);
+    width:52px; height:52px; border-radius:50%; background:#EAF6E2; color:var(--lagoon);
     display:flex; align-items:center; justify-content:center; font-family:'Kanit'; font-weight:800; font-size:15px; flex-shrink:0;
   }
   .quick-action-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;}
@@ -288,7 +288,7 @@
     transition:transform .12s ease, box-shadow .12s ease;
   }
   .quick-action:active{transform:scale(0.96); box-shadow:0 1px 4px rgba(11,61,76,0.10);}
-  .quick-action.qa-check{background:#E4F5F3; border-color:rgba(42,157,143,0.35);}
+  .quick-action.qa-check{background:#EAF6E2; border-color:rgba(42,157,143,0.35);}
   .quick-action.qa-add{background:#FCEFDC; border-color:rgba(246,168,107,0.4);}
   .tiktok-banner{display:flex; align-items:center; gap:10px; background:#FDEAF0; border:1px solid rgba(233,30,99,0.25); border-radius:14px; padding:12px 14px; margin-bottom:14px; cursor:pointer;}
   .tiktok-banner:active{transform:scale(0.98);}
@@ -312,7 +312,7 @@
     background:linear-gradient(135deg,#FDEEDB,#FCE3C7); border-radius:20px; padding:18px;
     margin:14px 0; box-shadow:0 4px 14px rgba(11,61,76,0.08); cursor:pointer;
   }
-  .mh-hero.done{background:linear-gradient(135deg,#E4F5F3,#D7F0EA);}
+  .mh-hero.done{background:linear-gradient(135deg,#EAF6E2,#DFF3D6);}
   .mh-hero.pending{background:linear-gradient(135deg,#FDF3DE,#FBE9C6);}
   .mh-hero.rejected{background:linear-gradient(135deg,#FCE7E2,#F9D8D0);}
   .mh-hero-status-row{text-align:right; margin-bottom:8px;}
@@ -327,10 +327,10 @@
   .mh-tag-quiz{background:#8B7FD6; color:#fff;}
   .mh-tag-log{background:#5B9BD5; color:#fff;}
   .mh-tag-status{background:rgba(255,255,255,0.85); color:var(--deep-sea); display:inline-block;}
-  .mh-tag-status.approved{background:#DFF3E5; color:var(--green-ok);}
+  .mh-tag-status.approved{background:#DFF3D6; color:var(--green-ok);}
   .mh-tag-status.rejected{background:#FBE6E2; color:var(--red-high);}
   .mh-tag-status.pending{background:#FBF0DC; color:var(--amber-warn);}
-  .mh-tag-status.done{background:#DFF3E5; color:var(--green-ok);}
+  .mh-tag-status.done{background:#DFF3D6; color:var(--green-ok);}
   .mh-hero-title{font-family:'Kanit'; font-weight:700; font-size:17px; color:var(--deep-sea); margin-bottom:5px; line-height:1.4;}
   .mh-reward{font-size:12.5px; color:#4c5c60; margin-bottom:12px;}
   .mh-reward b{color:var(--lagoon); font-family:'Kanit';}
@@ -340,12 +340,12 @@
   }
   .mh-card.mh-quiz{background:#F3F1FB;}
   .mh-card.mh-log{background:#EDF4FB;}
-  .mh-card.done{background:#E4F5F3;}
+  .mh-card.done{background:#EAF6E2;}
   .mh-card-title{font-family:'Kanit'; font-weight:700; font-size:15px; color:var(--deep-sea); margin-bottom:3px;}
   .mh-card-sub{font-size:12px; color:#6b7c80; margin-bottom:8px;}
   .mh-bonus{
     display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px;
-    background:#E4F5F3; border-radius:20px; padding:24px 20px; margin-top:14px;
+    background:#EAF6E2; border-radius:20px; padding:24px 20px; margin-top:14px;
   }
   .mh-bonus-mascot{width:76px; height:76px; object-fit:contain; flex-shrink:0;}
   .mh-bonus-title{font-family:'Kanit'; font-weight:700; font-size:16px; color:var(--deep-sea);}
@@ -368,7 +368,7 @@
   .sh-summary-limit{font-size:12.5px; color:#6b7c80; margin-top:2px;}
   .sh-edit-link{color:var(--lagoon); font-family:'Kanit'; font-weight:600; font-size:12px; cursor:pointer; margin-left:8px; text-decoration:underline;}
   .sh-list-header{display:flex; align-items:center; justify-content:space-between; margin:20px 0 10px;}
-  .sh-list-count{background:#E4F5F3; color:var(--lagoon); font-family:'Kanit'; font-weight:600; font-size:12px; padding:4px 12px; border-radius:20px;}
+  .sh-list-count{background:#EAF6E2; color:var(--lagoon); font-family:'Kanit'; font-weight:600; font-size:12px; padding:4px 12px; border-radius:20px;}
   .sh-food-item{display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #F0EBDC;}
   .sh-food-item:last-child{border-bottom:none;}
   .sh-food-icon{
@@ -383,7 +383,7 @@
   .sh-food-badge{display:inline-block; font-size:10.5px; font-family:'Kanit'; font-weight:600; padding:2px 9px; border-radius:10px; margin-top:3px;}
   .sh-food-badge.high{background:#FBE6E2; color:var(--red-high);}
   .sh-food-badge.medium{background:#FDEEDB; color:var(--coral);}
-  .sh-food-badge.low{background:#DFF3E5; color:var(--green-ok);}
+  .sh-food-badge.low{background:#DFF3D6; color:var(--green-ok);}
   .sh-food-actions{display:flex; gap:8px; margin-left:6px; flex-shrink:0;}
   .sh-food-actions span{cursor:pointer; font-size:14px; opacity:0.6;}
   .sh-food-actions span:active{opacity:1;}
@@ -398,7 +398,7 @@
 
   /* ---- Rewards page (tab-album) redesign ---- */
   .rw-header{
-    background:linear-gradient(135deg,#E4F5F3,#D7F0EA); border-radius:22px; padding:22px 20px;
+    background:linear-gradient(135deg,#EAF6E2,#DFF3D6); border-radius:22px; padding:22px 20px;
     margin-bottom:14px; display:flex; align-items:flex-start; justify-content:space-between;
   }
   .rw-header-title{font-family:'Kanit'; font-weight:800; font-size:24px; color:var(--deep-sea); margin-bottom:4px;}
@@ -428,7 +428,7 @@
   .rw-progress-num span{font-size:12px; font-weight:600; color:#9aa8ab;}
   .rw-progress-msg{font-size:11.5px; color:#6b7c80; margin-top:4px;}
   .rw-bonus-banner{
-    display:flex; align-items:center; gap:12px; background:#E4F5F3; border-radius:18px; padding:16px; margin:6px 0 20px;
+    display:flex; align-items:center; gap:12px; background:#EAF6E2; border-radius:18px; padding:16px; margin:6px 0 20px;
   }
   .rw-bonus-mascot{width:46px; height:46px; object-fit:contain; flex-shrink:0;}
   .rw-bonus-text{font-family:'Kanit'; font-weight:600; font-size:13px; color:var(--deep-sea);}
@@ -440,7 +440,7 @@
 
   /* ---- Progress page (tab-stats) redesign — journey/highlights/plant story ---- */
   .pg-header{
-    background:linear-gradient(135deg,#E4F5F3,#D7F0EA); border-radius:22px; padding:22px 20px;
+    background:linear-gradient(135deg,#EAF6E2,#DFF3D6); border-radius:22px; padding:22px 20px;
     margin-bottom:14px; position:relative;
   }
   .pg-header-top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
@@ -470,7 +470,7 @@
     width:52px; height:52px; border-radius:50%; background:#F3EFE4; border:2.5px solid #EFE9D9;
     display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:8px;
   }
-  .journey-point.done .journey-circle{background:#E4F5F3; border-color:var(--lagoon);}
+  .journey-point.done .journey-circle{background:#EAF6E2; border-color:var(--lagoon);}
   .journey-label{font-family:'Kanit'; font-weight:600; font-size:10.5px; color:#6b7c80; line-height:1.3;}
   .journey-point.done .journey-label{color:var(--deep-sea);}
 
@@ -499,7 +499,7 @@
 
   /* ---- Daily Log (tab-log) redesign ---- */
   .log-header{
-    background:linear-gradient(135deg,#E4F5F3,#D7F0EA); border-radius:22px; padding:20px;
+    background:linear-gradient(135deg,#EAF6E2,#DFF3D6); border-radius:22px; padding:20px;
     margin-bottom:14px; display:flex; align-items:flex-start; justify-content:space-between;
   }
   .log-header-title{font-family:'Kanit'; font-weight:800; font-size:22px; color:var(--deep-sea); margin-bottom:4px;}
@@ -525,7 +525,7 @@
     padding:2px 10px; border-radius:20px; margin-left:6px; vertical-align:middle;
   }
   .log-encourage{
-    display:flex; align-items:center; gap:12px; background:#E4F5F3; border-radius:18px; padding:14px 16px; margin:6px 0 16px;
+    display:flex; align-items:center; gap:12px; background:#EAF6E2; border-radius:18px; padding:14px 16px; margin:6px 0 16px;
   }
   .log-encourage-mascot{width:46px; height:46px; object-fit:contain; flex-shrink:0;}
   .log-encourage-text{font-family:'Kanit'; font-weight:600; font-size:13px; color:var(--deep-sea);}
@@ -558,7 +558,7 @@
     font-family:'Kanit'; font-weight:600; font-size:13.5px; padding:10px 14px; border-radius:10px; margin-bottom:12px;
   }
   .mission-status.pending{background:#FBF0DC; color:var(--amber-warn);}
-  .mission-status.approved{background:#E4F5EC; color:var(--green-ok);}
+  .mission-status.approved{background:#E8F5E0; color:var(--green-ok);}
   .mission-status.rejected{background:#FBE6E2; color:var(--red-high);}
 
   .tabpanel{display:none;}
@@ -581,7 +581,7 @@
   }
   .shaker-cap{
     position:absolute; top:0; left:50%; transform:translateX(-50%);
-    width:44px; height:24px; background:#0B3D4C; border-radius:8px 8px 4px 4px;
+    width:44px; height:24px; background:#58A93F; border-radius:8px 8px 4px 4px;
   }
   .gauge-num{font-family:'Kanit'; font-weight:800; font-size:30px;}
   .gauge-label{font-size:13px; color:#6b7c80;}
@@ -589,7 +589,7 @@
     font-family:'Kanit'; font-weight:700; padding:8px 16px; border-radius:20px; font-size:14px;
     margin-top:6px;
   }
-  .verdict.low{background:#E4F5EC; color:var(--green-ok);}
+  .verdict.low{background:#E8F5E0; color:var(--green-ok);}
   .verdict.mid{background:#FBF0DC; color:var(--amber-warn);}
   .verdict.high{background:#FBE6E2; color:var(--red-high);}
   .gauge-tip{font-size:12.5px; color:#6b7c80; line-height:1.5; margin-top:10px; text-align:center;}
@@ -624,7 +624,7 @@
     border-radius:12px; border:2px solid #E4DFCF; background:#fff; font-size:15px; cursor:pointer;
   }
   .choice:active{background:var(--sand);}
-  .choice.correct{border-color:var(--green-ok); background:#E4F5EC;}
+  .choice.correct{border-color:var(--green-ok); background:#E8F5E0;}
   .choice.wrong{border-color:var(--red-high); background:#FBE6E2;}
   .choice-img{width:100%; max-height:140px; object-fit:cover; border-radius:8px; display:block; margin-bottom:8px;}
   .quiz-img-wrap{margin-bottom:14px; border-radius:12px; overflow:hidden; background:var(--sand);}
@@ -695,7 +695,7 @@
     flex:1; text-align:center; padding:10px 4px; border-radius:10px; border:2px solid #E4DFCF;
     font-family:'Kanit'; font-weight:600; font-size:12.5px; cursor:pointer; background:#fff; color:#9aa8ab;
   }
-  .level-btn.active.low{background:#E4F5EC; border-color:var(--green-ok); color:var(--green-ok);}
+  .level-btn.active.low{background:#E8F5E0; border-color:var(--green-ok); color:var(--green-ok);}
   .level-btn.active.ok{background:#FBF0DC; border-color:var(--amber-warn); color:var(--amber-warn);}
   .level-btn.active.high{background:#FBE6E2; border-color:var(--red-high); color:var(--red-high);}
 
@@ -801,7 +801,7 @@
 
   /* ---- Intro ปลดล็อก SALT SMART MASTER ครั้งแรก ---- */
   .master-intro-overlay{
-    background:radial-gradient(circle at center, #16414f 0%, #0B3D4C 75%);
+    background:radial-gradient(circle at center, #3d6b2e 0%, #58A93F 75%);
     flex-direction:column; overflow:hidden;
   }
   .master-intro-stage{position:relative; width:280px; height:280px; max-width:70vw; max-height:70vw;}
@@ -2052,14 +2052,14 @@ function renderSodiumGauge(total, goal){
 
   return `
     <svg viewBox="0 0 200 112" style="width:100%; max-width:280px; display:block; margin:0 auto;">
-      <path d="${arc(0,greenEnd)}" fill="none" stroke="#3FA66B" stroke-width="${strokeW}" stroke-linecap="round"/>
-      <path d="${arc(greenEnd,yellowEnd)}" fill="none" stroke="#E8A33D" stroke-width="${strokeW}" stroke-linecap="round"/>
+      <path d="${arc(0,greenEnd)}" fill="none" stroke="#58A93F" stroke-width="${strokeW}" stroke-linecap="round"/>
+      <path d="${arc(greenEnd,yellowEnd)}" fill="none" stroke="#F7C94A" stroke-width="${strokeW}" stroke-linecap="round"/>
       <path d="${arc(yellowEnd,gaugeMax)}" fill="none" stroke="#D9503F" stroke-width="${strokeW}" stroke-linecap="round"/>
-      <line x1="${cx}" y1="${cy}" x2="${needleX.toFixed(1)}" y2="${needleY.toFixed(1)}" stroke="#0B3D4C" stroke-width="4" stroke-linecap="round"/>
-      <circle cx="${cx}" cy="${cy}" r="7" fill="#0B3D4C"/>
+      <line x1="${cx}" y1="${cy}" x2="${needleX.toFixed(1)}" y2="${needleY.toFixed(1)}" stroke="#58A93F" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="${cx}" cy="${cy}" r="7" fill="#58A93F"/>
     </svg>
     <div style="text-align:center; margin-top:-8px;">
-      <div style="font-family:'Kanit'; font-weight:800; font-size:26px; color:${overLimit?'#D9503F':'#0B3D4C'};">${Math.round(total).toLocaleString('th-TH')} <span style="font-size:14px; font-weight:600; color:#9aa8ab;">มก.</span></div>
+      <div style="font-family:'Kanit'; font-weight:800; font-size:26px; color:${overLimit?'#D9503F':'#58A93F'};">${Math.round(total).toLocaleString('th-TH')} <span style="font-size:14px; font-weight:600; color:#9aa8ab;">มก.</span></div>
       <div style="font-size:13px; color:#6b7c80;">${Math.round(total/goal*100)}% ของขีดจำกัดต่อวัน (${goal.toLocaleString('th-TH')} มก.)</div>
     </div>
   `;
@@ -2087,11 +2087,11 @@ function renderSodiumGaugeSvgOnly(total, goal){
   const needleY = cy - needleLen*Math.sin(rad);
   return `
     <svg viewBox="0 0 200 112" style="width:100%; max-width:150px; display:block;">
-      <path d="${arc(0,greenEnd)}" fill="none" stroke="#3FA66B" stroke-width="${strokeW}" stroke-linecap="round"/>
-      <path d="${arc(greenEnd,yellowEnd)}" fill="none" stroke="#E8A33D" stroke-width="${strokeW}" stroke-linecap="round"/>
+      <path d="${arc(0,greenEnd)}" fill="none" stroke="#58A93F" stroke-width="${strokeW}" stroke-linecap="round"/>
+      <path d="${arc(greenEnd,yellowEnd)}" fill="none" stroke="#F7C94A" stroke-width="${strokeW}" stroke-linecap="round"/>
       <path d="${arc(yellowEnd,gaugeMax)}" fill="none" stroke="#D9503F" stroke-width="${strokeW}" stroke-linecap="round"/>
-      <line x1="${cx}" y1="${cy}" x2="${needleX.toFixed(1)}" y2="${needleY.toFixed(1)}" stroke="#0B3D4C" stroke-width="4" stroke-linecap="round"/>
-      <circle cx="${cx}" cy="${cy}" r="7" fill="#0B3D4C"/>
+      <line x1="${cx}" y1="${cy}" x2="${needleX.toFixed(1)}" y2="${needleY.toFixed(1)}" stroke="#58A93F" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="${cx}" cy="${cy}" r="7" fill="#58A93F"/>
     </svg>
   `;
 }
@@ -2186,8 +2186,8 @@ const BEHAVIOR_SURVEY_QUESTIONS = [
   {q:'กินอาหารครบ 5 หมู่ (คาร์โบไฮเดรต โปรตีน ไขมัน วิตามิน แร่ธาตุ) บ่อยแค่ไหน', choices:['ไม่กินเลย','1-2 วัน/สัปดาห์','3-4 วัน/สัปดาห์','กินทุกวัน']},
   {q:'อ่านฉลากก่อนซื้อ หรือก่อนกินอาหาร บ่อยแค่ไหน', choices:['กินทุกวัน','3-4 วัน/สัปดาห์','1-2 วัน/สัปดาห์','ไม่กินเลย']}
 ];
-const AVATAR_COLORS = ['#2A9D8F','#F4A261','#E76F51','#0B3D4C','#7FD8CC','#E8A33D'];
-const STICKER_BG = ['#EAF7F4','#FDEEE1','#FBE9E5','#F3ECDD'];
+// หมายเหตุ: เดิมมี AVATAR_COLORS ใช้กับรูปโปรไฟล์วงกลมสีในหน้าเลือกชื่อนักเรียนแบบเก่า — ตัดออกแล้วเพราะไม่มีหน้านั้นแล้วตั้งแต่เปลี่ยนเป็น login ด้วย username
+const STICKER_BG = ['#EEF7E6','#FDEEE1','#FBE9E5','#F3ECDD'];
 // สีประจำหมวดหมู่การ์ดความรู้ — ใช้กับแถบหัวข้อบนการ์ดและป้ายในอัลบั้ม
 const CARD_CATEGORY_COLORS = {
   'สุขภาพดีและ NCDs': '#2A9D8F',
@@ -5599,10 +5599,10 @@ function renderSodiumTrendChart(days, logByDate){
   if(current.length) segments.push(current);
   const pathsHtml = segments.map(seg=>{
     const d = seg.map((p,i)=>(i===0?'M':'L')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
-    return `<path d="${d}" fill="none" stroke="#2A9D8F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    return `<path d="${d}" fill="none" stroke="#7BCB5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
   }).join('');
   const dotsHtml = points.map((v,i)=> v===null ? '' :
-    `<circle cx="${xForIdx(i).toFixed(1)}" cy="${yForVal(v).toFixed(1)}" r="3" fill="#2A9D8F"/>`
+    `<circle cx="${xForIdx(i).toFixed(1)}" cy="${yForVal(v).toFixed(1)}" r="3" fill="#7BCB5A"/>`
   ).join('');
 
   const step = Math.max(1, Math.ceil(n/6)); // โชว์เลขวันบนแกน X แค่บางวัน กันแน่นเกินไปเมื่อมี 21 วัน
