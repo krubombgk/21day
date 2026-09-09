@@ -1342,12 +1342,13 @@
     <!-- TAB: LOG -->
     <div class="tabpanel" id="tab-log">
       <div class="card" id="backfillPicker" style="background:var(--sand);">
-        <div style="font-family:'Kanit'; font-weight:700; font-size:14.5px; margin-bottom:8px;">📅 เลือกวันที่จะบันทึก</div>
-        <p style="color:#6b7c80; font-size:13px; margin-top:-4px;">เลือกวันที่ก่อน แล้วแบบบันทึกจะโผล่ขึ้นมาด้านล่าง</p>
-        <div class="chip-row" id="backfillChips"></div>
+        <div style="font-family:'Kanit'; font-weight:700; font-size:14.5px; margin-bottom:8px;">📅 กำลังบันทึกของวันที่</div>
+        <p style="color:#6b7c80; font-size:13px; margin-top:-4px;">ค่าเริ่มต้นคือวันนี้ เลือกวันอื่นได้ถ้าอยากย้อนกลับไปบันทึกวันที่ยังไม่ได้ทำ</p>
+        <select id="logDateSelect" onchange="selectLogDate(this.value)"
+          style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box; background:#fff;"></select>
       </div>
 
-      <div id="logPickDatePrompt" class="card" style="text-align:center; color:#9aa8ab; display:block;">
+      <div id="logPickDatePrompt" class="card" style="text-align:center; color:#9aa8ab; display:none;">
         👆 เลือกวันที่ด้านบนก่อน เพื่อเริ่มบันทึก
       </div>
 
@@ -2117,8 +2118,8 @@ window.addEventListener('popstate', (e)=>{
    ========================================================= */
 async function init(){
   state.todaysDateStr = todayStr();
-  state.recallDate = addDays(state.todaysDateStr, -1); // บันทึกของ "เมื่อวาน" ตามหลัก 24-Hour Recall
-  state.targetDate = state.recallDate;
+  state.recallDate = addDays(state.todaysDateStr, -1); // เก็บไว้เผื่อใช้อ้างอิงที่อื่น แต่ไม่ได้ใช้เป็นค่าเริ่มต้นของบันทึกพฤติกรรมแล้ว
+  state.targetDate = state.todaysDateStr; // เดิม default เป็นเมื่อวาน (24-Hour Recall) — เปลี่ยนเป็นวันนี้ เพราะนักเรียนมีอุปกรณ์ของตัวเองแล้ว บันทึกสดได้เลยไม่ต้องรอ
   setupVoiceInput();
   document.getElementById('loadingScreen').style.display='none';
   goScreen('screen-welcome'); // โชว์หน้าต้อนรับทันทีก่อนเลย ไม่ต้องรอโหลดข้อมูลเสร็จ (โหลดข้อมูลต่อแบบเงียบๆ อยู่เบื้องหลัง)
@@ -2149,12 +2150,7 @@ async function init(){
     }
 
     state.dataReady = true;
-    // ถ้ามาจาก checklabel.html พร้อม PIN ที่ยืนยันแล้ว (?claimKiosk=1) ให้ auto-login ข้ามหน้า login ไปเลย
-    // เช็คก่อน tryRestoreSession() เสมอ เพราะ session ปกติอาจยังไม่มี (ยังไม่เคย login ในแท็บนี้)
-    const autoLoggedIn = await tryAutoLoginFromKioskClaim();
-    if(!autoLoggedIn){
-      await tryRestoreSession(); // ลอง login ต่อจากที่ค้างไว้ในแท็บนี้ก่อน (sessionStorage) — ถ้าสำเร็จจะข้ามหน้าต้อนรับเข้าแอปให้เองอัตโนมัติ ไม่ต้องกดปุ่มซ้ำ
-    }
+    await tryRestoreSession(); // ลอง login ต่อจากที่ค้างไว้ในแท็บนี้ก่อน (sessionStorage) — ถ้าสำเร็จจะข้ามหน้าต้อนรับเข้าแอปให้เองอัตโนมัติ ไม่ต้องกดปุ่มซ้ำ
   }catch(e){
     state.dataLoadError = e.message;
     console.error(e);
@@ -2511,7 +2507,6 @@ async function enterApp(){
     refreshSodiumHub();
     checkAndGrantDailyCard(); // เผื่อครบเงื่อนไขไปแล้วตั้งแต่ก่อนรีเฟรชหน้า แต่ยังไม่เคยได้การ์ด (มี flag กันซ้ำอยู่แล้ว ปลอดภัย)
     checkSpecialCardUnlock(); // เผื่อเก็บการ์ดปกติครบทุกใบไปแล้วตั้งแต่ก่อนอัปเดตนี้ แต่ยังไม่เคยถูกเช็คให้ปลดล็อกการ์ดพิเศษ (แก้บั๊กเดิมให้ย้อนหลังด้วย)
-    handleKioskClaim(); // ถ้ามาจากหน้าตรวจฉลากร้านค้า (checklabel.html) แล้วเลือกตัวเองมา ให้พาไปหน้าบันทึกพร้อมข้อมูลที่ตรวจไว้แล้วเลย
     switchTab('tab-home', true); // ตั้งค่าแท็บเริ่มต้น ไม่ push history ตรงนี้ ให้ goScreen ด้านล่าง push รวมทีเดียว
     goScreen('screen-main');
     hideLoadingOverlay();
@@ -2903,7 +2898,10 @@ function switchTab(tabId, skipHistory){
   if(tabId==='tab-home') refreshHomeTab();
   if(tabId==='tab-mission-hub') refreshMissionHub();
   if(tabId==='tab-sodium-hub') refreshSodiumHub();
-  if(tabId==='tab-log') updateLogFormVisibility();
+  if(tabId==='tab-log'){
+    if(!state.logFormRevealed){ selectLogDate(state.todaysDateStr); } // ครั้งแรกที่เข้าแท็บนี้ เปิดฟอร์มของวันนี้ให้เลยอัตโนมัติ ไม่ต้องกดเลือกวันเองก่อน
+    else{ updateLogFormVisibility(); }
+  }
   if(tabId==='tab-check') renderAllTimeCheckHistory();
   if(!skipHistory){
     history.pushState({screen:'screen-main', tab:tabId}, '', '');
@@ -2934,23 +2932,21 @@ async function loadTodayLog(){
 // ย้อนได้ไม่เกิน 3 วันจากวันนี้ และต้องยังไม่ได้บันทึก ไม่รวมวันเมื่อวาน (recallDate) เพราะเป็นค่าเริ่มต้นอยู่แล้ว
 // (เดิมมีกลไก "ช่วงเปิดโครงการพิเศษ" เสริมชั่วคราวช่วงต้นแคมเปญ ตอนนี้หมดอายุแล้วและลบออกแล้ว เหลือกติกาเดียว: อิงตาม "วันที่แอดมินเปิดให้ทำย้อนหลัง" เท่านั้น)
 
-async function getBackfillableDates(){
-  const holidays = state.campaign.holidays || []; // วันที่แอดมินเปิดให้ทำย้อนหลังได้เป็นพิเศษ (ชื่อ field เดิมในฐานข้อมูล ความหมายตอนนี้ใช้ร่วมกับภารกิจ/Quiz ด้วย ไม่ใช่แค่บันทึกพฤติกรรม)
-  // ไม่มีเพดาน 3 วันแล้ว — แอดมินเปิดวันไหนไว้ วันนั้นทำย้อนหลังได้เสมอ ไม่ว่าจะผ่านมากี่วัน จนกว่าแอดมินจะลบออกเอง
-  const candidates = holidays.filter(d => d < state.todaysDateStr && d !== state.recallDate).sort();
-  if(candidates.length===0) return [];
-  const snaps = await Promise.all(candidates.map(d => db.collection('dailyLogs').doc(docIdFor(d)).get()));
-  return candidates.filter((d,i) => !(snaps[i].exists && snaps[i].data().submitted)).map(d => ({date:d}));
-}
-
-async function renderBackfillChips(){
-  const picker = document.getElementById('backfillPicker');
-  const chipsEl = document.getElementById('backfillChips');
-  const missed = await getBackfillableDates();
-  const recallChip = `<div class="chip ${state.targetDate===state.recallDate?'active':''}" onclick="selectLogDate('${state.recallDate}')">เมื่อวาน (${dayLabelThai(state.recallDate)})</div>`;
-  const todayChip = `<div class="chip ${state.targetDate===state.todaysDateStr?'active':''}" onclick="selectLogDate('${state.todaysDateStr}')">วันนี้ (${dayLabelThai(state.todaysDateStr)})</div>`;
-  const missedChips = missed.map(m => `<div class="chip ${state.targetDate===m.date?'active':''}" onclick="selectLogDate('${m.date}')">ย้อนหลัง: ${dayLabelThai(m.date)}</div>`).join('');
-  chipsEl.innerHTML = recallChip + todayChip + missedChips;
+// สร้าง dropdown รายวันตั้งแต่วันเริ่มแคมเปญถึงวันนี้ — ไม่มีการจำกัดว่าย้อนหลังได้กี่วันแล้ว (หนังสือเองก็ให้บันทึกย้อนหลังได้)
+// ต่างจากเดิมที่ต้องรอแอดมินเปิด "วันพิเศษ" ให้ทีละวันถึงจะย้อนกลับไปทำได้
+async function renderLogDateOptions(){
+  const sel = document.getElementById('logDateSelect');
+  const start = state.campaign.startDate || state.todaysDateStr;
+  const days = [];
+  let d = start;
+  while(d <= state.todaysDateStr){ days.push(d); d = addDays(d,1); }
+  // เรียงวันล่าสุดขึ้นก่อน ให้เจอ "วันนี้" ง่ายที่สุดโดยไม่ต้องเลื่อน dropdown ยาว
+  days.reverse();
+  sel.innerHTML = days.map(dateStr=>{
+    const label = dateStr===state.todaysDateStr ? `วันนี้ (${dayLabelThai(dateStr)})` : `ย้อนหลัง: ${dayLabelThai(dateStr)}`;
+    const selected = state.targetDate===dateStr ? 'selected' : '';
+    return `<option value="${dateStr}" ${selected}>${label}</option>`;
+  }).join('');
 }
 
 // ให้เลือกวันที่ก่อน แบบบันทึกถึงจะโผล่ออกมา (ต่างจาก loadLogForDate เดิมที่แค่โหลดข้อมูลเงียบๆ ไม่คุมการแสดงผล)
@@ -3005,9 +3001,8 @@ async function loadLogForDate(dateStr){
     document.getElementById('improveText').value = '';
   }
   document.getElementById('logDateHeading').textContent =
-    dateStr===state.recallDate ? '📝 บันทึกของเมื่อวาน (' + dayLabelThai(dateStr) + ')'
-    : dateStr===state.todaysDateStr ? '📝 บันทึกของวันนี้ (' + dayLabelThai(dateStr) + ')'
-    : '📝 บันทึกย้อนหลังวันหยุด: ' + dayLabelThai(dateStr);
+    dateStr===state.todaysDateStr ? '📝 บันทึกของวันนี้ (' + dayLabelThai(dateStr) + ')'
+    : '📝 บันทึกย้อนหลัง: ' + dayLabelThai(dateStr);
   applyLogLockState();
   renderTodayGoalChips();
   renderExerciseChips();
@@ -3016,7 +3011,7 @@ async function loadLogForDate(dateStr){
   renderLabelFormArea();
   renderFiveFoodGroupsBtns();
   renderWaterGlassesBtns();
-  await renderBackfillChips(); // อัปเดตปุ่ม active ให้ตรงกับวันที่เลือกล่าสุด
+  await renderLogDateOptions(); // อัปเดตตัวเลือกที่ active ให้ตรงกับวันที่เลือกล่าสุด
 }
 
 function applyLogLockState(){
@@ -3288,46 +3283,8 @@ async function upsertVerifiedProduct(name, sodium, extra){
   }catch(e){ console.error('upsertVerifiedProduct failed', e); } // ไม่ให้ error ตรงนี้ทำให้บันทึกหลักล้มเหลว
 }
 
-/* ---- รับข้อมูลจากหน้าตรวจฉลากร้านค้า (checklabel.html) เมื่อนักเรียนเลือก "เป็นตัวเอง" มาจากที่นั่น ---- */
-function handleKioskClaim(){
-  const params = new URLSearchParams(window.location.search);
-  if(params.get('claimKiosk') !== '1') return;
-  // ล้าง query param ออกจาก URL ทันที กันเผลอรีเฟรชหน้าแล้วมาซ้ำ
-  window.history.replaceState({}, '', window.location.pathname);
-
-  let payload;
-  try{ payload = JSON.parse(sessionStorage.getItem('saltSmartKioskClaim') || 'null'); }catch(e){ payload = null; }
-  sessionStorage.removeItem('saltSmartKioskClaim');
-  if(!payload || !payload.result) return;
-
-  // เช็คว่าเป็นคนเดียวกับที่เพิ่งล็อกอินจริง กันเผลอเอาไปติดผิดคน (เช่น เปิดเครื่องเดียวกันแล้วสลับคนโดยไม่ได้ตั้งใจ)
-  if(payload.studentId !== state.selectedStudent.id) return;
-
-  const data = payload.result;
-  if(!data.found || data.sodium_mg == null) return; // ตรวจแล้วไม่เจอค่า ไม่มีอะไรให้เคลมต่อ
-
-  switchTab('tab-sodium-hub');
-  document.getElementById('ciName').value = data.product_name || '';
-  document.getElementById('ciSodium').value = data.sodium_mg;
-  state.lastAiReadExtra = {
-    energyKcal: data.energy_kcal ?? null,
-    sugarG: data.sugar_g ?? null,
-    fatG: data.fat_g ?? null,
-    category: data.category || null,
-    aiSodiumMg: data.sodium_mg
-  };
-  calcSodium(); // แสดงหน้ายืนยัน (มาตรวัด+ปุ่มทานแล้ว/แค่ตรวจดู) เหมือนตรวจเองในแอปทุกอย่าง
-
-  if(data.healthy_choice_logo){
-    db.collection('dailyLogs').doc(logDocId()).set({ aiDetectedHealthyChoice: true }, { merge:true }).catch(()=>{});
-  }
-  showToast('📥 ดึงผลตรวจจากร้านค้ามาให้แล้ว เลือกทานแล้ว/แค่ตรวจดูได้เลย');
-
-  // มาร์คว่ารายการนี้ถูกเคลมแล้ว (ไว้ตรวจสอบย้อนหลังเฉยๆ ไม่กระทบการบันทึกจริงถ้าล้มเหลว)
-  if(payload.kioskCheckId){
-    db.collection('kioskChecks').doc(payload.kioskCheckId).update({ claimedByStudentId: state.selectedStudent.id }).catch(e=>console.error('มาร์ค kioskChecks ว่าถูกเคลมไม่สำเร็จ:', e));
-  }
-}
+// หมายเหตุ: เดิมมีฟังก์ชัน handleKioskClaim() รับข้อมูลจากหน้าตรวจฉลากร้านค้า (checklabel.html) แยกต่างหาก
+// ตัดออกแล้วตามที่ตัดสินใจว่าไม่ต้องมีหน้า checklabel.html อีกต่อไป — ฟีเจอร์ "ตรวจฉลาก" ในแอปหลัก (แท็บ tab-check/tab-sodium-hub) ยังอยู่ตามปกติ ไม่เกี่ยวข้องกัน
 
 /* ---- Sodium checker ---- */
 function calcSodium(){
@@ -3699,8 +3656,8 @@ function isDateAllowedForSubmission(dateStr){
   return holidays.includes(dateStr);
 }
 
-// วันหยุดที่ครูเปิดให้ทำภารกิจย้อนหลังได้ (ใช้รายการวันหยุดชุดเดียวกับที่ตั้งไว้สำหรับบันทึกวันนี้)
-// ต่างจาก getBackfillableDates() ตรงเช็คว่า "ยังไม่เคยส่งภารกิจ" ของวันนั้น ไม่ใช่เช็คบันทึกพฤติกรรม
+// วันหยุดที่ครูเปิดให้ทำภารกิจย้อนหลังได้ (ระบบนี้ยังใช้รายการ holidays ที่แอดมินกำหนดอยู่ — ต่างจากบันทึกพฤติกรรมที่เปิดกว้างให้ย้อนหลังได้ทุกวันแล้วไม่ต้องรอแอดมินเปิด)
+// เช็คว่า "ยังไม่เคยส่งภารกิจ" ของวันนั้น ไม่ใช่เช็คบันทึกพฤติกรรม
 async function getMissionBackfillableDates(){
   const holidays = state.campaign.holidays || []; // วันที่แอดมินเปิดให้ทำย้อนหลังได้เป็นพิเศษ
   // ไม่มีเพดาน 3 วันแล้ว — แอดมินเปิดวันไหนไว้ วันนั้นทำย้อนหลังได้เสมอ ไม่ว่าจะผ่านมากี่วัน จนกว่าแอดมินจะลบออกเอง
@@ -4505,9 +4462,9 @@ async function submitDailyLog(){
 
     state.targetLog.submitted = true;
     applyLogLockState();
-    showToast(targetDate===state.recallDate ? `เยี่ยม! ได้ ${points} คะแนน 🎉` : `บันทึกย้อนหลังสำเร็จ! ได้ ${points} คะแนน 🎉`);
+    showToast(targetDate===state.todaysDateStr ? `เยี่ยม! ได้ ${points} คะแนน 🎉` : `บันทึกย้อนหลังสำเร็จ! ได้ ${points} คะแนน 🎉`);
     loadProgressTable(); // อัปเดตแท็บ "ความก้าวหน้า" ให้ตรงทันที กันต้อง refresh หน้าถึงจะเห็นผลบันทึกที่เพิ่งทำ (ฟังก์ชันนี้เรียก renderStats() ในตัวอยู่แล้ว)
-    await renderBackfillChips();
+    await renderLogDateOptions();
     refreshMissionHub(); refreshHomeTab(); // อัปเดตสถานะบันทึกวันนี้ในแท็บฮับภารกิจ+Home ทันทีหลังบันทึกสำเร็จ
     checkAndGrantDailyCard(targetDate); // เช็คให้การ์ดของวันนี้ (วันที่บันทึกนี้) หรือยัง — ไม่ได้ผูกกับ "วันนี้" ตายตัวแบบเดิม เพราะย้อนหลังก็ต้องได้การ์ดของวันนั้นเองด้วย
   }catch(e){
@@ -5700,33 +5657,8 @@ function touchSession(){
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(data));
   }catch(e){}
 }
-/* ---- Auto-login เมื่อมาจากหน้าตรวจฉลากร้านค้า (checklabel.html) พร้อม PIN ที่ยืนยันแล้ว ---- */
-/* ต้องเรียกก่อน tryRestoreSession() เสมอ เพื่อข้ามหน้า login ปกติไปเลยเมื่อมี claimKiosk=1 */
-async function tryAutoLoginFromKioskClaim(){
-  const params = new URLSearchParams(window.location.search);
-  if(params.get('claimKiosk') !== '1') return false;
-  let payload;
-  try{ payload = JSON.parse(sessionStorage.getItem('saltSmartKioskClaim') || 'null'); }catch(e){ payload = null; }
-  if(!payload || !payload.studentId) return false;
-
-  try{
-    const studentSnap = await db.collection('students').doc(payload.studentId).get();
-    if(!studentSnap.exists) return false;
-    // หมายเหตุ: checklabel.html (kiosk) เดิมส่ง classId มาใน payload — เปลี่ยนมาใช้ schoolId ของ student เอกสารเองแทน
-    // ต้องไปแก้ checklabel.html ให้ส่ง schoolId แทน classId ด้วย (ไฟล์นั้นไม่ได้อยู่ในสโคปที่แก้รอบนี้)
-    const studentData = studentSnap.data();
-    const schoolSnap = await db.collection('schools').doc(studentData.schoolId).get();
-    state.selectedStudent = { id: studentSnap.id, ...studentData };
-    state.selectedSchoolId = studentData.schoolId;
-    state.selectedSchoolName = schoolSnap.exists ? schoolSnap.data().schoolName : '';
-    saveSession(); // บันทึก session ปกติด้วย กันหลุดถ้า refresh ซ้ำ
-    await enterApp(); // ข้ามหน้าจอ login ทั้งหมด เข้าแอปตรงเลย (handleKioskClaim() จะทำงานต่อในนี้เองหลัง enterApp เสร็จ อยู่แล้ว ไม่ต้องแก้จุดนั้น)
-    return true;
-  }catch(e){
-    console.error('tryAutoLoginFromKioskClaim error:', e);
-    return false;
-  }
-}
+// หมายเหตุ: เดิมมีฟังก์ชัน tryAutoLoginFromKioskClaim() รับ auto-login จากหน้าตรวจฉลากร้านค้า (checklabel.html)
+// ตัดออกแล้วตามที่ตัดสินใจว่าไม่ต้องมีหน้า checklabel.html อีกต่อไป — login ปกติทำผ่าน tryRestoreSession() เท่านั้น
 
 async function tryRestoreSession(){
   try{
