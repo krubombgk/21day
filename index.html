@@ -28,29 +28,30 @@
 <script src="who-bmi-data.js"></script>
 <style>
   :root{
-    --deep-sea:#0B3D4C;
-    --deep-sea-2:#124A5C;
-    --lagoon:#2A9D8F;
-    --lagoon-light:#7FD8CC;
-    --coral:#F4A261;
-    --clay:#E76F51;
-    --sand:#F3ECDD;
-    --salt-white:#FDFBF6;
-    --ink:#0B3D4C;
-    --green-ok:#3FA66B;
-    --amber-warn:#E8A33D;
-    --red-high:#D9503F;
+    /* ===== Sprout 21 Day palette (เดิม Salt Smart Teal/Mint) — เปลี่ยนแค่โทนสี ยังไม่แตะมาสคอต/ไอคอน ===== */
+    --deep-sea:#58A93F;      /* เดิม Teal เข้ม (#0B3D4C) → Leaf Green */
+    --deep-sea-2:#7BCB5A;    /* เดิม Teal เข้มรอง (#124A5C) → Sprout Green */
+    --lagoon:#7BCB5A;        /* เดิม Teal หลัก (#2A9D8F) → Sprout Green (สีแบรนด์หลัก ใช้เป็นปุ่ม/ลิงก์ทั่วแอป) */
+    --lagoon-light:#EAF6E2;  /* เดิม Teal อ่อน (#7FD8CC) → Soft Green พื้นหลังอ่อน */
+    --coral:#F6A86B;         /* เดิม Coral (#F4A261) → Soft Peach */
+    --clay:#F6A86B;          /* เดิม Clay เข้ม (#E76F51) → Soft Peach (ไม่มีเฉดที่ 2 แยกในธีมใหม่) */
+    --sand:#F8F6EE;          /* เดิม Sand/Cream (#F3ECDD) → Surface */
+    --salt-white:#FFFDF7;    /* เดิม Salt White (#FDFBF6) → Warm White */
+    --ink:#2F4F46;           /* เดิมใช้ค่าเดียวกับ deep-sea (#0B3D4C) → แยกเป็น Forest Slate ของตัวเอง */
+    --green-ok:#58A93F;      /* เดิม (#3FA66B) → Leaf Green (เข้มกว่า lagoon นิดหน่อยไว้แยกสถานะ "ยืนยันแล้ว") */
+    --amber-warn:#F7C94A;    /* เดิม (#E8A33D) → Sunny Yellow */
+    --red-high:#D9503F;      /* สีอันตราย/แจ้งเตือน ไม่ใช่สีแบรนด์ ไม่เปลี่ยนตามธีม */
     --radius:20px;
     --radius-sm:12px;
-    --shadow:0 10px 30px rgba(11,61,76,0.12);
+    --shadow:0 10px 30px rgba(47,79,70,0.12);
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;height:100%;}
   body{
     font-family:'Sarabun',sans-serif;
     background:
-      radial-gradient(circle at 15% 0%, rgba(127,216,204,0.35), transparent 45%),
-      radial-gradient(circle at 100% 100%, rgba(244,162,97,0.18), transparent 40%),
+      radial-gradient(circle at 15% 0%, rgba(123,203,90,0.35), transparent 45%),
+      radial-gradient(circle at 100% 100%, rgba(246,168,107,0.18), transparent 40%),
       var(--salt-white);
     color:var(--ink);
     min-height:100vh;
@@ -83,8 +84,8 @@
   .welcome-mascot{width:150px; height:150px; object-fit:contain; margin-bottom:18px; position:relative; z-index:1;
     filter:drop-shadow(0 8px 20px rgba(0,0,0,0.15));}
   .welcome-title{font-family:'Kanit'; font-weight:800; font-size:32px; color:#fff; margin-bottom:6px; position:relative; z-index:1;}
-  .welcome-tagline{font-family:'Kanit'; font-weight:500; font-size:15px; color:#DCF3EF; margin-bottom:4px; position:relative; z-index:1;}
-  .welcome-sub{font-size:13px; color:#B8DEDA; margin-bottom:36px; max-width:280px; line-height:1.6; position:relative; z-index:1;}
+  .welcome-tagline{font-family:'Kanit'; font-weight:500; font-size:15px; color:#DFF3D6; margin-bottom:4px; position:relative; z-index:1;}
+  .welcome-sub{font-size:13px; color:#C5E3B8; margin-bottom:36px; max-width:280px; line-height:1.6; position:relative; z-index:1;}
   .welcome-btn{
     background:#fff; color:var(--deep-sea); font-family:'Kanit'; font-weight:700; font-size:16px;
     border:none; border-radius:30px; padding:15px 44px; cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.15);
@@ -99,7 +100,7 @@
   .brandbar::after{
     content:"";
     position:absolute; right:-40px; top:-40px; width:180px; height:180px;
-    background:radial-gradient(circle, rgba(244,162,97,0.35), transparent 70%);
+    background:radial-gradient(circle, rgba(246,168,107,0.35), transparent 70%);
   }
   .brand-row{display:flex; align-items:center; gap:12px; max-width:900px; margin:0 auto; position:relative; z-index:1;}
   .brand-mark{
@@ -123,7 +124,7 @@
   }
   .btn:active{transform:scale(0.97);}
   .btn-primary{background:var(--lagoon); color:#fff; box-shadow:0 8px 18px rgba(42,157,143,0.32);}
-  .btn-coral{background:var(--coral); color:#fff; box-shadow:0 8px 18px rgba(244,162,97,0.35);}
+  .btn-coral{background:var(--coral); color:#fff; box-shadow:0 8px 18px rgba(246,168,107,0.35);}
   .btn-ghost{background:#fff; color:var(--deep-sea); border:2px solid #E4DFCF;}
   .btn-block{width:100%;}
   .card{
@@ -220,7 +221,7 @@
   }
   .hb-logo img{width:100%; height:100%; object-fit:cover; display:block;}
   .hb-name{font-family:'Kanit'; font-weight:700; font-size:16px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  .hb-day{font-size:12px; color:#B8DEDA;}
+  .hb-day{font-size:12px; color:#C5E3B8;}
   .hb-actions{display:flex; gap:8px; align-items:center; flex-shrink:0;}
   .hb-icon-btn{
     cursor:pointer; width:34px; height:34px; border-radius:50%;
@@ -288,7 +289,7 @@
   }
   .quick-action:active{transform:scale(0.96); box-shadow:0 1px 4px rgba(11,61,76,0.10);}
   .quick-action.qa-check{background:#E4F5F3; border-color:rgba(42,157,143,0.35);}
-  .quick-action.qa-add{background:#FCEFDC; border-color:rgba(244,162,97,0.4);}
+  .quick-action.qa-add{background:#FCEFDC; border-color:rgba(246,168,107,0.4);}
   .tiktok-banner{display:flex; align-items:center; gap:10px; background:#FDEAF0; border:1px solid rgba(233,30,99,0.25); border-radius:14px; padding:12px 14px; margin-bottom:14px; cursor:pointer;}
   .tiktok-banner:active{transform:scale(0.98);}
   .tiktok-banner img{width:36px; height:36px; border-radius:9px; flex-shrink:0; display:block;}
@@ -304,7 +305,7 @@
     background:linear-gradient(135deg,var(--deep-sea),var(--lagoon)); border-radius:22px; padding:20px;
   }
   .mh-header .section-title{color:#fff;}
-  .mh-header .mh-progress-msg{color:#DCF3EF;}
+  .mh-header .mh-progress-msg{color:#DFF3D6;}
   .mh-header-mascot{width:56px; height:56px; object-fit:contain;}
   .mh-progress-msg{font-size:12.5px; color:#6b7c80; margin:0;}
   .mh-hero{
@@ -356,7 +357,7 @@
     padding:22px 20px; margin-bottom:14px; display:flex; align-items:flex-start; justify-content:space-between;
   }
   .sh-header-title{font-family:'Kanit'; font-weight:800; font-size:24px; color:#fff; margin-bottom:4px;}
-  .sh-header-sub{font-size:12.5px; color:#DCF3EF;}
+  .sh-header-sub{font-size:12.5px; color:#DFF3D6;}
   .sh-header-mascot{width:64px; height:64px; object-fit:contain; flex-shrink:0; margin-left:10px;}
   .sh-summary-card{padding-top:18px;}
   .sh-summary-label{font-size:13px; color:#6b7c80; margin-bottom:6px;}
@@ -785,7 +786,7 @@
   .kcard-box.special{ border-color:#F4C86B; position:relative; overflow:hidden; --shine-x:50%; --shine-y:50%; }
   .kcard-box.special::before{
     content:''; position:absolute; inset:-50%; z-index:0;
-    background:conic-gradient(from 0deg, rgba(255,215,120,0.25), rgba(255,255,255,0.5), rgba(244,162,97,0.3), rgba(255,255,255,0.5), rgba(255,215,120,0.25));
+    background:conic-gradient(from 0deg, rgba(255,215,120,0.25), rgba(255,255,255,0.5), rgba(246,168,107,0.3), rgba(255,255,255,0.5), rgba(255,215,120,0.25));
     animation:holoSpin 6s linear infinite;
   }
   .kcard-box.special .kcard-tag, .kcard-box.special .kcard-imgwrap, .kcard-box.special .kcard-body{position:relative; z-index:1;}
@@ -833,7 +834,7 @@
   @keyframes masterTitleIn{ to{ opacity:1; transform:scale(1); } }
   .master-intro-sub{ opacity:0; text-align:center; margin-top:14px; animation:fadeIn .6s ease forwards; animation-delay:2.2s; }
   .msub-line1{ font-family:'Kanit'; font-weight:700; font-size:16px; color:#fff; }
-  .msub-line2{ font-size:13.5px; color:#B8DEDA; margin-top:4px; }
+  .msub-line2{ font-size:13.5px; color:#C5E3B8; margin-top:4px; }
 
   /* ---- card album shelves (grouped by category) ---- */
   .album-shelf{margin-bottom:22px;}
