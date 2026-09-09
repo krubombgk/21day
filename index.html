@@ -41,6 +41,7 @@
     --green-ok:#58A93F;      /* เดิม (#58A93F) → Leaf Green (เข้มกว่า lagoon นิดหน่อยไว้แยกสถานะ "ยืนยันแล้ว") */
     --amber-warn:#F7C94A;    /* เดิม (#F7C94A) → Sunny Yellow */
     --red-high:#D9503F;      /* สีอันตราย/แจ้งเตือน ไม่ใช่สีแบรนด์ ไม่เปลี่ยนตามธีม */
+    --sprout-blue:#7FD2E8;   /* สีรอง (Sky Blue) ตาม Sprout theme spec — ใช้แยก Quiz/Learning content ออกจาก Mission */
     --radius:20px;
     --radius-sm:12px;
     --shadow:0 10px 30px rgba(47,79,70,0.12);
@@ -324,7 +325,7 @@
     padding:4px 11px; border-radius:20px; margin-bottom:8px;
   }
   .mh-tag-mission{background:var(--coral); color:#fff;}
-  .mh-tag-quiz{background:#8B7FD6; color:#fff;}
+  .mh-tag-quiz{background:var(--sprout-blue,#7FD2E8); color:var(--deep-sea);}
   .mh-tag-log{background:#5B9BD5; color:#fff;}
   .mh-tag-status{background:rgba(255,255,255,0.85); color:var(--deep-sea); display:inline-block;}
   .mh-tag-status.approved{background:#DFF3D6; color:var(--green-ok);}
@@ -338,8 +339,8 @@
     background:#fff; border-radius:18px; padding:16px; margin-bottom:12px;
     box-shadow:0 2px 8px rgba(11,61,76,0.06); display:flex; flex-direction:column; cursor:pointer;
   }
-  .mh-card.mh-quiz{background:#F3F1FB;}
-  .mh-card.mh-log{background:#EDF4FB;}
+  .mh-card.mh-quiz{background:#EAF8FC;}
+  .mh-card.mh-log{background:var(--sand); padding:12px 16px; box-shadow:none; border:1px dashed #E4DFCF;}
   .mh-card.done{background:#EAF6E2;}
   .mh-card-title{font-family:'Kanit'; font-weight:700; font-size:15px; color:var(--deep-sea); margin-bottom:3px;}
   .mh-card-sub{font-size:12px; color:#6b7c80; margin-bottom:8px;}
@@ -1403,8 +1404,8 @@
     <div class="tabpanel" id="tab-mission-hub">
       <div class="mh-header">
         <div>
-          <div class="section-title" style="margin:0 0 2px;">ภารกิจ</div>
-          <p class="mh-progress-msg">ทำให้ครบทุกกิจกรรมของวันนี้!</p>
+          <div class="section-title" style="margin:0 0 2px;">ภารกิจ 21 วัน</div>
+          <p class="mh-progress-msg" id="mhDayLabel">Day 1 / 21</p>
         </div>
         <img src="mascot-mission.png" alt="" class="mh-header-mascot">
       </div>
@@ -1441,13 +1442,16 @@
         <button class="btn btn-primary btn-block" id="mhQuizBtn" onclick="event.stopPropagation(); switchTab('tab-quiz')">เริ่ม Quiz</button>
       </div>
 
-      <!-- บันทึกวันนี้ -->
-      <div class="mh-card mh-log" id="mhLogCard" onclick="switchTab('tab-log')">
-        <span class="mh-tag mh-tag-status" id="hubLogStatus" style="align-self:flex-end;">-</span>
-        <div class="mh-card-title">บันทึกวันนี้</div>
-        <div class="mh-card-sub">ทบทวนพฤติกรรมของเมื่อวาน</div>
-        <div class="mh-reward" id="hubLogReward"></div>
-        <button class="btn btn-primary btn-block" id="mhLogBtn" onclick="event.stopPropagation(); switchTab('tab-log')">เริ่มบันทึก</button>
+      <!-- บันทึกวันนี้ — จงใจทำให้เล็ก/เรียบกว่า Mission กับ Quiz เพราะมีปุ่มกลางใน Bottom Nav เข้าตรงอยู่แล้ว (ตามบรีฟ) -->
+      <div class="mh-card mh-log" id="mhLogCard" onclick="switchTab('tab-log')" style="flex-direction:row; align-items:center; gap:10px;">
+        <div style="font-size:20px;">🌱</div>
+        <div style="flex:1; min-width:0;">
+          <div class="mh-card-title" style="font-size:13.5px; margin-bottom:1px;">บันทึกวันนี้</div>
+          <div class="mh-card-sub" id="hubLogStatus" style="margin-bottom:0;">ยังไม่ได้บันทึก</div>
+        </div>
+        <button class="btn btn-ghost" id="mhLogBtn" style="width:auto; padding:8px 14px; font-size:12.5px; flex-shrink:0;" onclick="event.stopPropagation(); switchTab('tab-log')">ไปบันทึก</button>
+        <span id="hubLogReward" style="display:none;"></span>
+      </div>
       </div>
 
       <!-- Motivation banner -->
@@ -3083,6 +3087,7 @@ function refreshHomeTab(){
 
 // อัปเดตสถานะย่อในแท็บฮับ "ภารกิจ" (ภารกิจ/Quiz/บันทึกวันนี้ รวมเป็นทางเข้าเดียว)
 function refreshMissionHub(){
+  document.getElementById('mhDayLabel').textContent = `Day ${state.dayNumber} / ${state.totalDays}`;
   const missionLabels = {pending:'⏳ ส่งแล้ว รอตรวจ', approved:'✅ ผ่านแล้ว', rejected:'⚠️ ต้องแก้ไข/ส่งใหม่', not_submitted:'ยังไม่ได้เริ่ม'};
   const hubMissionStatusEl = document.getElementById('hubMissionStatus');
   hubMissionStatusEl.textContent = missionLabels[state.todaysMissionStatus] || 'ยังไม่ได้เริ่ม';
