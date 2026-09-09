@@ -5392,24 +5392,30 @@ async function loadProgressTable(){
     }
 
     const categories = [
+      {label:'อ่านฉลากอาหาร', fn:(log)=> !log||!log.submitted ? 'empty' : (log.labelTypes && log.labelTypes.general ? 'good' : 'poor')},
+      {label:'อ่านฉลาก GDA', fn:(log)=> !log||!log.submitted ? 'empty' : (log.labelTypes && log.labelTypes.gda ? 'good' : 'poor')},
+      {label:'อ่านฉลากโภชนาการ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.labelTypes && log.labelTypes.nutrition ? 'good' : 'poor')},
+      {label:'เลือกสัญลักษณ์สุขภาพ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.todaysGoals && log.todaysGoals.healthyChoice ? 'good' : 'poor')},
+      {label:'ลดหวาน', fn:(log)=>{
+        if(!log || !log.levels || !log.levels.sweet) return 'empty';
+        if(log.levels.sweet==='low') return 'good';
+        if(log.levels.sweet==='ok') return 'ok';
+        return 'poor';
+      }},
+      {label:'ลดมัน', fn:(log)=>{
+        if(!log || !log.levels || !log.levels.fat) return 'empty';
+        if(log.levels.fat==='low') return 'good';
+        if(log.levels.fat==='ok') return 'ok';
+        return 'poor';
+      }},
       {label:'ลดเค็ม', fn:(log)=>{
         if(!log || !log.levels || !log.levels.salty) return 'empty';
         if(log.levels.salty==='low') return 'good';
         if(log.levels.salty==='ok') return 'ok';
         return 'poor';
       }},
-      {label:'อ่านฉลากโภชนาการ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.labelTypes && log.labelTypes.nutrition ? 'good' : 'poor')},
-      {label:'อ่านฉลาก GDA', fn:(log)=> !log||!log.submitted ? 'empty' : (log.labelTypes && log.labelTypes.gda ? 'good' : 'poor')},
-      {label:'เลือกสัญลักษณ์สุขภาพ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.todaysGoals && log.todaysGoals.healthyChoice ? 'good' : 'poor')},
-      // TODO (ข้อ 8 ในแผน): แทนที่ตารางนี้ทั้งชุดด้วย progress grid 10 หมวดตามสเปคหนังสือ — ตอนนี้ "เติมเครื่องปรุง" ไม่มีข้อมูลเก็บแล้ว (ตัดออกตามสเปคหนังสือ) จะโชว์ว่างเสมอจนกว่าจะทำข้อ 8
-      {label:'ไม่เติมเครื่องปรุงเพิ่ม', fn:(log)=>{
-        if(!log || !log.condiments || Object.values(log.condiments).every(v=>!v)) return 'empty';
-        const count = ['fishSauce','soySauce','sauce','msg'].filter(k=>log.condiments[k]).length;
-        if(count===0) return 'good';
-        if(count===1) return 'ok';
-        return 'poor';
-      }},
-      {label:'ดื่มน้ำเปล่าเพียงพอ', fn:(log)=> !log||!log.submitted ? 'empty' : (log.waterGlasses==='5-6'||log.waterGlasses==='7-8' ? 'good' : (log.waterGlasses ? 'ok' : 'poor'))},
+      {label:'กินอาหารครบ 5 หมู่', fn:(log)=> !log||!log.submitted ? 'empty' : (log.fiveFoodGroups===true ? 'good' : 'poor')},
+      {label:'ดื่มน้ำเปล่า', fn:(log)=> !log||!log.submitted ? 'empty' : (log.waterGlasses==='5-6'||log.waterGlasses==='7-8' ? 'good' : (log.waterGlasses ? 'ok' : 'poor'))},
       {label:'ออกกำลังกาย', fn:(log)=> !log||!log.submitted ? 'empty' : (log.exercise && Object.values(log.exercise).some(Boolean) ? 'good' : 'poor')}
     ];
 
