@@ -1156,17 +1156,16 @@
 
     <!-- TAB: HOME (ย้ายมาจาก screen-home เดิม เพื่อรวมเป็นแท็บเดียวในระบบเดียวกับแท็บอื่น) -->
     <div class="tabpanel" id="tab-home">
-      <div class="tiktok-banner" onclick="openTiktokClips()">
-        <img src="icon-tiktok.png" alt="">
-        <div style="flex:1;">
-          <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px; color:var(--deep-sea);">คลิป TikTok โครงการ</div>
-          <div style="font-size:11px; color:#6b7c80;">ดูคลิปกิจกรรมของเรา</div>
-        </div>
-        <div style="color:var(--deep-sea); opacity:0.45; font-size:16px; flex-shrink:0;">›</div>
-      </div>
-
       <div class="section-title" id="homeGreeting" style="font-size:16px; margin-top:0;">สวัสดี! 👋</div>
       <div style="text-align:right; margin:-6px 0 8px;"><span style="color:var(--lagoon); font-family:'Kanit'; font-weight:600; font-size:12px; cursor:pointer;" onclick="openAnnounceHistory()">📋 ดูประกาศทั้งหมด</span></div>
+
+      <!-- Growth Hero: Day X/21 + ระยะการเติบโตของ Sprout — จุดเด่นที่สุดของหน้า Home ตามธีมใหม่ -->
+      <div class="home-hero" style="cursor:default; text-align:center;">
+        <div style="font-family:'Kanit'; font-weight:700; font-size:13px; color:var(--deep-sea); opacity:0.8;" id="growthHeroDay">Day 1 / 21</div>
+        <div style="font-size:44px; line-height:1.2; margin:6px 0;" id="growthHeroEmoji">🌰</div>
+        <div style="font-family:'Kanit'; font-weight:700; font-size:15px; color:var(--deep-sea);" id="growthHeroStage">เมล็ด</div>
+        <div style="font-size:12.5px; color:#6b7c80; margin-top:4px;" id="growthHeroMsg">วันนี้โตขึ้นอีกนิดไปด้วยกันนะ!</div>
+      </div>
 
       <!-- เตือนทำ Before Challenge ถ้ายังไม่เคยทำ — โผล่ทุกครั้งที่ login จนกว่าจะทำเสร็จ (กดข้ามได้ ไม่บังคับ) -->
       <div class="card" id="preTestReminderCard" style="display:none; background:#FDE9E4; border-color:var(--clay);">
@@ -1203,23 +1202,19 @@
           <button class="btn btn-primary" style="width:auto; padding:8px 14px; font-size:12.5px;" id="notifyOptInBtn" onclick="handleNotifyOptInClick()">เปิด</button>
         </div>
       </div>
-      <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
-        <div class="mini-stat"><div class="num" id="homeStreak">0</div><div class="lbl">วันต่อเนื่อง <img class="icon-inline" src="icon-streak.png" alt=""></div></div>
-        <div class="mini-stat"><div class="num" id="homePoints">0</div><div class="lbl">คะแนนสะสม <img class="icon-inline" src="icon-score.png" alt=""></div></div>
-        <div class="mini-stat"><div class="num" id="homeCards">0</div><div class="lbl">การ์ดสะสม 🎴</div></div>
-      </div>
 
-      <!-- Hero Card: ภารกิจวันนี้ -->
-      <div class="home-hero" onclick="switchTab('tab-mission-hub')">
+      <!-- Next Action: แสดงสิ่งที่ควรทำต่อ "อย่างเดียว" ตามลำดับ ภารกิจ→Quiz→บันทึก→เสร็จหมดแล้ว
+           (ใช้ id/element เดิมจาก home-hero มิชชั่นเดิมทั้งหมด แค่เปลี่ยนเนื้อหา/ปลายทางแบบไดนามิกใน refreshHomeTab() ไม่แตะ logic มิชชั่นเดิม) -->
+      <div class="home-hero" id="homeNextActionCard">
         <div class="home-hero-top">
           <div class="home-hero-text">
-            <div class="home-hero-tag">🎯 ภารกิจวันนี้</div>
+            <div class="home-hero-tag" id="homeHeroMissionTag">🎯 ภารกิจวันนี้</div>
             <div class="home-hero-title" id="homeHeroMissionTitle">กำลังโหลด...</div>
             <div class="home-hero-reward" id="homeHeroMissionReward">+0 คะแนน</div>
           </div>
           <img class="home-hero-mascot" src="mascot-mission.png" alt="">
         </div>
-        <button class="btn btn-primary btn-block" id="homeHeroMissionBtn" onclick="event.stopPropagation(); switchTab('tab-mission-hub')">เริ่มภารกิจ</button>
+        <button class="btn btn-primary btn-block" id="homeHeroMissionBtn">เริ่มภารกิจ</button>
       </div>
 
       <!-- วันนี้ทำไปแล้ว X/3 -->
@@ -1236,7 +1231,8 @@
         </div>
       </div>
 
-      <!-- โซเดียมวันนี้ -->
+      <!-- เครื่องมือสุขภาพ: รวม โซเดียมวันนี้ + ตรวจฉลาก + เพิ่มอาหาร เป็นหมวดเดียว (ของเดิมทั้งหมด แค่จัดกลุ่ม/ใส่หัวข้อใหม่) -->
+      <div class="section-title" style="font-size:14.5px;">🌿 เครื่องมือสุขภาพ</div>
       <div class="card" onclick="switchTab('tab-sodium-hub')" style="cursor:pointer;">
         <div class="sodium-summary-row">
           <div class="sodium-icon-badge">Na</div>
@@ -1249,7 +1245,6 @@
         <p style="font-size:12px; color:#9aa8ab; margin:0;" id="homeSodiumRemainText"></p>
       </div>
 
-      <!-- Quick Actions -->
       <div class="quick-action-grid">
         <div class="quick-action qa-check" onclick="goHomeShortcut('tab-check')">
           <div class="quick-action-icon"><img src="icon-checklabel.png" alt=""></div>
@@ -1261,6 +1256,24 @@
           <div><div class="quick-action-title">เพิ่มอาหาร</div><div class="quick-action-sub">บันทึกที่ทานวันนี้</div></div>
           <div class="quick-action-arrow">›</div>
         </div>
+      </div>
+
+      <!-- สรุปสถิติแบบย่อ (เดิมอยู่บนสุด ย้ายลงมาให้ Growth/Next Action เด่นกว่าตามธีมใหม่) -->
+      <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="mini-stat"><div class="num" id="homeStreak">0</div><div class="lbl">วันต่อเนื่อง <img class="icon-inline" src="icon-streak.png" alt=""></div></div>
+        <div class="mini-stat"><div class="num" id="homePoints">0</div><div class="lbl">คะแนนสะสม <img class="icon-inline" src="icon-score.png" alt=""></div></div>
+        <div class="mini-stat"><div class="num" id="homeCards">0</div><div class="lbl">การ์ดสะสม 🎴</div></div>
+      </div>
+
+      <!-- ข่าวและกิจกรรม: TikTok + ประกาศ ย้ายมาไว้ล่างสุด (เดิมอยู่บนสุด) -->
+      <div class="section-title" style="font-size:14.5px;">📰 ข่าวและกิจกรรม</div>
+      <div class="tiktok-banner" onclick="openTiktokClips()">
+        <img src="icon-tiktok.png" alt="">
+        <div style="flex:1;">
+          <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px; color:var(--deep-sea);">คลิป TikTok โครงการ</div>
+          <div style="font-size:11px; color:#6b7c80;">ดูคลิปกิจกรรมของเรา</div>
+        </div>
+        <div style="color:var(--deep-sea); opacity:0.45; font-size:16px; flex-shrink:0;">›</div>
       </div>
     </div>
 
@@ -2958,6 +2971,17 @@ async function submitPostSurvey(){
 }
 
 // อัปเดตข้อมูลสรุปในแท็บ Home (เดิมคือ openHomeScreen ของ screen-home ที่แยกไว้ต่างหาก)
+function growthStageFor(day, total){
+  // ระยะการเติบโตของ Sprout ตาม Day ปัจจุบัน — เทียบสัดส่วนกับความยาวแคมเปญจริง (เผื่อไม่ใช่ 21 วันเป๊ะ)
+  const pct = day / total;
+  if(day <= 1) return {emoji:'🌰', label:'เมล็ด', msg:'เริ่มต้นวันแรกไปด้วยกันนะ!'};
+  if(pct <= 3/21) return {emoji:'🌱', label:'เริ่มงอก', msg:'ทีละก้าวเล็กๆ นะ วันนี้ก็เก่งมากแล้ว'};
+  if(pct <= 7/21) return {emoji:'🌱', label:'ต้นอ่อนใบแรก', msg:'วันนี้โตขึ้นอีกนิดไปด้วยกันนะ!'};
+  if(pct <= 14/21) return {emoji:'🌿', label:'เติบโตมากขึ้น', msg:'ทุกก้าวเล็กๆ มีความหมายเสมอ'};
+  if(day < total) return {emoji:'🌿', label:'ใกล้สมบูรณ์แล้ว', msg:'อีกไม่ไกลแล้ว ไปให้ถึงเส้นชัยกันนะ!'};
+  return {emoji:'🌳', label:'ต้นอ่อนที่สมบูรณ์', msg:'เก่งมาก! ดูแลตัวเองมาครบแล้ว 🎉'};
+}
+
 function refreshHomeTab(){
   const s = state.selectedStudent;
   document.getElementById('homeGreeting').textContent = 'สวัสดี ' + s.nickname + ' 👋';
@@ -2966,30 +2990,67 @@ function refreshHomeTab(){
   document.getElementById('homeCards').textContent = state.albumCollectedCount || 0;
   document.getElementById('homeSodiumToday').textContent = `${state.sodiumTodayTotal||0} มก. · ${state.sodiumTodayPct||0}%`;
 
+  // ---- Growth Hero: Day X/21 + ระยะการเติบโต ----
+  const stage = growthStageFor(state.dayNumber, state.totalDays);
+  document.getElementById('growthHeroDay').textContent = `Day ${state.dayNumber} / ${state.totalDays}`;
+  document.getElementById('growthHeroEmoji').textContent = stage.emoji;
+  document.getElementById('growthHeroStage').textContent = stage.label;
+  document.getElementById('growthHeroMsg').textContent = stage.msg;
+
   const missionLabels = {pending:'⏳ รอตรวจ', approved:'✅ ผ่านแล้ว', rejected:'❌ ยังไม่ผ่าน ลองใหม่ได้', not_submitted:'ยังไม่ได้ส่ง'};
   document.getElementById('homeMissionStatus').textContent = missionLabels[state.todaysMissionStatus] || 'ยังไม่ได้ส่ง';
   document.getElementById('homeQuizStatus').textContent = state.quizFinished ? '✅ ทำแล้ว' : 'ยังไม่ได้ทำ';
   document.getElementById('homeLogStatus').textContent = (state.targetLog && state.targetLog.submitted) ? '✅ บันทึกแล้ว' : 'ยังไม่ได้บันทึก';
 
-  // ---- Hero card: ภารกิจวันนี้ ----
+  // ---- Next Action: โชว์สิ่งที่ควรทำต่อ "อย่างเดียว" ตามลำดับ ภารกิจ → Quiz → บันทึก → เสร็จหมดแล้ว
+  //      (ใช้ตัวแปร missionDone/quizDone/logDone ที่คำนวณอยู่แล้วด้านล่าง — เปลี่ยนแค่ว่าการ์ดนี้จะโชว์/ลิงก์ไปอันไหน ไม่แตะ logic ภารกิจ/Quiz/บันทึกเดิมเลย) ----
+  const missionDone = state.todaysMissionStatus && state.todaysMissionStatus !== 'not_submitted';
+  const quizDone = !!state.quizFinished;
+  const logDone = !!(state.targetLog && state.targetLog.submitted);
+  // เฉพาะการ์ด Next Action: มิชชั่นที่ "ไม่ผ่าน" ยังต้องถือว่า "ต้องทำต่อ" (ให้ retry) ไม่ใช่ "เสร็จแล้ว" ข้ามไป Quiz เลย
+  // ต่างจาก missionDone ด้านบนที่ใช้กับตัวนับ 3/3 เดิม (ไม่แตะนิยามเดิมของ missionDone เพื่อไม่ให้กระทบจุดอื่นที่ใช้ตัวแปรนี้อยู่)
+  const missionNeedsAction = !missionDone || state.todaysMissionStatus === 'rejected';
+
+  const heroCardEl = document.getElementById('homeNextActionCard');
+  const heroTagEl = document.getElementById('homeHeroMissionTag');
   const heroTitleEl = document.getElementById('homeHeroMissionTitle');
   const heroRewardEl = document.getElementById('homeHeroMissionReward');
   const heroBtnEl = document.getElementById('homeHeroMissionBtn');
-  if(state.todaysMission && heroTitleEl){
-    heroTitleEl.textContent = state.todaysMission.text || 'ภารกิจวันนี้';
-    heroRewardEl.textContent = `+${state.todaysMission.points||15} คะแนน`;
-  }
-  const missionDone = state.todaysMissionStatus && state.todaysMissionStatus !== 'not_submitted';
-  if(heroBtnEl){
-    if(state.todaysMissionStatus==='approved') heroBtnEl.textContent = '✅ ผ่านแล้ว ดูรายละเอียด';
-    else if(state.todaysMissionStatus==='pending') heroBtnEl.textContent = '⏳ ส่งแล้ว รอตรวจ';
-    else if(state.todaysMissionStatus==='rejected') heroBtnEl.textContent = 'ส่งใหม่อีกครั้ง';
-    else heroBtnEl.textContent = 'เริ่มภารกิจ';
+
+  if(missionNeedsAction){
+    heroCardEl.style.display = 'block';
+    heroTagEl.textContent = '🎯 ภารกิจวันนี้';
+    heroTitleEl.textContent = (state.todaysMission && state.todaysMission.text) || 'ภารกิจวันนี้';
+    heroRewardEl.textContent = `+${(state.todaysMission && state.todaysMission.points)||15} คะแนน`;
+    heroBtnEl.textContent = state.todaysMissionStatus==='rejected' ? 'ส่งใหม่อีกครั้ง' : 'เริ่มภารกิจ';
+    heroCardEl.onclick = () => switchTab('tab-mission-hub');
+    heroBtnEl.onclick = (e) => { e.stopPropagation(); switchTab('tab-mission-hub'); };
+  } else if(!quizDone){
+    heroCardEl.style.display = 'block';
+    heroTagEl.textContent = '❓ Quiz วันนี้';
+    heroTitleEl.textContent = 'ทำ Quiz 3 คำถามวันนี้กันเถอะ';
+    heroRewardEl.textContent = '+15 คะแนน';
+    heroBtnEl.textContent = 'เริ่ม Quiz';
+    heroCardEl.onclick = () => switchTab('tab-quiz');
+    heroBtnEl.onclick = (e) => { e.stopPropagation(); switchTab('tab-quiz'); };
+  } else if(!logDone){
+    heroCardEl.style.display = 'block';
+    heroTagEl.textContent = '🌱 บันทึกวันนี้';
+    heroTitleEl.textContent = 'บันทึกพฤติกรรมของวันนี้ให้ Sprout โตอีกนิด';
+    heroRewardEl.textContent = 'บันทึกเล็กๆ สู่สุขภาพที่ดีกว่า';
+    heroBtnEl.textContent = 'ไปบันทึก';
+    heroCardEl.onclick = () => switchTab('tab-log');
+    heroBtnEl.onclick = (e) => { e.stopPropagation(); switchTab('tab-log'); };
+  } else {
+    heroTagEl.textContent = '🎉 เก่งมาก!';
+    heroTitleEl.textContent = 'ทำครบทุกอย่างของวันนี้แล้ว';
+    heroRewardEl.textContent = 'พรุ่งนี้มาต่อกันอีกนะ 🌱';
+    heroBtnEl.textContent = 'ดูความก้าวหน้า';
+    heroCardEl.onclick = () => switchTab('tab-stats');
+    heroBtnEl.onclick = (e) => { e.stopPropagation(); switchTab('tab-stats'); };
   }
 
   // ---- วันนี้ทำไปแล้ว X/3 (ภารกิจ/Quiz/บันทึกวันนี้) ----
-  const quizDone = !!state.quizFinished;
-  const logDone = !!(state.targetLog && state.targetLog.submitted);
   const doneCount = (missionDone?1:0) + (quizDone?1:0) + (logDone?1:0);
   const todoCountEl = document.getElementById('homeTodoCount');
   if(todoCountEl){
