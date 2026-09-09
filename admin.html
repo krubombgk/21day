@@ -123,7 +123,7 @@
   <div class="layout">
     <div class="sidenav">
       <div class="navitem active" data-p="p-overview" onclick="showPanel('p-overview')">📊 ภาพรวม</div>
-      <div class="navitem" data-p="p-classes" onclick="showPanel('p-classes')">🏫 ห้องเรียน/นักเรียน</div>
+      <div class="navitem" data-p="p-classes" onclick="showPanel('p-classes')">🏫 โรงเรียน/นักเรียน</div>
       <div class="navitem" data-p="p-quiz" onclick="showPanel('p-quiz')">❓ คลังคำถาม Quiz</div>
       <div class="navitem" data-p="p-cards" onclick="showPanel('p-cards')">💡 การ์ดความรู้</div>
       <div class="navitem" data-p="p-missions" onclick="showPanel('p-missions')">🎯 ภารกิจ</div>
@@ -145,7 +145,7 @@
         <h2>ภาพรวมวันนี้</h2>
         <div class="row">
           <div class="kpi"><div class="n" id="kpiStudents">-</div><div class="l">นักเรียนทั้งหมด</div></div>
-          <div class="kpi"><div class="n" id="kpiClasses">-</div><div class="l">ห้องเรียน</div></div>
+          <div class="kpi"><div class="n" id="kpiClasses">-</div><div class="l">โรงเรียน</div></div>
           <div class="kpi"><div class="n" id="kpiCheckins">-</div><div class="l">บันทึกวันนี้</div></div>
           <div class="kpi"><div class="n" id="kpiDay">-</div><div class="l">วันที่ของแคมเปญ</div></div>
         </div>
@@ -178,42 +178,36 @@
 
         <div class="card" style="margin-top:20px;">
           <h3 style="margin-top:0;">อันดับคะแนนรวมสูงสุด (Top 10)</h3>
-          <table><thead><tr><th>#</th><th>ชื่อ</th><th>ห้อง</th><th>คะแนน</th><th>Streak</th></tr></thead><tbody id="overviewTop"></tbody></table>
+          <table><thead><tr><th>#</th><th>ชื่อ</th><th>โรงเรียน</th><th>คะแนน</th><th>Streak</th></tr></thead><tbody id="overviewTop"></tbody></table>
         </div>
       </div>
 
       <!-- CLASSES -->
       <div class="panel" id="p-classes">
-        <h2>จัดการห้องเรียน / นักเรียน</h2>
-        <div class="grid2">
-          <div class="card">
-            <h3 style="margin-top:0;">เพิ่มห้องเรียน</h3>
-            <div class="field"><label>ชื่อห้อง (เช่น ป.4/1, ม.1/2, ครู, ประชาชน)</label><input type="text" id="newClassName"></div>
-            <div class="field"><label>ไอคอน (ไม่ใส่ใช้ 🏫 ให้อัตโนมัติ)</label><input type="text" id="newClassIcon" placeholder="เช่น 👩‍🏫 🧑‍🤝‍🧑 ⚕️" style="max-width:120px;"></div>
-            <div class="field"><label>ลำดับการแสดงผล</label><input type="number" id="newClassOrder" value="1"></div>
-            <button class="btn btn-primary" onclick="addClass()">เพิ่มห้อง</button>
-            <div class="msg" id="classMsg"></div>
-          </div>
-          <div class="card">
-            <h3 style="margin-top:0;">เพิ่มนักเรียนเป็นชุด</h3>
-            <div class="field"><label>เลือกห้อง</label><select id="bulkClassSelect"></select></div>
-            <div class="field">
-              <label>รายชื่อ (บรรทัดละ 1 คน รูปแบบ "เลขที่,ชื่อ-สกุล")</label>
-              <textarea id="bulkStudentText" placeholder="1,ด.ช.สมชาย ใจดี&#10;2,ด.ญ.สมหญิง ขยัน"></textarea>
-            </div>
-            <button class="btn btn-primary" onclick="bulkAddStudents()">เพิ่มนักเรียน</button>
-            <div class="msg" id="bulkMsg"></div>
-          </div>
-        </div>
+        <h2>จัดการโรงเรียน / นักเรียน</h2>
+
         <div class="card">
-          <h3 style="margin-top:0;">ห้องเรียนทั้งหมด</h3>
-          <p style="font-size:12px; color:#9aa8ab; margin-top:-6px;">ลบห้องได้เฉพาะห้องที่ไม่มีนักเรียนอยู่แล้ว (กันลบพลาดทำข้อมูลนักเรียนหลุดห้อง) — ถ้าจะลบห้องที่มีคนอยู่ ให้ลบนักเรียนในห้องนั้นออกให้หมดก่อน</p>
-          <p style="font-size:12px; color:#9aa8ab; margin-top:-2px;">ใช้ปุ่ม ▲▼ เพื่อสลับลำดับกับห้องที่อยู่ติดกัน หรือพิมพ์เลขลำดับเองในช่องได้เลย</p>
-          <table><thead><tr><th>ลำดับ</th><th>ไอคอน</th><th>ชื่อห้อง</th><th>จำนวนนักเรียน</th><th></th></tr></thead><tbody id="classTable"></tbody></table>
+          <h3 style="margin-top:0;">เพิ่มโรงเรียนเอง</h3>
+          <p style="font-size:12px; color:#9aa8ab; margin-top:-6px;">ปกตินักเรียนสมัครแล้วโรงเรียนใหม่จะเข้าคิว "รอตรวจสอบ" ด้านล่างให้เองอัตโนมัติ ใช้ปุ่มนี้เฉพาะกรณีอยากเพิ่มโรงเรียนที่อนุมัติแล้วล่วงหน้าเอง (เช่น 24 โรงเรียนเปิดตัว)</p>
+          <div class="field"><label>ชื่อโรงเรียน</label><input type="text" id="newSchoolName"></div>
+          <button class="btn btn-primary" onclick="addSchool()">เพิ่มโรงเรียน (อนุมัติทันที)</button>
+          <div class="msg" id="schoolMsg"></div>
         </div>
+
+        <div class="card" style="border-color:#E6A93F;">
+          <h3 style="margin-top:0;">🕓 โรงเรียนรอตรวจสอบ (<span id="pendingSchoolCount">0</span>)</h3>
+          <p style="font-size:12px; color:#9aa8ab; margin-top:-6px;">เกิดจากนักเรียนพิมพ์ชื่อโรงเรียนเองตอนสมัครแล้วระบบหาไม่เจอในลิสต์ที่มีอยู่ — เข้าใช้งานได้ทันทีโดยไม่ต้องรออนุมัติ แต่รายชื่อจะยังไม่โผล่ในตัวกรอง/รายงานอื่นๆ จนกว่าจะอนุมัติหรือรวมเข้าโรงเรียนที่มีอยู่</p>
+          <div id="pendingSchoolList"></div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0;">โรงเรียนที่อนุมัติแล้ว</h3>
+          <table><thead><tr><th>ชื่อโรงเรียน</th><th>จำนวนนักเรียน</th><th></th></tr></thead><tbody id="approvedSchoolTable"></tbody></table>
+        </div>
+
         <div class="card" style="border-color:var(--red-high);">
           <h3 style="margin-top:0;">🔎 หาชื่อซ้ำในระบบ</h3>
-          <p style="font-size:12.5px; color:#9aa8ab; margin-top:-6px;">สแกนนักเรียนทั้งหมดเทียบชื่อกันเอง (ตัดช่องว่าง/ตัวพิมพ์ใหญ่เล็กออกก่อนเทียบ) ไม่สนใจห้อง ไม่ต้องพิมพ์ค้นหาเอง ใช้ตอนสงสัยว่ามีคนถูกลงทะเบียนซ้ำ 2 รอบ (เช่น ตอนแก้ห้องผิด)</p>
+          <p style="font-size:12.5px; color:#9aa8ab; margin-top:-6px;">สแกนนักเรียนทั้งหมดเทียบชื่อกันเอง (ตัดช่องว่าง/ตัวพิมพ์ใหญ่เล็กออกก่อนเทียบ) ไม่สนใจโรงเรียน ไม่ต้องพิมพ์ค้นหาเอง ใช้ตอนสงสัยว่ามีคนถูกลงทะเบียนซ้ำ 2 รอบ (เช่น สมัครใหม่ตอนลืม username เดิม)</p>
           <button class="btn btn-primary" onclick="scanDuplicateNames()">🔍 เริ่มสแกนหาชื่อซ้ำ</button>
           <div class="msg" id="dupScanMsg"></div>
           <div id="dupScanResult" style="margin-top:10px;"></div>
@@ -222,14 +216,13 @@
         <div class="card">
           <h3 style="margin-top:0;">รายชื่อนักเรียนทั้งหมด</h3>
           <div style="display:flex; gap:16px; align-items:flex-end; flex-wrap:wrap;">
-            <div class="field" style="max-width:260px;"><label>กรองตามห้อง</label><select id="filterClassSelect" onchange="loadStudentTable()"></select></div>
+            <div class="field" style="max-width:260px;"><label>กรองตามโรงเรียน</label><select id="filterClassSelect" onchange="loadStudentTable()"></select></div>
             <label style="display:flex; align-items:center; gap:6px; font-size:13px; padding-bottom:10px;">
               <input type="checkbox" id="filterInactiveOnly" onchange="loadStudentTable()"> แสดงเฉพาะที่ไม่ได้ใช้งาน (5 วันขึ้นไป/ไม่เคยล็อกอิน)
             </label>
             <button class="btn btn-danger" style="padding:8px 14px; font-size:12.5px; margin-bottom:10px;" onclick="deleteAllInactiveShown()">🗑️ ลบ inactive ที่แสดงอยู่ทั้งหมด</button>
           </div>
-          <p style="font-size:12px; color:#9aa8ab; margin-top:-2px;">ใช้ปุ่ม ▲▼ เพื่อสลับลำดับ (เลขที่) กับนักเรียนที่อยู่ติดกันในรายการที่กรองอยู่ตอนนี้ หรือพิมพ์เลขที่เองในช่องได้เลย — แนะนำให้กรองตามห้องก่อนจัดลำดับ กันสลับข้ามห้องโดยไม่ตั้งใจ</p>
-          <table><thead><tr><th>เลขที่</th><th>ชื่อ</th><th>ห้อง</th><th>คะแนน</th><th>Streak</th><th>PIN</th><th>ล็อกอินล่าสุด</th><th></th></tr></thead><tbody id="studentTable"></tbody></table>
+          <table><thead><tr><th>ชื่อ</th><th>Username</th><th>โรงเรียน</th><th>คะแนน</th><th>Streak</th><th>PIN</th><th>ล็อกอินล่าสุด</th><th></th></tr></thead><tbody id="studentTable"></tbody></table>
         </div>
       </div>
 
@@ -409,7 +402,7 @@
         <p style="font-size:12.5px; color:#9aa8ab; margin-top:-8px;">ดูย้อนหลังทุกรายการที่เคยตรวจแล้ว (ผ่าน/ไม่ผ่าน) รวมถึงที่รอตรวจอยู่ — เก็บไว้ทำรายงาน/นำเสนอได้</p>
         <div class="card">
           <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;">
-            <div class="field" style="max-width:200px; margin-bottom:0;"><label>กรองตามห้อง</label><select id="historyClassFilter" onchange="loadMissionHistory()"></select></div>
+            <div class="field" style="max-width:200px; margin-bottom:0;"><label>กรองตามโรงเรียน</label><select id="historyClassFilter" onchange="loadMissionHistory()"></select></div>
             <div class="field" style="max-width:220px; margin-bottom:0;"><label>กรองตามภารกิจ</label><select id="historyMissionFilter" onchange="loadMissionHistory()"><option value="">ทุกภารกิจ</option></select></div>
             <div class="field" style="max-width:180px; margin-bottom:0;">
               <label>กรองตามสถานะ</label>
@@ -460,7 +453,7 @@
             <h3 style="margin:0;">พบปัญหา (<span id="cardMismatchCount">0</span> คน)</h3>
             <button class="btn btn-danger" style="padding:8px 14px; font-size:12.5px;" onclick="repairAllCardMismatches()">🔧 ซ่อมทั้งหมด</button>
           </div>
-          <table><thead><tr><th>ชื่อ</th><th>ห้อง</th><th>ควรได้</th><th>ได้จริง</th><th>ขาด</th><th></th></tr></thead><tbody id="cardMismatchTable"></tbody></table>
+          <table><thead><tr><th>ชื่อ</th><th>โรงเรียน</th><th>ควรได้</th><th>ได้จริง</th><th>ขาด</th><th></th></tr></thead><tbody id="cardMismatchTable"></tbody></table>
         </div>
       </div>
 
@@ -473,11 +466,11 @@
           <div class="tab-chip" data-c="days" onclick="switchLbCat('days')">ทำครบวันมากสุด</div>
         </div>
         <div class="card">
-          <table><thead><tr><th>#</th><th>ชื่อ</th><th>ห้อง</th><th>ค่า</th></tr></thead><tbody id="lbTable"></tbody></table>
+          <table><thead><tr><th>#</th><th>ชื่อ</th><th>โรงเรียน</th><th>ค่า</th></tr></thead><tbody id="lbTable"></tbody></table>
         </div>
         <div class="card">
-          <h3 style="margin-top:0;">อันดับห้องเรียน (คะแนนเฉลี่ยต่อคน)</h3>
-          <table><thead><tr><th>#</th><th>ห้อง</th><th>คะแนนเฉลี่ย</th><th>จำนวนนักเรียน</th></tr></thead><tbody id="classLbTable"></tbody></table>
+          <h3 style="margin-top:0;">อันดับโรงเรียน (คะแนนเฉลี่ยต่อคน)</h3>
+          <table><thead><tr><th>#</th><th>โรงเรียน</th><th>คะแนนเฉลี่ย</th><th>จำนวนนักเรียน</th></tr></thead><tbody id="classLbTable"></tbody></table>
         </div>
       </div>
 
@@ -498,7 +491,7 @@
             <h3 style="margin:0;">พบคะแนนคลาดเคลื่อน (<span id="bulkAuditCount">0</span> คน)</h3>
             <button class="btn btn-danger" style="padding:8px 14px; font-size:12.5px;" onclick="repairAllPointMismatches()">🔧 ซ่อมทั้งหมดที่พบ</button>
           </div>
-          <table><thead><tr><th>ชื่อ</th><th>ห้อง</th><th>คะแนนในระบบ</th><th>คะแนนที่ควรเป็น</th><th>ต่างกัน</th><th></th></tr></thead><tbody id="bulkAuditTable"></tbody></table>
+          <table><thead><tr><th>ชื่อ</th><th>โรงเรียน</th><th>คะแนนในระบบ</th><th>คะแนนที่ควรเป็น</th><th>ต่างกัน</th><th></th></tr></thead><tbody id="bulkAuditTable"></tbody></table>
         </div>
 
         <div class="card" style="border-color:var(--red-high); margin-top:24px;">
@@ -514,7 +507,7 @@
             <h3 style="margin:0;">พบข้อมูลเกินมา (<span id="cleanupCount">0</span> คน)</h3>
             <button class="btn btn-danger" style="padding:8px 14px; font-size:12.5px;" onclick="confirmPostCampaignCleanup()">🔧 ยืนยันปรับคะแนนทั้งหมด</button>
           </div>
-          <table><thead><tr><th>ชื่อ</th><th>ห้อง</th><th>วันที่เกินมา</th><th>คะแนนที่จะถูกหัก</th><th>จำนวนวันบันทึกใหม่</th></tr></thead><tbody id="cleanupTable"></tbody></table>
+          <table><thead><tr><th>ชื่อ</th><th>โรงเรียน</th><th>วันที่เกินมา</th><th>คะแนนที่จะถูกหัก</th><th>จำนวนวันบันทึกใหม่</th></tr></thead><tbody id="cleanupTable"></tbody></table>
         </div>
 
         <div class="card" style="max-width:420px;">
@@ -627,8 +620,8 @@
 
         <div class="card" style="max-width:420px; border-color:var(--red-high); background:#FBE6E2;">
           <h3 style="margin-top:0; color:var(--red-high);">⚠️ รีเซ็ตข้อมูลกิจกรรมทั้งหมด</h3>
-          <p style="font-size:12.5px; color:#8a4a42;">ลบข้อมูลบันทึกพฤติกรรม/ภารกิจ/การ์ดสะสม ของนักเรียนทุกคนทุกห้อง แล้วรีเซ็ตคะแนน/Streak กลับเป็น 0 — ใช้ตอนอยาก "เริ่มนับหนึ่งใหม่" เช่น ล้างข้อมูลทดสอบก่อนเปิดแคมเปญจริง</p>
-          <p style="font-size:12px; color:#8a4a42;"><b>จะไม่กระทบ:</b> รายชื่อ/ห้องเรียน, PIN, ข้อมูลสุขภาพส่วนตัว, เป้าหมายโซเดียมที่ตั้งเอง, คลังภารกิจ/Quiz/การ์ด, ผล Baseline/Pre-Post Test</p>
+          <p style="font-size:12.5px; color:#8a4a42;">ลบข้อมูลบันทึกพฤติกรรม/ภารกิจ/การ์ดสะสม ของนักเรียนทุกคนทุกโรงเรียน แล้วรีเซ็ตคะแนน/Streak กลับเป็น 0 — ใช้ตอนอยาก "เริ่มนับหนึ่งใหม่" เช่น ล้างข้อมูลทดสอบก่อนเปิดแคมเปญจริง</p>
+          <p style="font-size:12px; color:#8a4a42;"><b>จะไม่กระทบ:</b> รายชื่อ/โรงเรียน, PIN, ข้อมูลสุขภาพส่วนตัว, เป้าหมายโซเดียมที่ตั้งเอง, คลังภารกิจ/Quiz/การ์ด, ผล Baseline/Pre-Post Test</p>
           <button class="btn btn-danger" onclick="resetAllActivityData()">🗑️ รีเซ็ตข้อมูลกิจกรรมทั้งหมด</button>
           <div class="msg" id="resetMsg"></div>
         </div>
@@ -648,7 +641,7 @@
           <div class="msg" id="postTestSwitchMsg"></div>
         </div>
         <div class="card">
-          <div class="field" style="max-width:260px;"><label>กรองตามห้อง</label><select id="assessClassFilter" onchange="loadAssessmentResults()"></select></div>
+          <div class="field" style="max-width:260px;"><label>กรองตามโรงเรียน</label><select id="assessClassFilter" onchange="loadAssessmentResults()"></select></div>
           <div id="assessSummary" style="display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;"></div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button class="btn btn-ghost" onclick="exportAssessmentCsv('behaviorSurveys')">⬇️ Export Baseline/Post Survey (CSV)</button>
@@ -666,7 +659,7 @@
               คอลัมน์ <b>q1-q10</b> (พฤติกรรมความถี่) กรอกเลข 0-4: <b>0</b>=0 วัน, <b>1</b>=1–2 วัน, <b>2</b>=3–4 วัน, <b>3</b>=5–6 วัน, <b>4</b>=7 วัน<br>
               คอลัมน์ <b>q11-q15</b> (พฤติกรรมอ่านฉลาก) กรอกเลข 0-5: <b>0</b>=ไม่มีโอกาส, <b>1</b>=ไม่เคย, <b>2</b>=น้อยกว่าครึ่ง, <b>3</b>=ประมาณครึ่ง, <b>4</b>=มากกว่าครึ่ง, <b>5</b>=ทุกครั้ง<br>
               คอลัมน์ <b>phase</b> กรอก <code>pre</code> (ก่อนเริ่มโครงการ) หรือ <code>post</code> (หลังจบ 21 วัน)<br>
-              <b>ไม่ต้องแก้คอลัมน์ studentId/ชื่อ/ห้อง</b> — เทมเพลตดึงมาให้ถูกต้องแล้ว แค่เติม phase+คะแนนต่อท้ายชื่อคนที่ทำกระดาษเท่านั้น
+              <b>ไม่ต้องแก้คอลัมน์ studentId/ชื่อ/โรงเรียน</b> — เทมเพลตดึงมาให้ถูกต้องแล้ว แค่เติม phase+คะแนนต่อท้ายชื่อคนที่ทำกระดาษเท่านั้น
             </p>
             <button class="btn btn-ghost" style="width:auto; padding:8px 14px; font-size:12.5px;" onclick="downloadBehaviorImportTemplate()">⬇️ ดาวน์โหลดเทมเพลต CSV</button>
             <input type="file" id="behaviorImportFile" accept=".csv" style="display:block; margin-top:10px;" onchange="parseBehaviorImportFile(event)">
@@ -678,7 +671,7 @@
             <p style="font-size:12px; color:#6b7c80; line-height:1.8;">
               คอลัมน์ <b>q1-q20</b> กรอกเลข 0-3 ตามลำดับตัวเลือกในข้อสอบต้นฉบับ (ก=0, ข=1, ค=2, ง=3) — ดาวน์โหลด "เฉลยตัวเลือก" ด้านล่างเพื่อดูว่าแต่ละข้อ ก/ข/ค/ง คืออะไรบ้าง<br>
               คอลัมน์ <b>phase</b> กรอก <code>pre</code> หรือ <code>post</code><br>
-              <b>ไม่ต้องแก้คอลัมน์ studentId/ชื่อ/ห้อง</b> — เทมเพลตดึงมาให้ถูกต้องแล้ว แค่เติม phase+คำตอบต่อท้ายชื่อคนที่ทำกระดาษเท่านั้น
+              <b>ไม่ต้องแก้คอลัมน์ studentId/ชื่อ/โรงเรียน</b> — เทมเพลตดึงมาให้ถูกต้องแล้ว แค่เติม phase+คำตอบต่อท้ายชื่อคนที่ทำกระดาษเท่านั้น
             </p>
             <button class="btn btn-ghost" style="width:auto; padding:8px 14px; font-size:12.5px;" onclick="downloadTestAnswerReference()">📄 ดาวน์โหลดเฉลยตัวเลือก (ก/ข/ค/ง)</button>
             <button class="btn btn-ghost" style="width:auto; padding:8px 14px; font-size:12.5px;" onclick="downloadTestImportTemplate()">⬇️ ดาวน์โหลดเทมเพลต CSV</button>
@@ -689,7 +682,7 @@
 
         <div class="card">
           <table>
-            <thead><tr><th>ชื่อ</th><th>ห้อง</th><th>Baseline (A/B/C)</th><th>Post Survey (A/B/C)</th><th>Pre-test</th><th>Post-test</th><th>เปลี่ยนแปลง</th></tr></thead>
+            <thead><tr><th>ชื่อ</th><th>โรงเรียน</th><th>Baseline (A/B/C)</th><th>Post Survey (A/B/C)</th><th>Pre-test</th><th>Post-test</th><th>เปลี่ยนแปลง</th></tr></thead>
             <tbody id="assessTable"></tbody>
           </table>
           <div class="empty-note" id="assessEmptyNote" style="display:none;">ยังไม่มีข้อมูล</div>
@@ -796,7 +789,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const functions = firebase.app().functions('asia-southeast1');
 
-let classesCache = [], studentsCache = [], quizCache = [];
+let schoolsCache = [], studentsCache = [], quizCache = [];
 let cardMismatchCache = []; // ผลลัพธ์ล่าสุดจากการสแกนหาการ์ดที่ขาดหาย ใช้ตอนกดปุ่มซ่อม
 
 let currentRole = 'admin'; // 'admin' | 'youth'
@@ -942,7 +935,7 @@ async function scanCardMismatches(){
       const actualCards = collSnap.size;
       if(expectedCards > actualCards){
         mismatches.push({
-          studentId: student.id, name: student.name, className: classNameOf(student.classId),
+          studentId: student.id, fullName: student.fullName, schoolName: schoolNameOf(student.schoolId),
           expectedCards, actualCards, deficit: expectedCards - actualCards,
           grantedDocRefs: grantedDocs.map(d=>d.ref)
         });
@@ -961,7 +954,7 @@ function renderCardMismatchResults(mismatches){
   document.getElementById('cardMismatchCount').textContent = mismatches.length;
   document.getElementById('cardMismatchTable').innerHTML = mismatches.map((m,i)=>`
     <tr>
-      <td>${m.name}</td><td>${m.className}</td>
+      <td>${m.fullName}</td><td>${m.schoolName}</td>
       <td>${m.expectedCards}</td><td>${m.actualCards}</td>
       <td style="color:var(--red-high); font-weight:700;">${m.deficit}</td>
       <td><button class="btn btn-ghost" style="padding:6px 10px; font-size:12px;" onclick="repairCardMismatch(${i})">ซ่อม</button></td>
@@ -972,11 +965,11 @@ function renderCardMismatchResults(mismatches){
 async function repairCardMismatch(idx){
   const m = cardMismatchCache[idx];
   if(!m) return;
-  if(!confirm(`รีเซ็ตธงการ์ดของ ${m.name} จำนวน ${m.deficit} วัน เพื่อให้ระบบออกการ์ดใหม่ให้ถูกต้องตอน login ครั้งถัดไป?\n\nต้องแจ้งนักเรียนคนนี้ให้ล็อกอินใหม่อีกครั้งด้วยนะ`)) return;
+  if(!confirm(`รีเซ็ตธงการ์ดของ ${m.fullName} จำนวน ${m.deficit} วัน เพื่อให้ระบบออกการ์ดใหม่ให้ถูกต้องตอน login ครั้งถัดไป?\n\nต้องแจ้งนักเรียนคนนี้ให้ล็อกอินใหม่อีกครั้งด้วยนะ`)) return;
   const batch = db.batch();
   m.grantedDocRefs.slice(0, m.deficit).forEach(ref => batch.update(ref, {dailyCardGranted: false}));
   await batch.commit();
-  alert(`ซ่อม ${m.name} เรียบร้อย — แจ้งให้ล็อกอินใหม่เพื่อรับการ์ดที่ขาดไป`);
+  alert(`ซ่อม ${m.fullName} เรียบร้อย — แจ้งให้ล็อกอินใหม่เพื่อรับการ์ดที่ขาดไป`);
   scanCardMismatches();
 }
 
@@ -998,7 +991,7 @@ async function repairAllCardMismatches(){
 
 async function boot(){
   renderChoiceBoxes();
-  await loadClasses();
+  await loadSchools();
   await loadStudentsCache();
   if(currentRole === 'admin'){
     await loadQuizBank();
@@ -1078,11 +1071,11 @@ function renderAuditSearchResults(){
   const wrap = document.getElementById('auditSearchResults');
   document.getElementById('auditResultWrap').style.display = 'none';
   if(!q){ wrap.innerHTML=''; return; }
-  const matches = studentsCache.filter(s=>(s.name||'').toLowerCase().includes(q)).slice(0,15);
+  const matches = studentsCache.filter(s=>(s.fullName||'').toLowerCase().includes(q)).slice(0,15);
   if(matches.length===0){ wrap.innerHTML = '<div class="empty-note">ไม่พบชื่อนี้</div>'; return; }
   wrap.innerHTML = matches.map(s=>`
     <div style="padding:8px; border-bottom:1px solid #eee; cursor:pointer;" onclick="selectAuditStudent('${s.id}')">
-      <b>${s.name}</b> <span style="color:#9aa8ab; font-size:12px;">(${classNameOf(s.classId)}) — ${s.totalPoints||0} คะแนน</span>
+      <b>${s.fullName}</b> <span style="color:#9aa8ab; font-size:12px;">(${schoolNameOf(s.schoolId)}) — ${s.totalPoints||0} คะแนน</span>
     </div>`).join('');
 }
 
@@ -1090,9 +1083,9 @@ async function selectAuditStudent(studentId){
   const student = studentsCache.find(s=>s.id===studentId);
   if(!student) return;
   document.getElementById('auditSearchResults').innerHTML = '';
-  document.getElementById('auditSearchInput').value = student.name;
+  document.getElementById('auditSearchInput').value = student.fullName;
   document.getElementById('auditResultWrap').style.display = 'block';
-  document.getElementById('auditStudentName').textContent = `${student.name} (${classNameOf(student.classId)})`;
+  document.getElementById('auditStudentName').textContent = `${student.fullName} (${schoolNameOf(student.schoolId)})`;
   document.getElementById('auditDayTable').innerHTML = '<tr><td colspan="8">กำลังโหลด…</td></tr>';
 
   try{
@@ -1185,7 +1178,7 @@ async function scanAllPointMismatches(){
       const { computedTotal } = computePointsFromRaw(logs, missions, student, startDate, totalDays);
       const storedTotal = student.totalPoints || 0;
       if(storedTotal !== computedTotal){
-        mismatches.push({ studentId: student.id, name: student.name, classId: student.classId, storedTotal, computedTotal, diff: storedTotal - computedTotal });
+        mismatches.push({ studentId: student.id, fullName: student.fullName, schoolId: student.schoolId, storedTotal, computedTotal, diff: storedTotal - computedTotal });
       }
     });
     mismatches.sort((a,b)=> Math.abs(b.diff) - Math.abs(a.diff));
@@ -1200,7 +1193,7 @@ async function scanAllPointMismatches(){
       document.getElementById('bulkAuditCount').textContent = mismatches.length;
       document.getElementById('bulkAuditTable').innerHTML = mismatches.map(m=>`
         <tr>
-          <td>${m.name}</td><td>${classNameOf(m.classId)}</td>
+          <td>${m.fullName}</td><td>${schoolNameOf(m.schoolId)}</td>
           <td>${m.storedTotal}</td><td>${m.computedTotal}</td>
           <td style="color:var(--red-high); font-weight:700;">${m.diff>0?'+':''}${m.diff}</td>
           <td><button class="btn btn-ghost" style="padding:6px 12px; font-size:12px;" onclick="repairOnePointMismatch('${m.studentId}')">ซ่อมคนนี้</button></td>
@@ -1274,7 +1267,7 @@ async function repairAllPointMismatches(){
       await repairStudentPoints(m.studentId);
       done++;
     }catch(e){
-      console.error('ซ่อมไม่สำเร็จสำหรับ', m.name, e);
+      console.error('ซ่อมไม่สำเร็จสำหรับ', m.fullName, e);
       failed++;
     }
     msgEl.style.color = 'var(--lagoon)';
@@ -1344,7 +1337,7 @@ async function scanPostCampaignActivity(){
       const daysCompletedDrop = (student.daysCompleted||0) - newDaysCompleted;
 
       targets.push({
-        studentId: student.id, name: student.name, classId: student.classId,
+        studentId: student.id, fullName: student.fullName, schoolId: student.schoolId,
         badDates: Array.from(new Set([...badLogs.map(l=>l.data.date), ...badMissions.map(m=>m.data.date)])).sort(),
         pointsToRemove, newDaysCompleted, daysCompletedDrop, goodSubmittedDates,
         goodLogsData, goodMissionsData, // เก็บไว้ใช้คำนวณคะแนนใหม่ตอนยืนยัน (ไม่ลบเอกสารดิบแล้ว แค่ไม่นับให้)
@@ -1363,7 +1356,7 @@ async function scanPostCampaignActivity(){
       document.getElementById('cleanupCount').textContent = targets.length;
       document.getElementById('cleanupTable').innerHTML = targets.map(t=>`
         <tr>
-          <td>${t.name}</td><td>${classNameOf(t.classId)}</td>
+          <td>${t.fullName}</td><td>${schoolNameOf(t.schoolId)}</td>
           <td>${t.badDates.join(', ')}</td>
           <td style="color:var(--red-high); font-weight:700;">-${t.pointsToRemove}</td>
           <td>${t.newDaysCompleted}${t.daysCompletedDrop>0 ? ` (ลด ${t.daysCompletedDrop})` : ''}</td>
@@ -1424,7 +1417,7 @@ async function confirmPostCampaignCleanup(){
       }
       done++;
     }catch(e){
-      console.error('ปรับคะแนนไม่สำเร็จสำหรับ', t.name, e);
+      console.error('ปรับคะแนนไม่สำเร็จสำหรับ', t.fullName, e);
       failed++;
     }
     msgEl.style.color = 'var(--lagoon)';
@@ -1438,7 +1431,7 @@ async function confirmPostCampaignCleanup(){
 
 async function loadOverview(){
   document.getElementById('kpiStudents').textContent = studentsCache.length;
-  document.getElementById('kpiClasses').textContent = classesCache.length;
+  document.getElementById('kpiClasses').textContent = schoolsCache.length;
   const campSnap = await db.collection('settings').doc('campaign').get();
   let dayLabel = '-';
   if(campSnap.exists && campSnap.data().startDate && campSnap.data().endDate){
@@ -1457,7 +1450,7 @@ async function loadOverview(){
 
   const top = [...studentsCache].sort((a,b)=>(b.totalPoints||0)-(a.totalPoints||0)).slice(0,10);
   document.getElementById('overviewTop').innerHTML = top.map((s,i)=>`
-    <tr><td>${i+1}</td><td>${s.name}</td><td>${classNameOf(s.classId)}</td><td>${s.totalPoints||0}</td><td>${s.currentStreak||0}🔥</td></tr>
+    <tr><td>${i+1}</td><td>${s.fullName}</td><td>${schoolNameOf(s.schoolId)}</td><td>${s.totalPoints||0}</td><td>${s.currentStreak||0}🔥</td></tr>
   `).join('');
 
   await loadCategorySummary();
@@ -1625,7 +1618,7 @@ async function loadAiVisionCallLog(){
     wrap.innerHTML = `<div class="empty-note">โหลดข้อมูลไม่สำเร็จ: ${(e&&(e.message||e.code))||'ไม่ทราบสาเหตุ'}${(e&&e.code==='permission-denied')?' (ต้องแก้ firestore.rules ให้แอดมินอ่าน collection นี้ได้)':''}</div>`;
   }
 }
-function classNameOf(id){ const c = classesCache.find(c=>c.id===id); return c?c.name:'-'; }
+function schoolNameOf(id){ const c = schoolsCache.find(c=>c.id===id); return c?c.schoolName:'-'; }
 
 /* ---- CSV EXPORT ---- */
 function downloadCSV(filename, rows){
@@ -1648,28 +1641,28 @@ function downloadCSV(filename, rows){
 
 function exportStudentSummaryCSV(){
   if(studentsCache.length===0){ alert('ยังไม่มีข้อมูลนักเรียน'); return; }
-  const rows = [['เลขที่','ชื่อ','ห้อง','คะแนนรวม','Streak ปัจจุบัน','Streak สูงสุด','จำนวนวันที่ทำสำเร็จ','จำนวนครั้งตรวจฉลาก']];
-  studentsCache.sort((a,b)=>a.studentNo-b.studentNo).forEach(s=>{
-    rows.push([s.studentNo, s.name, classNameOf(s.classId), s.totalPoints||0, s.currentStreak||0, s.longestStreak||0, s.daysCompleted||0, s.sodiumCheckCount||0]);
+  const rows = [['ชื่อ','Username','โรงเรียน','คะแนนรวม','Streak ปัจจุบัน','Streak สูงสุด','จำนวนวันที่ทำสำเร็จ','จำนวนครั้งตรวจฉลาก']];
+  studentsCache.slice().sort((a,b)=>(a.fullName||'').localeCompare(b.fullName||'','th')).forEach(s=>{
+    rows.push([s.fullName, s.username||'-', schoolNameOf(s.schoolId), s.totalPoints||0, s.currentStreak||0, s.longestStreak||0, s.daysCompleted||0, s.sodiumCheckCount||0]);
   });
   downloadCSV('salt-smart-student-summary.csv', rows);
 }
 
 async function exportDailyLogsCSV(){
   const snap = await db.collection('dailyLogs').get();
-  const rows = [['วันที่','ชื่อ','ห้อง','ออกกำลังกาย','ระดับเค็ม','เติมเครื่องปรุง','ชอบรสเค็ม','อ่านฉลากโภชนาการ','อ่านฉลากGDA','เลือกสัญลักษณ์สุขภาพ','ดื่มน้ำ','มื้ออาหาร','สะท้อนผล','สิ่งที่ควรปรับปรุง']];
+  const rows = [['วันที่','ชื่อ','โรงเรียน','ออกกำลังกาย','ระดับเค็ม','เติมเครื่องปรุง','ชอบรสเค็ม','อ่านฉลากโภชนาการ','อ่านฉลากGDA','เลือกสัญลักษณ์สุขภาพ','ดื่มน้ำ','มื้ออาหาร','สะท้อนผล','สิ่งที่ควรปรับปรุง']];
   snap.docs.forEach(d=>{
     const log = d.data();
     if(!log.submitted) return; // ข้ามเอกสารที่มีแค่ผลตรวจฉลาก ยังไม่ได้กดบันทึกเต็มรูปแบบ
     const student = studentsCache.find(s=>s.id===log.studentId);
-    const name = student ? student.name : log.studentId;
-    const className = student ? classNameOf(student.classId) : '';
+    const name = student ? student.fullName : log.studentId;
+    const schoolName = student ? schoolNameOf(student.schoolId) : '';
     const exercise = log.exercise ? Object.keys(log.exercise).filter(k=>log.exercise[k]).join('/') : '';
     const salty = log.levels ? (log.levels.salty || '') : '';
     const condiments = log.condiments ? Object.keys(log.condiments).filter(k=>log.condiments[k]).join('/') : '';
     const other = log.otherBehaviors || {};
     rows.push([
-      log.date, name, className, exercise, salty, condiments, log.tastePref || '',
+      log.date, name, schoolName, exercise, salty, condiments, log.tastePref || '',
       other.readLabel ? 'Y' : '', other.readGDA ? 'Y' : '', other.healthyChoice ? 'Y' : '', other.drinkWater ? 'Y' : '',
       log.mealNote || '', log.reflection || '', log.improveNote || ''
     ]);
@@ -1679,107 +1672,193 @@ async function exportDailyLogsCSV(){
 
 async function exportSodiumChecksCSV(){
   const snap = await db.collection('dailyLogs').get();
-  const rows = [['วันที่','เวลา','ชื่อ','ห้อง','ชื่อสินค้า','หมวดหมู่','โซเดียม(มก.)','% ของค่าแนะนำต่อวัน']];
+  const rows = [['วันที่','เวลา','ชื่อ','โรงเรียน','ชื่อสินค้า','หมวดหมู่','โซเดียม(มก.)','% ของค่าแนะนำต่อวัน']];
   snap.docs.forEach(d=>{
     const log = d.data();
     if(!log.sodiumChecks || log.sodiumChecks.length===0) return;
     const student = studentsCache.find(s=>s.id===log.studentId);
-    const name = student ? student.name : log.studentId;
-    const className = student ? classNameOf(student.classId) : '';
+    const name = student ? student.fullName : log.studentId;
+    const schoolName = student ? schoolNameOf(student.schoolId) : '';
     log.sodiumChecks.forEach(c=>{
-      rows.push([log.date, c.time||'', name, className, c.name||'', c.category||'ไม่ระบุ', c.sodium||'', c.pct!=null?c.pct+'%':'']);
+      rows.push([log.date, c.time||'', name, schoolName, c.name||'', c.category||'ไม่ระบุ', c.sodium||'', c.pct!=null?c.pct+'%':'']);
     });
   });
   downloadCSV('salt-smart-sodium-checks-by-category.csv', rows);
 }
 
 /* ---- CLASSES ---- */
-async function loadClasses(){
-  const snap = await db.collection('classes').orderBy('order').get();
-  classesCache = snap.docs.map(d=>({id:d.id, ...d.data()}));
-  const selects = ['bulkClassSelect','filterClassSelect','historyClassFilter'];
+async function loadSchools(){
+  const snap = await db.collection('schools').get();
+  schoolsCache = snap.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>(a.schoolName||'').localeCompare(b.schoolName||'','th'));
+  const selects = ['filterClassSelect','historyClassFilter'];
+  const approvedOnly = schoolsCache.filter(s=>s.status==='approved' && !s.mergedIntoSchoolId);
   selects.forEach(id=>{
     const el = document.getElementById(id);
-    el.innerHTML = (id==='filterClassSelect' || id==='historyClassFilter' ? '<option value="">ทุกห้อง</option>' : '') +
-      classesCache.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+    if(!el) return;
+    el.innerHTML = '<option value="">ทุกโรงเรียน</option>' + approvedOnly.map(c=>`<option value="${c.id}">${c.schoolName}</option>`).join('');
   });
-  loadClassTable();
+  loadSchoolTable();
 }
-function loadClassTable(){
-  const el = document.getElementById('classTable');
-  if(!el) return; // ยังไม่โหลด studentsCache ตอนแรกสุด ไม่เป็นไร เดี๋ยว loadStudentsCache() เรียกซ้ำให้เอง
-  el.innerHTML = classesCache.map((c,idx)=>{
-    const count = (studentsCache||[]).filter(s=>s.classId===c.id).length;
+
+function schoolStudentCount(schoolId){
+  return (studentsCache||[]).filter(s=>s.schoolId===schoolId).length;
+}
+
+function loadSchoolTable(){
+  const pendingEl = document.getElementById('pendingSchoolList');
+  const approvedEl = document.getElementById('approvedSchoolTable');
+  if(!pendingEl || !approvedEl) return; // ยังไม่โหลด studentsCache ตอนแรกสุด ไม่เป็นไร เดี๋ยว loadStudentsCache() เรียกซ้ำให้เอง
+
+  const pending = schoolsCache.filter(s=>s.status==='pending' && !s.mergedIntoSchoolId);
+  const approved = schoolsCache.filter(s=>s.status==='approved' && !s.mergedIntoSchoolId);
+  document.getElementById('pendingSchoolCount').textContent = pending.length;
+
+  const approvedOptionsHtml = (excludeId) => approved.filter(a=>a.id!==excludeId)
+    .map(a=>`<option value="${a.id}">${a.schoolName}</option>`).join('');
+
+  pendingEl.innerHTML = pending.length===0
+    ? '<div class="msg">ไม่มีโรงเรียนรอตรวจสอบตอนนี้</div>'
+    : pending.map(s=>{
+      const count = schoolStudentCount(s.id);
+      return `
+      <div class="card" style="margin-bottom:10px; background:var(--sand);">
+        <div style="font-family:'Kanit'; font-weight:700;">${s.schoolName} <span style="font-size:12px; color:#9aa8ab; font-weight:400;">(${count} คน)</span></div>
+        <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <button class="btn btn-primary" style="padding:6px 12px; font-size:12.5px;" onclick="approveSchool('${s.id}')">✅ อนุมัติเป็นโรงเรียนใหม่</button>
+          <select id="mergeTarget-${s.id}" style="padding:6px; font-size:12.5px; border:1px solid #ddd; border-radius:6px;">
+            <option value="">-- หรือเลือกโรงเรียนที่จะรวมเข้า --</option>
+            ${approvedOptionsHtml(s.id)}
+          </select>
+          <button class="btn btn-primary" style="padding:6px 12px; font-size:12.5px;" onclick="mergeSchool('${s.id}','mergeTarget-${s.id}')">🔀 รวมเข้า</button>
+          <button class="btn btn-danger" style="padding:6px 12px; font-size:12.5px;" onclick="rejectSchool('${s.id}','${(s.schoolName||'').replace(/'/g,"\\'")}')">❌ ปฏิเสธ</button>
+        </div>
+      </div>`;
+    }).join('');
+
+  approvedEl.innerHTML = approved.map(s=>{
+    const count = schoolStudentCount(s.id);
     return `
     <tr>
-      <td>
-        <input type="number" value="${c.order||0}" id="classOrder_${c.id}" style="width:56px; padding:5px; text-align:center; border:1px solid #ddd; border-radius:6px;" onchange="saveClassOrder('${c.id}')">
-        <div style="display:flex; gap:2px; margin-top:4px;">
-          <button class="btn btn-ghost" style="padding:2px 8px; font-size:12px;" onclick="moveClass('${c.id}',-1)" ${idx===0?'disabled':''}>▲</button>
-          <button class="btn btn-ghost" style="padding:2px 8px; font-size:12px;" onclick="moveClass('${c.id}',1)" ${idx===classesCache.length-1?'disabled':''}>▼</button>
-        </div>
+      <td>${s.schoolName}</td>
+      <td>${count} คน</td>
+      <td style="white-space:nowrap;">
+        <select id="mergeApprovedTarget-${s.id}" style="padding:4px; font-size:12px; border:1px solid #ddd; border-radius:6px;">
+          <option value="">-- รวมเข้าโรงเรียนอื่น --</option>
+          ${approvedOptionsHtml(s.id)}
+        </select>
+        <button class="btn btn-primary" style="padding:4px 10px; font-size:11.5px;" onclick="mergeSchool('${s.id}','mergeApprovedTarget-${s.id}')">รวม</button>
+        <button class="btn btn-danger" style="padding:4px 10px; font-size:11.5px;" onclick="deleteSchool('${s.id}','${(s.schoolName||'').replace(/'/g,"\\'")}')">ลบ</button>
       </td>
-      <td><input type="text" value="${c.icon||'🏫'}" id="classIcon_${c.id}" style="width:44px; padding:5px; text-align:center; border:1px solid #ddd; border-radius:6px;" onchange="saveClassIcon('${c.id}')"></td>
-      <td>${c.name}</td><td>${count} คน</td>
-      <td><button class="btn btn-danger" style="padding:6px 10px;font-size:12px;" onclick="deleteClass('${c.id}','${(c.name||'').replace(/'/g,"\\'")}')">ลบ</button></td>
     </tr>`;
   }).join('');
 }
-async function saveClassIcon(id){
-  const val = document.getElementById('classIcon_'+id).value.trim() || '🏫';
-  await db.collection('classes').doc(id).update({icon: val});
-  await loadClasses();
+
+async function approveSchool(schoolId){
+  await db.collection('schools').doc(schoolId).update({status:'approved'});
+  const s = schoolsCache.find(x=>x.id===schoolId);
+  if(s) s.status = 'approved';
+  loadSchoolTable();
+  loadSchools(); // รีเฟรช dropdown ตัวกรองด้วย เพราะมีโรงเรียนอนุมัติใหม่เพิ่มเข้ามา
 }
-// สลับลำดับห้องกับห้องที่อยู่ติดกัน (direction: -1 = เลื่อนขึ้น, +1 = เลื่อนลง) — สลับแค่ค่า order ของ 2 ห้องนี้ ห้องอื่นไม่กระทบ
-async function moveClass(id, direction){
-  const idx = classesCache.findIndex(c=>c.id===id);
-  const swapIdx = idx + direction;
-  if(idx<0 || swapIdx<0 || swapIdx>=classesCache.length) return;
-  const a = classesCache[idx], b = classesCache[swapIdx];
-  await db.collection('classes').doc(a.id).update({order: b.order});
-  await db.collection('classes').doc(b.id).update({order: a.order});
-  await loadClasses();
+
+async function rejectSchool(schoolId, name){
+  const count = schoolStudentCount(schoolId);
+  if(count>0){ alert(`ปฏิเสธ "${name}" ไม่ได้ เพราะมีนักเรียนอยู่แล้ว ${count} คน — อนุมัติหรือรวมเข้าโรงเรียนอื่นแทนดีกว่า`); return; }
+  if(!confirm(`ปฏิเสธโรงเรียน "${name}" เลยไหม? ลบออกจากระบบถาวร (กู้คืนไม่ได้)`)) return;
+  await db.collection('schools').doc(schoolId).delete();
+  schoolsCache = schoolsCache.filter(s=>s.id!==schoolId);
+  loadSchoolTable();
 }
-async function saveClassOrder(id){
-  const val = parseInt(document.getElementById('classOrder_'+id).value);
-  if(isNaN(val)){ await loadClasses(); return; }
-  await db.collection('classes').doc(id).update({order: val});
-  await loadClasses();
+
+// รวมโรงเรียน source เข้ากับ target: ย้ายนักเรียนทุกคน + ย้าย username subcollection ตาม (เช็คชนแล้วเปลี่ยนให้อัตโนมัติถ้าจำเป็น)
+async function mergeSchool(sourceId, selectElId){
+  const targetId = document.getElementById(selectElId).value;
+  if(!targetId){ alert('กรุณาเลือกโรงเรียนปลายทางก่อน'); return; }
+  const source = schoolsCache.find(s=>s.id===sourceId);
+  const target = schoolsCache.find(s=>s.id===targetId);
+  if(!source || !target) return;
+  if(!confirm(`รวม "${source.schoolName}" เข้ากับ "${target.schoolName}" เลยไหม?\n\nนักเรียนทุกคนในโรงเรียนเดิมจะถูกย้ายไปอยู่โรงเรียนใหม่ ถ้า username ชนกันระบบจะเปลี่ยน username ให้อัตโนมัติ (จะมีสรุปแจ้งตอนจบ)`)) return;
+
+  const affected = studentsCache.filter(s=>s.schoolId===sourceId);
+  const renamedList = [];
+  const msgBox = document.getElementById('schoolMsg');
+  setMsg('schoolMsg', `กำลังย้ายนักเรียน 0/${affected.length} คน...`);
+
+  for(let i=0; i<affected.length; i++){
+    const student = affected[i];
+    let newUsername = student.username;
+    const targetUsernameRef = db.collection('schools').doc(targetId).collection('usernames').doc(student.username);
+    const targetUsernameSnap = await targetUsernameRef.get();
+    if(targetUsernameSnap.exists){
+      let suffix = 2;
+      while(true){
+        const candidate = student.username + suffix;
+        const candSnap = await db.collection('schools').doc(targetId).collection('usernames').doc(candidate).get();
+        if(!candSnap.exists){ newUsername = candidate; break; }
+        suffix++;
+      }
+      renamedList.push(`${student.fullName}: ${student.username} → ${newUsername}`);
+    }
+    await db.collection('schools').doc(targetId).collection('usernames').doc(newUsername).set({studentId: student.id, createdAt: new Date().toISOString()});
+    await db.collection('students').doc(student.id).update({schoolId: targetId, username: newUsername});
+    await db.collection('schools').doc(sourceId).collection('usernames').doc(student.username).delete().catch(()=>{});
+    student.schoolId = targetId; // อัปเดต cache ในเครื่องด้วย
+    student.username = newUsername;
+    setMsg('schoolMsg', `กำลังย้ายนักเรียน ${i+1}/${affected.length} คน...`);
+  }
+
+  await db.collection('schools').doc(sourceId).update({status:'pending', mergedIntoSchoolId: targetId});
+  const srcCache = schoolsCache.find(s=>s.id===sourceId);
+  if(srcCache) srcCache.mergedIntoSchoolId = targetId;
+
+  loadSchoolTable();
+  loadStudentTable();
+  setMsg('schoolMsg', `รวมโรงเรียนสำเร็จ ย้ายนักเรียน ${affected.length} คน` +
+    (renamedList.length ? ` (เปลี่ยน username ${renamedList.length} คนเพราะชนกัน — ดูรายละเอียดที่ alert)` : ''));
+  if(renamedList.length){
+    alert('มีการเปลี่ยน username เนื่องจากชนกันตอนรวมโรงเรียน:\n\n' + renamedList.join('\n'));
+  }
 }
-async function deleteClass(id, name){
-  const count = (studentsCache||[]).filter(s=>s.classId===id).length;
-  if(count>0){ alert(`ลบห้อง "${name}" ไม่ได้ เพราะยังมีนักเรียนอยู่ ${count} คน — ลบนักเรียนในห้องนี้ออกก่อน (หรือย้ายไปห้องอื่น) แล้วค่อยลบห้อง`); return; }
-  if(!confirm(`ลบห้อง "${name}" เลยไหม? กู้คืนไม่ได้`)) return;
-  await db.collection('classes').doc(id).delete();
-  await loadClasses();
+
+async function deleteSchool(id, name){
+  const count = schoolStudentCount(id);
+  if(count>0){ alert(`ลบโรงเรียน "${name}" ไม่ได้ เพราะยังมีนักเรียนอยู่ ${count} คน — ย้ายนักเรียนออกก่อน (ใช้ปุ่มรวมโรงเรียน) แล้วค่อยลบ`); return; }
+  if(!confirm(`ลบโรงเรียน "${name}" เลยไหม? กู้คืนไม่ได้`)) return;
+  await db.collection('schools').doc(id).delete();
+  await loadSchools();
 }
-async function addClass(){
-  const name = document.getElementById('newClassName').value.trim();
-  const order = parseInt(document.getElementById('newClassOrder').value) || 1;
-  const icon = document.getElementById('newClassIcon').value.trim() || '🏫';
-  if(!name){ setMsg('classMsg','กรอกชื่อห้อง',true); return; }
-  await db.collection('classes').add({name, order, icon, createdAt: new Date().toISOString()});
-  document.getElementById('newClassName').value='';
-  document.getElementById('newClassIcon').value='';
-  setMsg('classMsg','เพิ่มห้อง "'+name+'" แล้ว');
-  await loadClasses();
+
+async function addSchool(){
+  const name = document.getElementById('newSchoolName').value.trim();
+  if(!name){ setMsg('schoolMsg','กรอกชื่อโรงเรียน',true); return; }
+  await db.collection('schools').add({
+    schoolName: name,
+    status: 'approved', // แอดมินเพิ่มเองถือว่าอนุมัติทันที ไม่ต้องรอตรวจสอบ
+    province: '',
+    createdAt: new Date().toISOString(),
+    createdByStudentId: null,
+    mergedIntoSchoolId: null
+  });
+  document.getElementById('newSchoolName').value='';
+  setMsg('schoolMsg','เพิ่มโรงเรียน "'+name+'" แล้ว (อนุมัติทันที)');
+  await loadSchools();
 }
 
 async function loadStudentsCache(){
   const snap = await db.collection('students').get();
   studentsCache = snap.docs.map(d=>({id:d.id, ...d.data()}));
-  loadClassTable(); // รีเฟรชจำนวนนักเรียนต่อห้องให้ถูก หลังโหลด studentsCache เสร็จจริง
+  loadSchoolTable(); // รีเฟรชจำนวนนักเรียนต่อโรงเรียนให้ถูก หลังโหลด studentsCache เสร็จจริง
 }
 
-// สแกนหาชื่อซ้ำทั้งระบบ (ไม่พึ่งพิมพ์ค้นหาเอง ไม่สนใจตัวกรองห้อง) เทียบชื่อแบบตัดช่องว่างซ้ำ/หัวท้าย + ตัวพิมพ์เล็กใหญ่ก่อนเทียบ
-// ใช้ตอนสงสัยว่ามีคนถูกลงทะเบียนซ้ำ 2 รอบ (เช่น ตอนลบแล้วเพิ่มใหม่เพื่อแก้ห้องผิด แต่ลืมลบตัวเดิม)
+// สแกนหาชื่อซ้ำทั้งระบบ (ไม่พึ่งพิมพ์ค้นหาเอง ไม่สนใจตัวกรองโรงเรียน) เทียบชื่อแบบตัดช่องว่างซ้ำ/หัวท้าย + ตัวพิมพ์เล็กใหญ่ก่อนเทียบ
+// ใช้ตอนสงสัยว่ามีคนถูกลงทะเบียนซ้ำ 2 รอบ (เช่น ตอนลบแล้วเพิ่มใหม่เพื่อแก้โรงเรียนผิด แต่ลืมลบตัวเดิม)
 function scanDuplicateNames(){
   const msgEl = document.getElementById('dupScanMsg');
   const resultEl = document.getElementById('dupScanResult');
   const normalize = (name) => (name||'').replace(/\s+/g,' ').trim().toLowerCase();
   const groups = {};
   studentsCache.forEach(s=>{
-    const key = normalize(s.name);
+    const key = normalize(s.fullName);
     if(!key) return;
     (groups[key] = groups[key] || []).push(s);
   });
@@ -1794,17 +1873,17 @@ function scanDuplicateNames(){
   msgEl.textContent = `สแกนครบ ${studentsCache.length} คน พบชื่อซ้ำ ${dupGroups.length} กลุ่ม (รวม ${dupGroups.reduce((s,g)=>s+g.length,0)} รายการ)`;
   resultEl.innerHTML = dupGroups.map(group=>`
     <div class="card" style="background:var(--sand); margin-bottom:10px;">
-      <div style="font-family:'Kanit'; font-weight:700; margin-bottom:6px;">${group[0].name} — พบ ${group.length} รายการ</div>
+      <div style="font-family:'Kanit'; font-weight:700; margin-bottom:6px;">${group[0].fullName} — พบ ${group.length} รายการ</div>
       <table>
-        <thead><tr><th>ห้อง</th><th>คะแนน</th><th>Streak</th><th>PIN</th><th></th></tr></thead>
+        <thead><tr><th>โรงเรียน</th><th>คะแนน</th><th>Streak</th><th>PIN</th><th></th></tr></thead>
         <tbody>
           ${group.map(s=>`
             <tr>
-              <td>${classNameOf(s.classId)}</td>
+              <td>${schoolNameOf(s.schoolId)}</td>
               <td>${s.totalPoints||0}</td>
               <td>${s.currentStreak||0}</td>
               <td>${s.pin ? 'ตั้งแล้ว' : 'ยังไม่ตั้ง'}</td>
-              <td><button class="btn btn-danger" style="padding:6px 10px;font-size:12px;" onclick="deleteDuplicateAndRescan('${s.id}','${(s.name||'').replace(/'/g,"\\'")}')">ลบแถวนี้</button></td>
+              <td><button class="btn btn-danger" style="padding:6px 10px;font-size:12px;" onclick="deleteDuplicateAndRescan('${s.id}','${(s.fullName||'').replace(/'/g,"\\'")}')">ลบแถวนี้</button></td>
             </tr>`).join('')}
         </tbody>
       </table>
@@ -1825,28 +1904,9 @@ function detectSexFromName(name){
   return null;
 }
 
-async function bulkAddStudents(){
-  const classId = document.getElementById('bulkClassSelect').value;
-  const text = document.getElementById('bulkStudentText').value.trim();
-  if(!classId || !text){ setMsg('bulkMsg','เลือกห้องและกรอกรายชื่อ',true); return; }
-  const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
-  const batch = db.batch();
-  lines.forEach(line=>{
-    const [no, ...rest] = line.split(',');
-    const name = rest.join(',').trim();
-    if(!name) return;
-    const ref = db.collection('students').doc();
-    batch.set(ref, {
-      studentNo: parseInt(no)||0, name, classId, pin:'', sex: detectSexFromName(name),
-      totalPoints:0, currentStreak:0, longestStreak:0, daysCompleted:0, lastCheckinDate:''
-    });
-  });
-  await batch.commit();
-  document.getElementById('bulkStudentText').value='';
-  setMsg('bulkMsg', 'เพิ่มนักเรียน ' + lines.length + ' คนแล้ว');
-  await loadStudentsCache();
-  loadStudentTable();
-}
+// หมายเหตุ: เดิมมีฟังก์ชัน bulkAddStudents() ให้แอดมินเพิ่มรายชื่อนักเรียนล่วงหน้าเป็นชุด (เลขที่+ชื่อ)
+// ตัดออกแล้ว เพราะระบบใหม่ให้นักเรียนสมัครเองเลือก username+PIN เอง ไม่มีขั้นตอน "เพิ่มรายชื่อไว้ก่อนแล้วมาเลือกชื่อ" อีกต่อไป
+// ถ้าเพิ่มแบบเดิมจะได้ record ที่ไม่มี username/authUid/PIN ทำให้นักเรียนคนนั้น login ไม่ได้เลย
 
 function daysInactiveInfo(s){
   if(!s.pin) return { label: 'ยังไม่เคยล็อกอิน', isInactive: true };
@@ -1857,57 +1917,36 @@ function daysInactiveInfo(s){
 function currentStudentTableList(){
   const filter = document.getElementById('filterClassSelect').value;
   const inactiveOnly = document.getElementById('filterInactiveOnly') && document.getElementById('filterInactiveOnly').checked;
-  let list = filter ? studentsCache.filter(s=>s.classId===filter) : studentsCache;
+  let list = filter ? studentsCache.filter(s=>s.schoolId===filter) : studentsCache;
   if(inactiveOnly) list = list.filter(s=>daysInactiveInfo(s).isInactive);
-  return list.sort((a,b)=>a.studentNo-b.studentNo);
+  return list.sort((a,b)=>(a.fullName||'').localeCompare(b.fullName||'','th'));
 }
 function loadStudentTable(){
   const list = currentStudentTableList();
-  document.getElementById('studentTable').innerHTML = list.map((s,idx)=>{
+  document.getElementById('studentTable').innerHTML = list.map((s)=>{
     const inact = daysInactiveInfo(s);
     return `
     <tr>
-      <td>
-        <input type="number" value="${s.studentNo}" id="studentNo_${s.id}" style="width:52px; padding:5px; text-align:center; border:1px solid #ddd; border-radius:6px;" onchange="saveStudentNo('${s.id}')">
-        <div style="display:flex; gap:2px; margin-top:4px;">
-          <button class="btn btn-ghost" style="padding:2px 8px; font-size:12px;" onclick="moveStudent('${s.id}',-1)" ${idx===0?'disabled':''}>▲</button>
-          <button class="btn btn-ghost" style="padding:2px 8px; font-size:12px;" onclick="moveStudent('${s.id}',1)" ${idx===list.length-1?'disabled':''}>▼</button>
-        </div>
-      </td>
-      <td>${s.name}</td><td>${classNameOf(s.classId)}</td>
+      <td>${s.fullName}</td>
+      <td>${s.username||'-'}</td>
+      <td>${schoolNameOf(s.schoolId)}</td>
       <td>${s.totalPoints||0}</td><td>${s.currentStreak||0}</td>
       <td>${s.pin ? '<span class="pill">ตั้งแล้ว</span>' : '<span class="pill">ยังไม่ตั้ง</span>'}</td>
       <td style="${inact.isInactive?'color:var(--red-high);font-weight:600;':''}">${inact.label}</td>
       <td>
         <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="resetPin('${s.id}')">รีเซ็ต PIN</button>
         <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;" onclick="resetTodayLog('${s.id}')">ปลดล็อกบันทึก...</button>
-        <button class="btn btn-danger" style="padding:6px 10px;font-size:12px;" onclick="deleteStudent('${s.id}','${(s.name||'').replace(/'/g,"\\'")}')">ลบ</button>
+        <button class="btn btn-danger" style="padding:6px 10px;font-size:12px;" onclick="deleteStudent('${s.id}','${(s.fullName||'').replace(/'/g,"\\'")}')">ลบ</button>
       </td>
     </tr>`;
   }).join('');
 }
-// สลับเลขที่กับนักเรียนที่อยู่ติดกันในรายการที่กรองอยู่ตอนนี้ (direction: -1 = เลื่อนขึ้น, +1 = เลื่อนลง) — สลับแค่ค่า studentNo ของ 2 คนนี้ คนอื่นไม่กระทบ
-async function moveStudent(id, direction){
-  const list = currentStudentTableList();
-  const idx = list.findIndex(s=>s.id===id);
-  const swapIdx = idx + direction;
-  if(idx<0 || swapIdx<0 || swapIdx>=list.length) return;
-  const a = list[idx], b = list[swapIdx];
-  await db.collection('students').doc(a.id).update({studentNo: b.studentNo});
-  await db.collection('students').doc(b.id).update({studentNo: a.studentNo});
-  await loadStudentsCache();
-  loadStudentTable();
-}
-async function saveStudentNo(id){
-  const val = parseInt(document.getElementById('studentNo_'+id).value);
-  if(isNaN(val)){ loadStudentTable(); return; }
-  await db.collection('students').doc(id).update({studentNo: val});
-  await loadStudentsCache();
-  loadStudentTable();
-}
+// หมายเหตุ: เดิมมี moveStudent()/saveStudentNo() ให้สลับ "เลขที่" ตามลำดับห้องเรียน — ตัดออกแล้ว
+// เพราะระบบใหม่ไม่มีเลขที่ประจำห้องแล้ว (นักเรียนสมัครข้ามโรงเรียนกันเอง ไม่มีแนวคิด "ห้อง" ให้เรียงเลขที่)
+// เรียงตามชื่อ (ก-ฮ) แทนอัตโนมัติใน currentStudentTableList() ด้านบน
 async function deleteAllInactiveShown(){
   const filter = document.getElementById('filterClassSelect').value;
-  let list = filter ? studentsCache.filter(s=>s.classId===filter) : studentsCache;
+  let list = filter ? studentsCache.filter(s=>s.schoolId===filter) : studentsCache;
   list = list.filter(s=>daysInactiveInfo(s).isInactive);
   if(list.length===0){ alert('ไม่มีรายชื่อ inactive ในตัวกรองปัจจุบัน'); return; }
   if(!confirm(`ลบนักเรียน inactive ทั้งหมด ${list.length} คนที่แสดงอยู่ตอนนี้เลยไหม? ข้อมูลคะแนน/ประวัติของทุกคนจะหายไปด้วย กู้คืนไม่ได้`)) return;
@@ -2276,7 +2315,7 @@ async function loadReviewQueue(){
     if(subs.length===0){ wrap.innerHTML = '<div class="empty-note">ไม่มีภารกิจรอตรวจตอนนี้ 🎉</div>'; return; }
     wrap.innerHTML = subs.map(s=>{
       const student = studentsCache.find(st=>st.id===s.studentId);
-      const name = student ? `${student.name} (${classNameOf(student.classId)})` : s.studentId;
+      const name = student ? `${student.fullName} (${schoolNameOf(student.schoolId)})` : s.studentId;
       const photoUrls = (s.evidencePhotoUrls && s.evidencePhotoUrls.length) ? s.evidencePhotoUrls : (s.evidencePhotoUrl ? [s.evidencePhotoUrl] : []);
       const photoHtml = photoUrls.length ? `<div style="display:flex; gap:6px; flex-wrap:wrap; margin:8px 0;">${photoUrls.map(u=>`<img src="${u}" style="width:${photoUrls.length>1?'140px':'220px'};height:${photoUrls.length>1?'140px':'auto'};object-fit:cover;border-radius:10px;">`).join('')}</div>` : '';
       const textHtml = s.evidenceText ? `<p style="font-size:13.5px; margin:6px 0;">"${s.evidenceText}"</p>` : '';
@@ -2377,7 +2416,7 @@ async function loadMissionHistory(){
     if(classFilter){
       subs = subs.filter(s=>{
         const student = studentsCache.find(st=>st.id===s.studentId);
-        return student && student.classId === classFilter;
+        return student && student.schoolId === classFilter;
       });
     }
     subs.sort((a,b)=> (b.reviewedAt||b.submittedAt||'') < (a.reviewedAt||a.submittedAt||'') ? -1 : 1);
@@ -2385,7 +2424,7 @@ async function loadMissionHistory(){
     if(subs.length===0){ wrap.innerHTML = '<div class="empty-note">ไม่พบรายการตามเงื่อนไขที่เลือก</div>'; return; }
     wrap.innerHTML = subs.map(s=>{
       const student = studentsCache.find(st=>st.id===s.studentId);
-      const name = student ? `${student.name} (${classNameOf(student.classId)})` : s.studentId;
+      const name = student ? `${student.fullName} (${schoolNameOf(student.schoolId)})` : s.studentId;
       const photoUrls2 = (s.evidencePhotoUrls && s.evidencePhotoUrls.length) ? s.evidencePhotoUrls : (s.evidencePhotoUrl ? [s.evidencePhotoUrl] : []);
       const photoHtml = photoUrls2.length ? `<div style="display:flex; gap:6px; flex-wrap:wrap; margin:8px 0;">${photoUrls2.map(u=>`<img src="${u}" style="width:${photoUrls2.length>1?'120px':'180px'};height:${photoUrls2.length>1?'120px':'auto'};object-fit:cover;border-radius:10px;">`).join('')}</div>` : '';
       const textHtml = s.evidenceText ? `<p style="font-size:13px; margin:6px 0; color:#4a5a5e;">"${s.evidenceText}"</p>` : '';
@@ -2410,14 +2449,14 @@ async function loadMissionHistory(){
 
 async function exportMissionHistoryCsv(){
   const snap = await db.collection('missionSubmissions').get();
-  const rows = [['วันที่','ชื่อ','ห้อง','ภารกิจ','สถานะ','คะแนนที่ได้','เหตุผลไม่ผ่าน','ข้อความที่ส่ง','ลิงก์รูปหลักฐาน','วันที่ตรวจ']];
+  const rows = [['วันที่','ชื่อ','โรงเรียน','ภารกิจ','สถานะ','คะแนนที่ได้','เหตุผลไม่ผ่าน','ข้อความที่ส่ง','ลิงก์รูปหลักฐาน','วันที่ตรวจ']];
   snap.docs.forEach(d=>{
     const s = d.data();
     const student = studentsCache.find(st=>st.id===s.studentId);
-    const name = student ? student.name : s.studentId;
-    const className = student ? classNameOf(student.classId) : '';
+    const name = student ? student.fullName : s.studentId;
+    const schoolName = student ? schoolNameOf(student.schoolId) : '';
     const photoUrlsCsv = (s.evidencePhotoUrls && s.evidencePhotoUrls.length) ? s.evidencePhotoUrls.join(' ; ') : (s.evidencePhotoUrl || '');
-    rows.push([s.date||'', name, className, s.missionText||'', statusLabel[s.status]||s.status||'', s.pointsAwarded||0, s.reviewNote||'', s.evidenceText||'', photoUrlsCsv, s.reviewedAt||'']);
+    rows.push([s.date||'', name, schoolName, s.missionText||'', statusLabel[s.status]||s.status||'', s.pointsAwarded||0, s.reviewNote||'', s.evidenceText||'', photoUrlsCsv, s.reviewedAt||'']);
   });
   downloadCSV('salt-smart-mission-history.csv', rows);
 }
@@ -2508,15 +2547,15 @@ function switchLbCat(cat){
   const key = keyMap[cat];
   const top = [...studentsCache].sort((a,b)=>(b[key]||0)-(a[key]||0)).slice(0,15);
   document.getElementById('lbTable').innerHTML = top.map((s,i)=>`
-    <tr><td>${i+1}</td><td>${s.name}</td><td>${classNameOf(s.classId)}</td><td>${s[key]||0} ${labelMap[cat]}</td></tr>
+    <tr><td>${i+1}</td><td>${s.fullName}</td><td>${schoolNameOf(s.schoolId)}</td><td>${s[key]||0} ${labelMap[cat]}</td></tr>
   `).join('');
 
   const byClass = {};
   studentsCache.forEach(s=>{
-    if(!byClass[s.classId]) byClass[s.classId]={sum:0,count:0};
-    byClass[s.classId].sum += (s.totalPoints||0); byClass[s.classId].count++;
+    if(!byClass[s.schoolId]) byClass[s.schoolId]={sum:0,count:0};
+    byClass[s.schoolId].sum += (s.totalPoints||0); byClass[s.schoolId].count++;
   });
-  const classRows = Object.entries(byClass).map(([cid,v])=>({name:classNameOf(cid), avg:(v.sum/v.count).toFixed(1), count:v.count}))
+  const classRows = Object.entries(byClass).map(([cid,v])=>({name:schoolNameOf(cid), avg:(v.sum/v.count).toFixed(1), count:v.count}))
     .sort((a,b)=>b.avg-a.avg);
   document.getElementById('classLbTable').innerHTML = classRows.map((c,i)=>`
     <tr><td>${i+1}</td><td>${c.name}</td><td>${c.avg}</td><td>${c.count}</td></tr>
@@ -2747,10 +2786,10 @@ async function togglePostTestEnabled(){
 }
 
 async function loadAssessmentResults(){
-  // เติม dropdown กรองห้องถ้ายังไม่เคยเติม
+  // เติม dropdown กรองโรงเรียนถ้ายังไม่เคยเติม
   const filterEl = document.getElementById('assessClassFilter');
   if(filterEl.options.length===0){
-    filterEl.innerHTML = '<option value="">ทุกห้อง</option>' + classesCache.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+    filterEl.innerHTML = '<option value="">ทุกโรงเรียน</option>' + schoolsCache.map(c=>`<option value="${c.id}">${c.schoolName}</option>`).join('');
   }
   const classFilter = filterEl.value;
 
@@ -2763,22 +2802,22 @@ async function loadAssessmentResults(){
 
   // รวมข้อมูลตาม studentId — คนเดียวอาจมีได้สูงสุด 4 เอกสาร (behaviorPre/Post + testPre/Post)
   const byStudent = {};
-  function ensure(sid, name, classId, className){
-    if(!byStudent[sid]) byStudent[sid] = {studentId:sid, name, classId, className, behaviorPre:null, behaviorPost:null, testPre:null, testPost:null};
+  function ensure(sid, fullName, schoolId, schoolName){
+    if(!byStudent[sid]) byStudent[sid] = {studentId:sid, fullName, schoolId, schoolName, behaviorPre:null, behaviorPost:null, testPre:null, testPost:null};
     return byStudent[sid];
   }
   behaviorDocs.forEach(d=>{
-    const rec = ensure(d.studentId, d.studentName, d.classId, d.className);
+    const rec = ensure(d.studentId, d.studentName, d.schoolId, d.schoolName);
     if(d.phase==='pre') rec.behaviorPre = d; else rec.behaviorPost = d;
   });
   testDocs.forEach(d=>{
-    const rec = ensure(d.studentId, d.studentName, d.classId, d.className);
+    const rec = ensure(d.studentId, d.studentName, d.schoolId, d.schoolName);
     if(d.phase==='pre') rec.testPre = d; else rec.testPost = d;
   });
 
   let rows = Object.values(byStudent);
-  if(classFilter) rows = rows.filter(r=>r.classId===classFilter);
-  rows.sort((a,b)=>(a.name||'').localeCompare(b.name||'','th'));
+  if(classFilter) rows = rows.filter(r=>r.schoolId===classFilter);
+  rows.sort((a,b)=>(a.fullName||'').localeCompare(b.fullName||'','th'));
 
   // สรุปจำนวนแบบโปร่งใส ตามที่รายงานออกแบบเครื่องมือแนะนำ (N enrolled → N pre → N post → N paired)
   const nBaseline = rows.filter(r=>r.behaviorPre).length;
@@ -2807,7 +2846,7 @@ async function loadAssessmentResults(){
   document.getElementById('assessTable').innerHTML = rows.map(r=>{
     const diff = (r.testPre && r.testPost) ? (r.testPost.score - r.testPre.score) : null;
     return `<tr>
-      <td>${r.name||'-'}</td><td>${r.className||'-'}</td>
+      <td>${r.fullName||'-'}</td><td>${r.schoolName||'-'}</td>
       <td>${domainText(r.behaviorPre)}</td>
       <td>${domainText(r.behaviorPost)}</td>
       <td>${r.testPre ? r.testPre.score+'/'+r.testPre.total : '—'}</td>
@@ -2829,10 +2868,10 @@ async function exportAssessmentCsv(collectionName){
   if(docs.length===0){ alert('ยังไม่มีข้อมูลให้ export'); return; }
   let rows, header;
   if(collectionName==='behaviorSurveys'){
-    header = ['studentId','studentName','classId','className','phase','submittedAt','domainA_score','domainA_validCount','domainB_score','domainB_validCount','domainC_score','domainC_validCount'];
+    header = ['studentId','studentName','schoolId','schoolName','phase','submittedAt','domainA_score','domainA_validCount','domainB_score','domainB_validCount','domainC_score','domainC_validCount'];
     rows = docs.map(d=> header.map(h=> h==='submittedAt' ? (d.submittedAt ? d.submittedAt.toDate().toISOString() : '') : d[h]));
   } else {
-    header = ['studentId','studentName','classId','className','phase','submittedAt','score','total'];
+    header = ['studentId','studentName','schoolId','schoolName','phase','submittedAt','score','total'];
     rows = docs.map(d=> header.map(h=> h==='submittedAt' ? (d.submittedAt ? d.submittedAt.toDate().toISOString() : '') : d[h]));
   }
   const csv = [header.join(','), ...rows.map(r=>r.map(csvEscape).join(','))].join('\n');
@@ -2904,35 +2943,35 @@ function parseCsvSimple(text){
   });
 }
 
-function findStudentByIdOrNameClass(studentId, name, className){
+function findStudentByIdOrNameClass(studentId, name, schoolName){
   studentId = (studentId||'').trim();
   if(studentId){
     const byId = studentsCache.find(s=>s.id===studentId);
     if(byId) return {student:byId};
     return {error:`ไม่พบ studentId "${studentId}" ในระบบ (แถวนี้อาจถูกแก้ไอดีผิดพลาด)`};
   }
-  // ไม่มี studentId (แถวเก่า/พิมพ์เพิ่มเอง) — fallback ไปจับคู่ด้วยชื่อ+ห้องแทน (เสี่ยงพลาดถ้าพิมพ์ชื่อเพี้ยน/encoding ไม่ตรง)
-  name = (name||'').trim(); className = (className||'').trim();
-  const candidates = studentsCache.filter(s=>(s.name||'').trim()===name);
+  // ไม่มี studentId (แถวเก่า/พิมพ์เพิ่มเอง) — fallback ไปจับคู่ด้วยชื่อ+โรงเรียนแทน (เสี่ยงพลาดถ้าพิมพ์ชื่อเพี้ยน/encoding ไม่ตรง)
+  name = (name||'').trim(); schoolName = (schoolName||'').trim();
+  const candidates = studentsCache.filter(s=>(s.fullName||'').trim()===name);
   if(candidates.length===0) return {error:`ไม่พบชื่อ "${name}" ในระบบ (แนะนำ: ใช้เทมเพลตที่ดาวน์โหลดใหม่ ซึ่งมีคอลัมน์ studentId ให้แล้ว จะจับคู่แม่นกว่านี้)`};
   if(candidates.length===1) return {student:candidates[0]};
-  const exact = candidates.filter(s=>classNameOf(s.classId).trim()===className);
+  const exact = candidates.filter(s=>schoolNameOf(s.schoolId).trim()===schoolName);
   if(exact.length===1) return {student:exact[0]};
   return {error:`ชื่อ "${name}" ซ้ำกันหลายคน กรุณาใช้เทมเพลตที่มีคอลัมน์ studentId แทน (พบ ${candidates.length} คนชื่อนี้)`};
 }
 
 function downloadBehaviorImportTemplate(){
-  const header = ['studentId','ชื่อ','ห้อง','phase', ...Array.from({length:15},(_,i)=>'q'+(i+1))];
+  const header = ['studentId','ชื่อ','โรงเรียน','phase', ...Array.from({length:15},(_,i)=>'q'+(i+1))];
   const rows = [header, ...studentsCache
-    .slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'','th'))
-    .map(s=>[s.id, s.name, classNameOf(s.classId), '', ...Array(15).fill('')])];
+    .slice().sort((a,b)=>(a.fullName||'').localeCompare(b.fullName||'','th'))
+    .map(s=>[s.id, s.fullName, schoolNameOf(s.schoolId), '', ...Array(15).fill('')])];
   downloadCSV('behavior_survey_import_template.csv', rows);
 }
 function downloadTestImportTemplate(){
-  const header = ['studentId','ชื่อ','ห้อง','phase', ...IMPORT_TEST_ITEMS.map(q=>q.id)];
+  const header = ['studentId','ชื่อ','โรงเรียน','phase', ...IMPORT_TEST_ITEMS.map(q=>q.id)];
   const rows = [header, ...studentsCache
-    .slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'','th'))
-    .map(s=>[s.id, s.name, classNameOf(s.classId), '', ...Array(20).fill('')])];
+    .slice().sort((a,b)=>(a.fullName||'').localeCompare(b.fullName||'','th'))
+    .map(s=>[s.id, s.fullName, schoolNameOf(s.schoolId), '', ...Array(20).fill('')])];
   downloadCSV('knowledge_test_import_template.csv', rows);
 }
 function downloadTestAnswerReference(){
@@ -2976,12 +3015,12 @@ async function parseBehaviorImportFile(event){
     dataRows.forEach((cells, idx)=>{
       const rowNum = idx+2; // +2 เพราะแถวที่ 1 คือ header (นับแบบไฟล์ Excel เริ่มที่ 1)
       const get = (col)=> { const i = header.indexOf(col); return i>=0 ? cells[i] : undefined; };
-      const studentId = get('studentId'), name = get('ชื่อ'), className = get('ห้อง'), phase = (get('phase')||'').trim();
+      const studentId = get('studentId'), name = get('ชื่อ'), schoolName = get('โรงเรียน'), phase = (get('phase')||'').trim();
       const anyAnswerFilled = Array.from({length:15},(_,i)=>get('q'+(i+1))).some(v=>v!==undefined && v!=='');
       if(!phase && !anyAnswerFilled) return; // แถวว่าง (คนที่ยังไม่ได้กรอก) — ข้ามเงียบๆ ไม่นับเป็นปัญหา เพราะเทมเพลตมีรายชื่อทุกคนในระบบ
       if(!name){ results.push({rowNum, error:'ไม่มีชื่อ (แถวว่าง?)'}); return; }
       if(phase!=='pre' && phase!=='post'){ results.push({rowNum, name, error:`phase ต้องเป็น pre หรือ post เท่านั้น (พบ "${phase}")`}); return; }
-      const match = findStudentByIdOrNameClass(studentId, name, className);
+      const match = findStudentByIdOrNameClass(studentId, name, schoolName);
       if(match.error){ results.push({rowNum, name, error:match.error}); return; }
       const student = match.student;
       if(existingKeys.has(student.id+'_'+phase)){ results.push({rowNum, name, student, phase, skip:`มีข้อมูล ${phase} ของคนนี้อยู่แล้ว จะข้าม`}); return; }
@@ -3021,8 +3060,8 @@ async function parseBehaviorImportFile(event){
       html += '<div style="font-size:12px; color:#9aa8ab; margin-bottom:8px;">' + skipRows.map(r=>`แถว ${r.rowNum} (${r.name}): ${r.skip}`).join('<br>') + '</div>';
     }
     if(pendingBehaviorImportRows.length>0){
-      html += `<table style="font-size:12px;"><thead><tr><th>ชื่อ</th><th>ห้อง</th><th>phase</th><th>A</th><th>B</th><th>C</th></tr></thead><tbody>`
-        + pendingBehaviorImportRows.map(r=>`<tr><td>${r.name}</td><td>${classNameOf(r.student.classId)}</td><td>${r.phase}</td><td>${r.domainA_score??'-'}</td><td>${r.domainB_score??'-'}</td><td>${r.domainC_score??'-'}</td></tr>`).join('') + `</tbody></table>`;
+      html += `<table style="font-size:12px;"><thead><tr><th>ชื่อ</th><th>โรงเรียน</th><th>phase</th><th>A</th><th>B</th><th>C</th></tr></thead><tbody>`
+        + pendingBehaviorImportRows.map(r=>`<tr><td>${r.name}</td><td>${schoolNameOf(r.student.schoolId)}</td><td>${r.phase}</td><td>${r.domainA_score??'-'}</td><td>${r.domainB_score??'-'}</td><td>${r.domainC_score??'-'}</td></tr>`).join('') + `</tbody></table>`;
       html += `<button class="btn btn-primary" style="width:auto; padding:10px 18px; margin-top:10px;" onclick="confirmBehaviorImport()">✅ ยืนยัน Import ${pendingBehaviorImportRows.length} รายการ</button>`;
     }
     previewEl.innerHTML = html;
@@ -3044,7 +3083,7 @@ async function confirmBehaviorImport(){
       chunk.forEach(r=>{
         const ref = db.collection('behaviorSurveys').doc();
         batch.set(ref, {
-          studentId:r.student.id, studentName:r.student.name, classId:r.student.classId, className:classNameOf(r.student.classId),
+          studentId:r.student.id, studentName:r.student.fullName, schoolId:r.student.schoolId, schoolName:schoolNameOf(r.student.schoolId),
           phase:r.phase, submittedAt: firebase.firestore.FieldValue.serverTimestamp(), answers:r.answers,
           domainA_score:r.domainA_score, domainA_validCount:r.domainA_validCount,
           domainB_score:r.domainB_score, domainB_validCount:r.domainB_validCount,
@@ -3082,12 +3121,12 @@ async function parseTestImportFile(event){
     dataRows.forEach((cells, idx)=>{
       const rowNum = idx+2;
       const get = (col)=> { const i = header.indexOf(col); return i>=0 ? cells[i] : undefined; };
-      const studentId = get('studentId'), name = get('ชื่อ'), className = get('ห้อง'), phase = (get('phase')||'').trim();
+      const studentId = get('studentId'), name = get('ชื่อ'), schoolName = get('โรงเรียน'), phase = (get('phase')||'').trim();
       const anyAnswerFilled = IMPORT_TEST_ITEMS.some(item=>{ const v = get(item.id); return v!==undefined && v!==''; });
       if(!phase && !anyAnswerFilled) return; // แถวว่าง (คนที่ยังไม่ได้กรอก) — ข้ามเงียบๆ ไม่นับเป็นปัญหา เพราะเทมเพลตมีรายชื่อทุกคนในระบบ
       if(!name){ results.push({rowNum, error:'ไม่มีชื่อ (แถวว่าง?)'}); return; }
       if(phase!=='pre' && phase!=='post'){ results.push({rowNum, name, error:`phase ต้องเป็น pre หรือ post เท่านั้น (พบ "${phase}")`}); return; }
-      const match = findStudentByIdOrNameClass(studentId, name, className);
+      const match = findStudentByIdOrNameClass(studentId, name, schoolName);
       if(match.error){ results.push({rowNum, name, error:match.error}); return; }
       const student = match.student;
       if(existingKeys.has(student.id+'_'+phase)){ results.push({rowNum, name, student, phase, skip:`มีข้อมูล ${phase} ของคนนี้อยู่แล้ว จะข้าม`}); return; }
@@ -3119,8 +3158,8 @@ async function parseTestImportFile(event){
       html += '<div style="font-size:12px; color:#9aa8ab; margin-bottom:8px;">' + skipRows.map(r=>`แถว ${r.rowNum} (${r.name}): ${r.skip}`).join('<br>') + '</div>';
     }
     if(pendingTestImportRows.length>0){
-      html += `<table style="font-size:12px;"><thead><tr><th>ชื่อ</th><th>ห้อง</th><th>phase</th><th>คะแนน</th></tr></thead><tbody>`
-        + pendingTestImportRows.map(r=>`<tr><td>${r.name}</td><td>${classNameOf(r.student.classId)}</td><td>${r.phase}</td><td>${r.score}/${r.total}</td></tr>`).join('') + `</tbody></table>`;
+      html += `<table style="font-size:12px;"><thead><tr><th>ชื่อ</th><th>โรงเรียน</th><th>phase</th><th>คะแนน</th></tr></thead><tbody>`
+        + pendingTestImportRows.map(r=>`<tr><td>${r.name}</td><td>${schoolNameOf(r.student.schoolId)}</td><td>${r.phase}</td><td>${r.score}/${r.total}</td></tr>`).join('') + `</tbody></table>`;
       html += `<button class="btn btn-primary" style="width:auto; padding:10px 18px; margin-top:10px;" onclick="confirmTestImport()">✅ ยืนยัน Import ${pendingTestImportRows.length} รายการ</button>`;
     }
     previewEl.innerHTML = html;
@@ -3142,7 +3181,7 @@ async function confirmTestImport(){
       chunk.forEach(r=>{
         const ref = db.collection('knowledgeTests').doc();
         batch.set(ref, {
-          studentId:r.student.id, studentName:r.student.name, classId:r.student.classId, className:classNameOf(r.student.classId),
+          studentId:r.student.id, studentName:r.student.fullName, schoolId:r.student.schoolId, schoolName:schoolNameOf(r.student.schoolId),
           phase:r.phase, submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
           answers:r.answers, score:r.score, total:r.total, source:'paper_import',
         });
@@ -3183,8 +3222,8 @@ async function loadPrizeStats(){
   // 1. ปากกา+เข็มกลัด: daysCompleted >= เกณฑ์ที่เลือก (ใช้ค่าที่มีอยู่แล้วใน studentsCache ไม่ต้อง query เพิ่ม)
   const penList = studentsCache.filter(s=>(s.daysCompleted||0)>=threshold).sort((a,b)=>(b.daysCompleted||0)-(a.daysCompleted||0));
   document.getElementById('prizePenList').innerHTML = penList.length
-    ? `<table><thead><tr><th>ชื่อ</th><th>ห้อง</th><th>จำนวนวันที่บันทึก</th></tr></thead><tbody>${
-        penList.map(s=>`<tr><td>${s.name}</td><td>${classNameOf(s.classId)}</td><td>${s.daysCompleted||0}</td></tr>`).join('')
+    ? `<table><thead><tr><th>ชื่อ</th><th>โรงเรียน</th><th>จำนวนวันที่บันทึก</th></tr></thead><tbody>${
+        penList.map(s=>`<tr><td>${s.fullName}</td><td>${schoolNameOf(s.schoolId)}</td><td>${s.daysCompleted||0}</td></tr>`).join('')
       }</tbody></table><p style="font-size:12px; color:#9aa8ab; margin-top:8px;">รวม ${penList.length} คน (เกณฑ์ ≥ ${threshold} วัน)</p>`
     : '<div class="empty-note">ยังไม่มีใครเข้าเกณฑ์</div>';
 
@@ -3243,8 +3282,8 @@ async function loadPrizeStats(){
     </details>`;
 
     document.getElementById('prizeKeychainList').innerHTML = diagHtml + (keychainList.length
-      ? `<table><thead><tr><th>ชื่อ</th><th>ห้อง</th><th>จำนวนวันที่ส่งภารกิจ</th></tr></thead><tbody>${
-          keychainList.map(r=>`<tr><td>${r.student.name}</td><td>${classNameOf(r.student.classId)}</td><td>${r.days}</td></tr>`).join('')
+      ? `<table><thead><tr><th>ชื่อ</th><th>โรงเรียน</th><th>จำนวนวันที่ส่งภารกิจ</th></tr></thead><tbody>${
+          keychainList.map(r=>`<tr><td>${r.student.fullName}</td><td>${schoolNameOf(r.student.schoolId)}</td><td>${r.days}</td></tr>`).join('')
         }</tbody></table><p style="font-size:12px; color:#9aa8ab; margin-top:8px;">รวม ${keychainList.length} คน (เกณฑ์ ≥ ${threshold} วัน)</p>`
       : '<div class="empty-note">ยังไม่มีใครเข้าเกณฑ์</div>');
 
@@ -3292,7 +3331,7 @@ async function loadPrizeStats(){
 
     allRanked.forEach((r,i)=>{
       r.rank = (i>0 && allRanked[i-1].count === r.count) ? allRanked[i-1].rank : i+1;
-      r.isCreator = PROGRAM_CREATOR_NAMES.includes((r.student.name||'').trim());
+      r.isCreator = PROGRAM_CREATOR_NAMES.includes((r.student.fullName||'').trim());
     });
 
     // ไล่ลงไปเรื่อยๆ จนกว่าจะเจอ "ผู้มีสิทธิ์รับรางวัลจริง" ครบ 10 คน (ไม่นับทีมผู้จัดทำ) — ถ้าคนที่ทำให้ครบ 10 มีคนเสมออันดับเดียวกันอีก ก็รวมมาแสดงด้วย (ตัดที่ "อันดับ" ไม่ใช่ตำแหน่งในลิสต์)
@@ -3306,8 +3345,8 @@ async function loadPrizeStats(){
     const eligibleShown = achievementList.length - creatorsShown;
 
     document.getElementById('prizeAchievementList').innerHTML = achievementList.length
-      ? `<table><thead><tr><th>อันดับ</th><th>ชื่อ</th><th>ห้อง</th><th>รวม</th><th>ได้ Badge อะไรบ้าง</th><th>สถานะ</th></tr></thead><tbody>${
-          achievementList.map(r=>`<tr${r.isCreator?' style="opacity:0.6;"':''}><td>${r.rank}</td><td>${r.student.name}</td><td>${classNameOf(r.student.classId)}</td><td><b>${r.count}</b></td><td>${r.badges.map(b=>b.icon+' '+b.name).join('<br>')}</td><td>${r.isCreator?'🚫 ทีมผู้จัดทำ (ไม่รับรางวัล)':'🏅 มีสิทธิ์รับรางวัล'}</td></tr>`).join('')
+      ? `<table><thead><tr><th>อันดับ</th><th>ชื่อ</th><th>โรงเรียน</th><th>รวม</th><th>ได้ Badge อะไรบ้าง</th><th>สถานะ</th></tr></thead><tbody>${
+          achievementList.map(r=>`<tr${r.isCreator?' style="opacity:0.6;"':''}><td>${r.rank}</td><td>${r.student.fullName}</td><td>${schoolNameOf(r.student.schoolId)}</td><td><b>${r.count}</b></td><td>${r.badges.map(b=>b.icon+' '+b.name).join('<br>')}</td><td>${r.isCreator?'🚫 ทีมผู้จัดทำ (ไม่รับรางวัล)':'🏅 มีสิทธิ์รับรางวัล'}</td></tr>`).join('')
         }</tbody></table>${(creatorsShown>0 || achievementList.length>10) ? `<p style="font-size:11.5px; color:#9aa8ab; margin-top:8px;">*แสดงทั้งหมด ${achievementList.length} คน${creatorsShown>0?` (รวมทีมผู้จัดทำ ${creatorsShown} คนที่ติดอันดับ แต่ไม่นับรับรางวัล)`:''} — ผู้มีสิทธิ์รับรางวัลจริง ${eligibleShown} คน</p>` : ''}`
       : '<div class="empty-note">ยังไม่มีใครได้ Badge เลย</div>';
     if(!totalDays){
@@ -3326,22 +3365,22 @@ async function loadPrizeStats(){
     .sort((a,b)=>b.quizPoints-a.quizPoints)
     .slice(0,20);
   document.getElementById('prizeQuizList').innerHTML = quizRanked.length
-    ? `<table><thead><tr><th>#</th><th>ชื่อ</th><th>ห้อง</th><th>คะแนน Quiz สะสม</th></tr></thead><tbody>${
-        quizRanked.map((r,i)=>`<tr><td>${i+1}</td><td>${r.student.name}</td><td>${classNameOf(r.student.classId)}</td><td>${r.quizPoints}</td></tr>`).join('')
+    ? `<table><thead><tr><th>#</th><th>ชื่อ</th><th>โรงเรียน</th><th>คะแนน Quiz สะสม</th></tr></thead><tbody>${
+        quizRanked.map((r,i)=>`<tr><td>${i+1}</td><td>${r.student.fullName}</td><td>${schoolNameOf(r.student.schoolId)}</td><td>${r.quizPoints}</td></tr>`).join('')
       }</tbody></table>`
     : '<div class="empty-note">ยังไม่มีข้อมูล Quiz</div>';
 }
 
 async function resetAllActivityData(){
   const totalStudents = studentsCache.length;
-  const warning = `⚠️ การกระทำนี้จะลบข้อมูลกิจกรรมทั้งหมดของนักเรียนทุกคนในทุกห้อง (${totalStudents} คน) ได้แก่:
+  const warning = `⚠️ การกระทำนี้จะลบข้อมูลกิจกรรมทั้งหมดของนักเรียนทุกคนในทุกโรงเรียน (${totalStudents} คน) ได้แก่:
 
 - บันทึกพฤติกรรมประจำวันทั้งหมด (รวมรายการตรวจฉลาก/เมนูอาหารที่บันทึกไว้)
 - การส่งภารกิจทั้งหมด
 - การ์ดที่สะสมไว้ทั้งหมด
 - คะแนนสะสม, Streak, จำนวนวันที่ทำสำเร็จ ของนักเรียนทุกคน (กลับเป็น 0)
 
-จะไม่กระทบ: รายชื่อ/ห้องเรียน, PIN, ข้อมูลสุขภาพส่วนตัว, เป้าหมายโซเดียมที่ตั้งเอง, คลังภารกิจ/Quiz/การ์ด, ผล Baseline/Pre-Post Test
+จะไม่กระทบ: รายชื่อ/โรงเรียน, PIN, ข้อมูลสุขภาพส่วนตัว, เป้าหมายโซเดียมที่ตั้งเอง, คลังภารกิจ/Quiz/การ์ด, ผล Baseline/Pre-Post Test
 
 การกระทำนี้กู้คืนไม่ได้ ต้องการดำเนินการต่อหรือไม่?`;
   if(!confirm(warning)) return;
