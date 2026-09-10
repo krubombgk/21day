@@ -1952,7 +1952,7 @@
    ถ้าเจอเวอร์ชันใหม่กว่าที่ฝังมากับโค้ดตอนนี้ จะรีเฟรชอัตโนมัติทันที (ไม่ต้องรอให้ใครกดเอง กันเครื่องค้างเวอร์ชันเก่าไม่รู้ตัว)
    ยกเว้นตอนกำลังพิมพ์อะไรอยู่ในช่องกรอกข้อความ (เช่น เขียนสะท้อนตัวเอง) จะรอรอบถัดไปก่อน กันข้อมูลที่พิมพ์ค้างอยู่หายกะทันหัน
    ========================================================= */
-const APP_VERSION = "2026-08-29-9"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-10-1"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
@@ -2034,7 +2034,7 @@ function loadMessagingScript(){
 
 // TODO: ครูบอมบ์ต้องไปสร้างเองที่ Firebase Console → Project Settings → Cloud Messaging
 // → Web configuration → กด "Generate key pair" แล้วเอาค่าที่ได้มาแปะแทนตรงนี้ ก่อนใช้งานแจ้งเตือนจริง
-const FCM_VAPID_KEY = "BLHG24wlFlpYHIYoG9OnQAYs1FHHO1h4u-QwzuY8TQilFpIvkpzaaxd6AmarqhCcUscN5-uC1-RM-YJ3k7V165E";
+const FCM_VAPID_KEY = "BGRE_VUUUsDABT1Y08ugsrjY_g863r9ckALalsLxRiCrB0cajPMcRYDOQ02g6Djo6UhxOV-1bXsDUwInRLGCrwY";
 
 /* =========================================================
    CONSTANTS
@@ -3278,6 +3278,7 @@ function switchTab(tabId, skipHistory){
   document.querySelectorAll('.tabpanel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
+  window.scrollTo(0, 0); // รีเซ็ตตำแหน่งเลื่อนจอทุกครั้งที่เปลี่ยนแท็บ กันเห็นเนื้อหาค้างจากแท็บเดิมที่ยาวกว่า (เจอรายงานว่าเห็นการ์ดของแท็บภารกิจค้างอยู่บนแท็บอื่น)
   const btn = document.querySelector(`.tabbtn[data-tab="${tabId}"]`);
   if(btn) btn.classList.add('active'); // tab-check/tab-today/tab-quiz/tab-mission/tab-log ไม่มีปุ่มในแถบล่างเอง เข้าถึงผ่านแท็บฮับหรือ home shortcut เท่านั้น จึงต้องกันไว้เผื่อ null
   // รีเฟรชข้อมูลสรุปให้ทันใหม่ทุกครั้งที่กลับเข้าแท็บ Home / แท็บฮับ (เผื่อเพิ่งทำกิจกรรมอื่นมาแล้วค่ายังไม่อัปเดต)
@@ -4400,8 +4401,13 @@ async function answerQuiz(idx){
   const isLast = state.quizIndex >= state.todaysQuiz.length - 1;
   document.getElementById('quizExplainArea').innerHTML = `
     <div class="quiz-explain">${resultLine}${explainLine}</div>
-    <button class="btn btn-primary btn-block" style="margin-top:12px;" onclick="goNextQuizQuestion()">${isLast ? 'ดูผลคะแนน ›' : 'ข้อถัดไป ›'}</button>
+    <button class="btn btn-primary btn-block" id="quizNextBtn" style="margin-top:12px;" onclick="goNextQuizQuestion()">${isLast ? 'ดูผลคะแนน ›' : 'ข้อถัดไป ›'}</button>
   `;
+  // เลื่อนจอให้ปุ่มนี้เข้ามาอยู่ในมุมมองเสมอ กันปัญหาปุ่มตกขอบจอ/โดนแถบเมนูล่างบังตอนคำอธิบายยาว (เจอจากรายงานจริงว่ากดปุ่มไม่ได้บางข้อ)
+  setTimeout(()=>{
+    const btnEl = document.getElementById('quizNextBtn');
+    if(btnEl) btnEl.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 50);
 }
 
 function goNextQuizQuestion(){
