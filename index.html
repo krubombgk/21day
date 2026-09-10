@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<title>Salt Smart | รู้เท่าทันความเค็ม เติมเต็มสุขภาพ</title>
+<title>21 Days Challenge | 21 วัน เปลี่ยนพฤติกรรม อย.น้อย</title>
 
 <!-- PWA: ทำให้เพิ่มไอคอนหน้าจอหลักได้ทั้ง Android และ iOS -->
 <link rel="manifest" href="manifest.json">
@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Salt Smart">
+<meta name="apple-mobile-web-app-title" content="21 Days Challenge">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -82,9 +82,7 @@
   }
   .welcome-screen:before{ width:260px; height:260px; top:-80px; right:-70px; }
   .welcome-screen:after{ width:200px; height:200px; bottom:-60px; left:-60px; }
-  .welcome-mascot{width:150px; height:150px; object-fit:contain; margin-bottom:18px; position:relative; z-index:1;
-    filter:drop-shadow(0 8px 20px rgba(0,0,0,0.15));}
-  .welcome-title{font-family:'Kanit'; font-weight:800; font-size:32px; color:#fff; margin-bottom:6px; position:relative; z-index:1;}
+  .welcome-logo{width:min(80%,320px); height:auto; object-fit:contain; margin-bottom:22px; position:relative; z-index:1; filter:drop-shadow(0 8px 20px rgba(0,0,0,0.15));}
   .welcome-tagline{font-family:'Kanit'; font-weight:500; font-size:15px; color:#DFF3D6; margin-bottom:4px; position:relative; z-index:1;}
   .welcome-sub{font-size:13px; color:#C5E3B8; margin-bottom:36px; max-width:280px; line-height:1.6; position:relative; z-index:1;}
   .welcome-btn{
@@ -94,10 +92,6 @@
   }
   .welcome-btn:active{transform:scale(0.97);}
   .welcome-btn:disabled{opacity:0.7;}
-  .welcome-badge{
-    display:inline-block; background:rgba(255,255,255,0.15); color:#fff; font-family:'Kanit'; font-weight:600;
-    font-size:11.5px; padding:6px 16px; border-radius:20px; margin-bottom:20px; position:relative; z-index:1;
-  }
   .brandbar::after{
     content:"";
     position:absolute; right:-40px; top:-40px; width:180px; height:180px;
@@ -230,6 +224,9 @@
   }
   .hb-icon-btn:active{transform:scale(0.92);}
   .icon-inline{width:22px; height:22px; object-fit:contain; vertical-align:-6px; display:inline-block;}
+  .mini-stat-icon{display:block; margin:0 auto 4px; height:22px;}
+  .mini-stat-icon.is-img{width:22px; object-fit:contain;}
+  .mini-stat-icon.is-emoji{font-size:20px; line-height:22px;}
   .mini-stat .lbl .icon-inline{width:18px; height:18px; vertical-align:-4px; margin-left:2px;}
   .stat-pill{
     display:flex; align-items:center; gap:4px; font-family:'Kanit'; font-weight:700; font-size:14px;
@@ -880,15 +877,13 @@
 </head>
 <body>
 
-<div id="loadingScreen" class="loading">กำลังโหลด Salt Smart…</div>
+<div id="loadingScreen" class="loading">กำลังโหลด 21 Days Challenge…</div>
 
 <!-- ================= SCREEN: WELCOME ================= -->
 <div class="screen welcome-screen" id="screen-welcome">
-  <div class="welcome-badge">21-Day Challenge</div>
-  <img src="mascot-complete.png" alt="" class="welcome-mascot">
-  <div class="welcome-title">Salt Smart</div>
-  <div class="welcome-tagline">รู้เท่าทันความเค็ม เติมเต็มสุขภาพ</div>
-  <div class="welcome-sub">แอปติดตามพฤติกรรมลดเค็ม สำหรับนักเรียน อย.น้อย<br>มาเริ่มดูแลตัวเองไปด้วยกันนะ ✨</div>
+  <img src="welcome-logo.png" alt="21 Days Challenge" class="welcome-logo">
+  <div class="welcome-tagline">21 วัน เปลี่ยนพฤติกรรม อย.น้อย</div>
+  <div class="welcome-sub">แอพติดตามพฤติกรรม ลดหวาน มัน เค็ม กับนักเรียน อย. น้อย<br>มาลดการบริโภค หวาน มัน เค็ม ไปด้วยกันนะ ✨</div>
   <button class="welcome-btn" id="welcomeBtn" onclick="enterFromWelcome()">เริ่มต้นใช้งาน</button>
 </div>
 
@@ -896,10 +891,10 @@
 <div class="screen" id="screen-school">
   <div class="brandbar">
     <div class="brand-row">
-      <div class="brand-mark"><img src="user-logo.png" alt="Salt Smart"></div>
+      <div class="brand-mark"><img src="user-logo.png" alt="21 Days Challenge"></div>
       <div>
-        <div class="brand-title">Salt Smart</div>
-        <div class="brand-sub">รู้เท่าทันความเค็ม เติมเต็มสุขภาพ · 21 Day Challenge</div>
+        <div class="brand-title">21 Days Challenge</div>
+        <div class="brand-sub">21 วัน เปลี่ยนพฤติกรรม อย.น้อย</div>
       </div>
     </div>
   </div>
@@ -923,9 +918,9 @@
 <div class="screen" id="screen-username">
   <div class="brandbar">
     <div class="brand-row">
-      <div class="brand-mark"><img src="user-logo.png" alt="Salt Smart"></div>
+      <div class="brand-mark"><img src="user-logo.png" alt="21 Days Challenge"></div>
       <div>
-        <div class="brand-title">Salt Smart</div>
+        <div class="brand-title">21 Days Challenge</div>
         <div class="brand-sub" id="usernameBrandSub">โรงเรียน …</div>
       </div>
     </div>
@@ -949,8 +944,8 @@
 <div class="screen" id="screen-register">
   <div class="brandbar">
     <div class="brand-row">
-      <div class="brand-mark"><img src="user-logo.png" alt="Salt Smart"></div>
-      <div><div class="brand-title">Salt Smart</div><div class="brand-sub">กรอกข้อมูลของเรา</div></div>
+      <div class="brand-mark"><img src="user-logo.png" alt="21 Days Challenge"></div>
+      <div><div class="brand-title">21 Days Challenge</div><div class="brand-sub">กรอกข้อมูลของเรา</div></div>
     </div>
   </div>
   <div class="wrap" style="max-width:420px;">
@@ -1164,7 +1159,7 @@
       <div class="home-hero" style="cursor:default; text-align:center;">
         <div style="font-family:'Kanit'; font-weight:700; font-size:13px; color:var(--deep-sea); opacity:0.8;" id="growthHeroDay">Day 1 / 21</div>
         <div style="font-size:44px; line-height:1.2; margin:6px 0;" id="growthHeroEmoji">🌰</div>
-        <div style="font-family:'Kanit'; font-weight:700; font-size:15px; color:var(--deep-sea);" id="growthHeroStage">เมล็ด</div>
+        <div style="font-family:'Kanit'; font-weight:700; font-size:15px; color:var(--deep-sea);" id="growthHeroStage">เมล็ดพันธุ์</div>
         <div style="font-size:12.5px; color:#6b7c80; margin-top:4px;" id="growthHeroMsg">วันนี้โตขึ้นอีกนิดไปด้วยกันนะ!</div>
       </div>
 
@@ -1232,24 +1227,13 @@
         </div>
       </div>
 
-      <!-- เครื่องมือสุขภาพ: รวม โซเดียมวันนี้ + ตรวจฉลาก + เพิ่มอาหาร เป็นหมวดเดียว (ของเดิมทั้งหมด แค่จัดกลุ่ม/ใส่หัวข้อใหม่) -->
+      <!-- เครื่องมือสุขภาพ: ตรวจฉลาก + เพิ่มอาหาร (เอาการ์ด "โซเดียมวันนี้" ออกแล้ว — เป็นตัวเลขเฉพาะโซเดียม ไม่เข้ากับโมเดลใหม่ที่ประเมินหวาน-มัน-เค็มแบบความรู้สึก ไม่ใช่ตัวเลขสะสม) -->
       <div class="section-title" style="font-size:14.5px;">🌿 เครื่องมือสุขภาพ</div>
-      <div class="card" onclick="switchTab('tab-sodium-hub')" style="cursor:pointer;">
-        <div class="sodium-summary-row">
-          <div class="sodium-icon-badge">Na</div>
-          <div style="flex:1;">
-            <div class="home-card-label">โซเดียมวันนี้</div>
-            <div class="home-card-value" id="homeSodiumToday">0 มก. · 0%</div>
-          </div>
-        </div>
-        <div class="progress-track" style="margin-top:12px;"><div class="progress-fill-bar" id="homeSodiumBar" style="width:0%;"></div></div>
-        <p style="font-size:12px; color:#9aa8ab; margin:0;" id="homeSodiumRemainText"></p>
-      </div>
 
       <div class="quick-action-grid">
         <div class="quick-action qa-check" onclick="goHomeShortcut('tab-check')">
           <div class="quick-action-icon"><img src="icon-checklabel.png" alt=""></div>
-          <div><div class="quick-action-title">ตรวจฉลาก</div><div class="quick-action-sub">สแกน/กรอกดูโซเดียม</div></div>
+          <div><div class="quick-action-title">ตรวจฉลาก</div><div class="quick-action-sub">สแกนฉลากโภชนาการ/GDA</div></div>
           <div class="quick-action-arrow">›</div>
         </div>
         <div class="quick-action qa-add" onclick="switchTab('tab-sodium-hub'); toggleMealPicker();">
@@ -1261,9 +1245,9 @@
 
       <!-- สรุปสถิติแบบย่อ (เดิมอยู่บนสุด ย้ายลงมาให้ Growth/Next Action เด่นกว่าตามธีมใหม่) -->
       <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
-        <div class="mini-stat"><div class="num" id="homeStreak">0</div><div class="lbl">วันต่อเนื่อง <img class="icon-inline" src="icon-streak.png" alt=""></div></div>
-        <div class="mini-stat"><div class="num" id="homePoints">0</div><div class="lbl">คะแนนสะสม <img class="icon-inline" src="icon-score.png" alt=""></div></div>
-        <div class="mini-stat"><div class="num" id="homeCards">0</div><div class="lbl">การ์ดสะสม 🎴</div></div>
+        <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-streak.png" alt=""><div class="num" id="homeStreak">0</div><div class="lbl">วันต่อเนื่อง</div></div>
+        <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-score.png" alt=""><div class="num" id="homePoints">0</div><div class="lbl">คะแนนสะสม</div></div>
+        <div class="mini-stat"><div class="mini-stat-icon is-emoji">🎴</div><div class="num" id="homeCards">0</div><div class="lbl">การ์ดสะสม</div></div>
       </div>
 
       <!-- ข่าวและกิจกรรม: TikTok + ประกาศ ย้ายมาไว้ล่างสุด (เดิมอยู่บนสุด) -->
@@ -1458,7 +1442,7 @@
       <div class="mh-bonus">
         <img src="mascot-complete.png" alt="" class="mh-bonus-mascot">
         <div>
-          <div class="mh-bonus-title">🎁 ครบทั้ง 3 ภารกิจ รับโบนัสพิเศษ!</div>
+          <div class="mh-bonus-title">🎁 ทำครบ Quiz + บันทึก ได้สุ่มการ์ดความรู้!</div>
           <div class="mh-bonus-sub">ทำ Quiz + บันทึกประจำวันให้ครบ เพื่อสะสมคะแนนและปลดล็อกการ์ด</div>
         </div>
       </div>
@@ -1640,7 +1624,7 @@
         <div style="text-align:center; margin-top:10px;">
           <span style="font-family:'Kanit'; font-weight:700; font-size:13px; color:var(--deep-sea); opacity:0.85;" id="pgDayLabel">Day 1 / 21</span>
           <span style="font-size:20px; margin:0 4px;" id="pgGrowthEmoji">🌰</span>
-          <span style="font-family:'Kanit'; font-weight:700; font-size:13px; color:var(--deep-sea);" id="pgGrowthStage">เมล็ด</span>
+          <span style="font-family:'Kanit'; font-weight:700; font-size:13px; color:var(--deep-sea);" id="pgGrowthStage">เมล็ดพันธุ์</span>
         </div>
       </div>
 
@@ -1659,10 +1643,10 @@
       <!-- Compact stats (ID เดิมทั้งหมด) -->
       <div class="card">
         <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);">
-          <div class="mini-stat"><div class="num" id="stStreak">0</div><div class="lbl">วันต่อเนื่อง <img class="icon-inline" src="icon-streak.png" alt=""></div></div>
-          <div class="mini-stat"><div class="num" id="stPoints">0</div><div class="lbl">คะแนนสะสม <img class="icon-inline" src="icon-score.png" alt=""></div></div>
-          <div class="mini-stat"><div class="num" id="stDays">0/21</div><div class="lbl">วันที่ทำสำเร็จ</div></div>
-          <div class="mini-stat"><div class="num" id="stQuiz">0%</div><div class="lbl">ความแม่นยำ Quiz</div></div>
+          <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-streak.png" alt=""><div class="num" id="stStreak">0</div><div class="lbl">วันต่อเนื่อง</div></div>
+          <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-score.png" alt=""><div class="num" id="stPoints">0</div><div class="lbl">คะแนนสะสม</div></div>
+          <div class="mini-stat"><div class="mini-stat-icon is-emoji">📅</div><div class="num" id="stDays">0/21</div><div class="lbl">วันที่ทำสำเร็จ</div></div>
+          <div class="mini-stat"><div class="mini-stat-icon is-emoji">🎯</div><div class="num" id="stQuiz">0%</div><div class="lbl">ความแม่นยำ Quiz</div></div>
         </div>
       </div>
       <!-- คะแนนแยกตามหมวด: เดิมเคยโชว์เป็นกริดแยก ตอนนี้ยุบไปรวมอยู่ใน "ไฮไลต์ของฉัน" ด้านล่างแทน (เลือกเฉพาะจุดที่โดดเด่นจริง)
@@ -1736,9 +1720,9 @@
 
       <!-- สรุปแบบย่อ: คะแนน/Streak/ตรา (compact stat row เหมือนหน้า Home) -->
       <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
-        <div class="mini-stat"><div class="num" id="rwStreakMini">0</div><div class="lbl">🔥 วันต่อเนื่อง</div></div>
-        <div class="mini-stat"><div class="num" id="rwTotalPoints">0</div><div class="lbl">⭐ คะแนนสะสม</div></div>
-        <div class="mini-stat"><div class="num" id="rwBadgeRatio">0/0</div><div class="lbl">🎁 ตราที่ได้</div></div>
+        <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-streak.png" alt=""><div class="num" id="rwStreakMini">0</div><div class="lbl">วันต่อเนื่อง</div></div>
+        <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-score.png" alt=""><div class="num" id="rwTotalPoints">0</div><div class="lbl">คะแนนสะสม</div></div>
+        <div class="mini-stat"><div class="mini-stat-icon is-emoji">🎁</div><div class="num" id="rwBadgeRatio">0/0</div><div class="lbl">ตราที่ได้</div></div>
       </div>
 
       <!-- Quick jump — เลื่อนไปหมวดที่อยากดู ไม่ใช่แท็บแยกจริง (ของเดิมยังอยู่หน้าเดียวกันทั้งหมด) -->
@@ -3013,7 +2997,7 @@ async function submitPostSurvey(){
 function growthStageFor(day, total){
   // ระยะการเติบโตของ Sprout ตาม Day ปัจจุบัน — เทียบสัดส่วนกับความยาวแคมเปญจริง (เผื่อไม่ใช่ 21 วันเป๊ะ)
   const pct = day / total;
-  if(day <= 1) return {emoji:'🌰', label:'เมล็ด', msg:'เริ่มต้นวันแรกไปด้วยกันนะ!'};
+  if(day <= 1) return {emoji:'🌰', label:'เมล็ดพันธุ์', msg:'เริ่มต้นวันแรกไปด้วยกันนะ!'};
   if(pct <= 3/21) return {emoji:'🌱', label:'เริ่มงอก', msg:'ทีละก้าวเล็กๆ นะ วันนี้ก็เก่งมากแล้ว'};
   if(pct <= 7/21) return {emoji:'🌱', label:'ต้นอ่อนใบแรก', msg:'วันนี้โตขึ้นอีกนิดไปด้วยกันนะ!'};
   if(pct <= 14/21) return {emoji:'🌿', label:'เติบโตมากขึ้น', msg:'ทุกก้าวเล็กๆ มีความหมายเสมอ'};
@@ -3027,7 +3011,6 @@ function refreshHomeTab(){
   document.getElementById('homeStreak').textContent = s.currentStreak || 0;
   document.getElementById('homePoints').textContent = s.totalPoints || 0;
   document.getElementById('homeCards').textContent = state.albumCollectedCount || 0;
-  document.getElementById('homeSodiumToday').textContent = `${state.sodiumTodayTotal||0} มก. · ${state.sodiumTodayPct||0}%`;
 
   // ---- Growth Hero: Day X/21 + ระยะการเติบโต ----
   const stage = growthStageFor(state.dayNumber, state.totalDays);
@@ -3102,22 +3085,7 @@ function refreshHomeTab(){
     document.getElementById('homeLogPill').classList.toggle('done', logDone);
   }
 
-  // ---- โซเดียมวันนี้: progress bar + ข้อความ "เหลืออีกเท่าไหร่ก่อนถึงขีดจำกัด" (ไม่ใช้คำว่า "เป้าหมาย") ----
-  const sodiumBarEl = document.getElementById('homeSodiumBar');
-  if(sodiumBarEl){
-    const goal = getSodiumGoal();
-    const total = state.sodiumTodayTotal || 0;
-    const pct = Math.min(Math.round((total/goal)*100), 100);
-    sodiumBarEl.style.width = pct + '%';
-    const remainEl = document.getElementById('homeSodiumRemainText');
-    if(total >= goal){
-      remainEl.textContent = `เกินขีดจำกัดที่แนะนำแล้ว ${(total-goal).toLocaleString('th-TH')} มก.`;
-      remainEl.style.color = 'var(--red-high)';
-    } else {
-      remainEl.textContent = `เหลืออีก ${(goal-total).toLocaleString('th-TH')} มก. ก่อนถึงขีดจำกัดที่แนะนำ (ไม่ควรเกิน ${goal.toLocaleString('th-TH')} มก.)`;
-      remainEl.style.color = '#9aa8ab';
-    }
-  }
+  // หมายเหตุ: เดิมมีโค้ดอัปเดต progress bar "โซเดียมวันนี้" ตรงนี้ ตัดออกแล้วพร้อมกับการ์ดที่ถูกเอาออกจากหน้า Home
 }
 
 // อัปเดตสถานะย่อในแท็บฮับ "ภารกิจ" (ภารกิจ/Quiz/บันทึกวันนี้ รวมเป็นทางเข้าเดียว)
@@ -5400,6 +5368,23 @@ function toggleTableCollapse(){
   icon.classList.toggle('open', !isOpen);
 }
 
+// หา streak ต่อเนื่องยาวสุดจากลิสต์วันที่ (YYYY-MM-DD) ไม่เรียงลำดับมาก็ได้ ไม่ต้องครบทุกวันของแคมเปญ
+// ใช้กับ badge "Label Streak" ที่คำนวณจาก allDailyLogs ที่โหลดไว้แล้ว ไม่ต้องเพิ่มการอ่าน Firestore ใหม่
+function longestConsecutiveDayStreak(dateStrings){
+  if(!dateStrings || dateStrings.length===0) return 0;
+  const sorted = [...new Set(dateStrings)].sort();
+  let longest = 1, current = 1;
+  for(let i=1; i<sorted.length; i++){
+    if(addDays(sorted[i-1], 1) === sorted[i]){
+      current++;
+      longest = Math.max(longest, current);
+    } else {
+      current = 1;
+    }
+  }
+  return longest;
+}
+
 function renderStats(){
   document.getElementById('stStreak').textContent = state.selectedStudent.currentStreak || 0;
   document.getElementById('stPoints').textContent = state.selectedStudent.totalPoints || 0;
@@ -5437,22 +5422,35 @@ function renderStats(){
   const approvedMissionCount = state.approvedMissionCount || 0;
   const halfway = Math.ceil(state.totalDays/2);
 
+  // อ่านฉลาก (ประเภทไหนก็ได้ใน 3 แบบ) — ใช้แทน sodiumCheckCount/sodiumTrackLongestStreak เดิมที่ผูกกับเครื่องมือตรวจฉลากซึ่งกลายเป็นเครื่องมือรองไปแล้ว
+  // นับจาก allDailyLogs ชุดเดียวกับด้านบน ไม่ต้องเพิ่มการอ่านข้อมูลใหม่จาก Firestore เลย
+  const labelReadDays = logs.filter(log => log.labelTypes && (log.labelTypes.general || log.labelTypes.gda || log.labelTypes.nutrition));
+  const labelReadCount = labelReadDays.length;
+  const labelReadLongestStreak = longestConsecutiveDayStreak(labelReadDays.map(log => log.date));
+
   // รายชื่อ badge ทั้งหมด (ยังเป็นชุดชั่วคราว รอคุยกันว่าจะปรับรายการ/เงื่อนไขจริงหรือไม่)
   // แสดงครบทุกใบเสมอ ใบที่ยังไม่ปลดล็อกจะเป็นสีเทา กดดูได้ว่าต้องทำอะไรถึงจะได้
   const BADGE_DEFS = [
     { key:'consistency', icon:'⭐', name:'Consistency Star', earned:(state.selectedStudent.longestStreak||0) >= halfway,
+      reqText:`ทำต่อเนื่องติดกัน ${halfway} วัน`,
       desc:`ทำต่อเนื่องติดกัน ${halfway} วัน (ตอนนี้ทำได้สูงสุด ${state.selectedStudent.longestStreak||0} วัน)` },
-    { key:'sodiumTracker', icon:'🧂', name:'Sodium Tracker', earned:(state.selectedStudent.sodiumTrackLongestStreak||0) >= halfway,
-      desc:`เก็บข้อมูลโซเดียม (ตรวจฉลากหรือเพิ่มเมนูอาหาร) ต่อเนื่อง ${halfway} วัน (ตอนนี้ทำได้สูงสุด ${state.selectedStudent.sodiumTrackLongestStreak||0} วัน)` },
-    { key:'labelDetective', icon:'🔍', name:'Label Detective', earned:(state.selectedStudent.sodiumCheckCount||0) >= 10,
-      desc:`ตรวจฉลากอาหารสะสม 10 ครั้ง (ตอนนี้ตรวจไปแล้ว ${state.selectedStudent.sodiumCheckCount||0} ครั้ง)` },
+    { key:'labelStreak', icon:'🔥', name:'Label Streak', earned: labelReadLongestStreak >= halfway,
+      reqText:`อ่านฉลากต่อเนื่อง ${halfway} วัน`,
+      desc:`อ่านฉลาก (ประเภทไหนก็ได้) ต่อเนื่อง ${halfway} วัน (ตอนนี้ทำได้สูงสุด ${labelReadLongestStreak} วัน)` },
+    { key:'labelDetective', icon:'🔍', name:'Label Detective', earned: labelReadCount >= 10,
+      reqText:`อ่านฉลากสะสม 10 วัน`,
+      desc:`อ่านฉลาก (ประเภทไหนก็ได้) สะสม 10 วัน (ตอนนี้อ่านไปแล้ว ${labelReadCount} วัน)` },
     { key:'quizMaster', icon:'🧠', name:'Quiz Master', earned: quizTotalSum>0 && quizAccuracy >= 0.8,
+      reqText:`ตอบ Quiz ถูกสะสม 80% ขึ้นไป`,
       desc:`ตอบ Quiz ถูกสะสม 80% ขึ้นไป (ตอนนี้ ${quizTotalSum>0 ? Math.round(quizAccuracy*100) : 0}%)` },
     { key:'missionExplorer', icon:'🎯', name:'Mission Explorer', earned: approvedMissionCount >= 15,
+      reqText:`ผ่านภารกิจสะสม 15 ครั้ง`,
       desc:`ผ่านภารกิจสะสม 15 ครั้ง (ตอนนี้ผ่านแล้ว ${approvedMissionCount} ครั้ง)` },
     { key:'healthyChoice', icon:'💚', name:'Healthy Choice', earned: healthyChoiceCount >= 10,
+      reqText:`เลือกทางเลือกสุขภาพสะสม 10 วัน`,
       desc:`เลือกทางเลือกสุขภาพสะสม 10 วัน (ตอนนี้ ${healthyChoiceCount} วัน)` },
     { key:'finisher', icon:'🏆', name:'21-Day Finisher', earned:(state.selectedStudent.daysCompleted||0) >= state.totalDays,
+      reqText:`ทำกิจกรรมครบทุกวันตลอด ${state.totalDays} วัน`,
       desc:`ทำกิจกรรมครบทุกวันตลอด ${state.totalDays} วัน (ตอนนี้ทำสำเร็จ ${state.selectedStudent.daysCompleted||0} วัน)` },
   ];
   state.badgeDefsCache = BADGE_DEFS; // เก็บไว้ให้ showBadgeDetail()/renderRewardsPage() อ่านตอนกดดูรายละเอียด
@@ -5506,7 +5504,7 @@ function renderRewardsPage(badgeDefs){
       <div class="rw-badge-card${locked?' locked':''}" onclick="showBadgeDetail(${idx})">
         ${locked ? '<div class="rw-badge-lock">🔒</div>' : `<div class="rw-badge-icon">${b.icon}</div>`}
         <div class="rw-badge-name">${b.name}</div>
-        <div class="rw-badge-desc">${b.desc}</div>
+        <div class="rw-badge-desc">${b.reqText}</div>
       </div>`;
   }
 
