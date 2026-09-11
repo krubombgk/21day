@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>21 Days Challenge | 21 วัน เปลี่ยนพฤติกรรม อย.น้อย</title>
 
 <!-- PWA: ทำให้เพิ่มไอคอนหน้าจอหลักได้ทั้ง Android และ iOS -->
@@ -61,7 +61,7 @@
   h1,h2,h3,.display{font-family:'Kanit',sans-serif;}
   .screen{display:none; min-height:100vh; flex-direction:column;}
   .screen.active{display:flex;}
-  .wrap{max-width:900px; margin:0 auto; width:100%; padding:24px 20px 100px;}
+  .wrap{max-width:900px; margin:0 auto; width:100%; padding:24px 20px calc(120px + env(safe-area-inset-bottom, 0px));}
 
   /* ---- Top brand bar ---- */
   .brandbar{
@@ -178,6 +178,7 @@
     position:fixed; bottom:0; left:0; right:0; background:#fff;
     border-top:1px solid #EFE9D9; display:flex; align-items:flex-end; z-index:50;
     box-shadow:0 -6px 20px rgba(47,79,70,0.08);
+    padding-bottom:env(safe-area-inset-bottom, 0px); /* กันแถบเมนูจมเข้าไปในโซน home indicator ของ iPhone รุ่นใหม่ */
   }
   .tabbtn{
     flex:1; text-align:center; padding:10px 4px 8px; cursor:pointer;
@@ -1436,7 +1437,6 @@
         <button class="btn btn-ghost" id="mhLogBtn" style="width:auto; padding:8px 14px; font-size:12.5px; flex-shrink:0;" onclick="event.stopPropagation(); switchTab('tab-log')">ไปบันทึก</button>
         <span id="hubLogReward" style="display:none;"></span>
       </div>
-      </div>
 
       <!-- Motivation banner -->
       <div class="mh-bonus">
@@ -1968,7 +1968,7 @@
    ถ้าเจอเวอร์ชันใหม่กว่าที่ฝังมากับโค้ดตอนนี้ จะรีเฟรชอัตโนมัติทันที (ไม่ต้องรอให้ใครกดเอง กันเครื่องค้างเวอร์ชันเก่าไม่รู้ตัว)
    ยกเว้นตอนกำลังพิมพ์อะไรอยู่ในช่องกรอกข้อความ (เช่น เขียนสะท้อนตัวเอง) จะรอรอบถัดไปก่อน กันข้อมูลที่พิมพ์ค้างอยู่หายกะทันหัน
    ========================================================= */
-const APP_VERSION = "2026-09-10-6"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-10-7"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
