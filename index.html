@@ -1770,6 +1770,15 @@
         <div id="albumGrid"></div>
       </div>
       </div>
+
+      <!-- ทำครบ Quiz + บันทึก ได้สุ่มการ์ดความรู้ — ไว้ล่างสุดของหน้าตามที่ระบุ -->
+      <div class="mh-bonus" style="margin-top:14px;">
+        <img src="mascot-complete.png" alt="" class="mh-bonus-mascot">
+        <div>
+          <div class="mh-bonus-title">🎁 ทำครบ Quiz + บันทึก ได้สุ่มการ์ดความรู้!</div>
+          <div class="mh-bonus-sub">ทำ Quiz + บันทึกประจำวันให้ครบ เพื่อสะสมคะแนนและปลดล็อกการ์ด</div>
+        </div>
+      </div>
     </div>
 
     <!-- Reward History modal -->
@@ -1959,7 +1968,7 @@
    ถ้าเจอเวอร์ชันใหม่กว่าที่ฝังมากับโค้ดตอนนี้ จะรีเฟรชอัตโนมัติทันที (ไม่ต้องรอให้ใครกดเอง กันเครื่องค้างเวอร์ชันเก่าไม่รู้ตัว)
    ยกเว้นตอนกำลังพิมพ์อะไรอยู่ในช่องกรอกข้อความ (เช่น เขียนสะท้อนตัวเอง) จะรอรอบถัดไปก่อน กันข้อมูลที่พิมพ์ค้างอยู่หายกะทันหัน
    ========================================================= */
-const APP_VERSION = "2026-09-10-5"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-10-6"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
