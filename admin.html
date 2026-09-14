@@ -160,7 +160,7 @@
         </div>
 
         <div class="card" style="margin-top:20px;">
-          <h3 style="margin-top:0;">🤖 อัตราการใช้ AI ช่วยอ่านฉลาก</h3>
+          <h3 style="margin-top:0;">🤖 อัตราการใช้ AI ช่วยอ่านฉลากในหน้าบันทึกพฤติกรรม</h3>
           <p style="font-size:12.5px; color:#9aa8ab; margin-top:-6px;">นับจากฉลากแต่ละประเภท (ทั่วไป/GDA/โภชนาการ) ในบันทึกประจำวันทุกวัน — วัด<b>อัตราการใช้ AI เทียบกับพิมพ์เอง</b> เท่านั้น ไม่ใช่ความแม่นยำของ AI (ระบบยังไม่เก็บค่าที่ AI อ่านได้แยกจากค่าที่บันทึกจริงหลังแก้ไข จึงยังวัดความแม่นยำแบบเป๊ะๆ ไม่ได้ในตอนนี้ — ถ้าต้องการวัดตรงนี้เพิ่ม บอกได้)</p>
           <div id="aiVisionStats"><div class="empty-note">กำลังโหลด…</div></div>
         </div>
@@ -169,6 +169,8 @@
           <h3 style="margin-top:0;">📞 จำนวนครั้งที่เรียก AI จริงทั้งหมด</h3>
           <p style="font-size:12.5px; color:#9aa8ab; margin-top:-6px;"><b>นับทุกครั้งที่เรียก AI สำเร็จจริง</b> รวมทั้งจากแอปหลัก (index.html) และจุดตรวจฉลากร้านค้า (checklabel.html) เข้าด้วยกัน ไม่ว่าจะกดบันทึกต่อหรือไม่ก็ตาม — ใช้เลขนี้อ้างอิงกับกรรมการได้เลยว่า AI ถูกใช้ไปกี่ครั้งจริง (คนละยอดกับการ์ดด้านบนที่นับเฉพาะรายการที่บันทึกแล้ว) · เริ่มนับฝั่งแอปหลักตั้งแต่วันที่อัปเดตระบบรอบนี้เป็นต้นไปเท่านั้น ยอดก่อนหน้ากู้คืนไม่ได้ ต้องเช็คจาก Anthropic Console หรือ Firebase Console → Functions → Invocations แทน (ฝั่งจุดตรวจร้านค้านับมาตั้งแต่ต้นแล้ว)</p>
           <div id="aiVisionCallLog"><div class="empty-note">กำลังโหลด…</div></div>
+          <button class="btn btn-danger" style="margin-top:12px; padding:8px 16px; font-size:12.5px;" onclick="resetAiCallStats()">🗑️ ล้างสถิตินี้ทั้งหมด (เริ่มนับใหม่)</button>
+          <div class="msg" id="resetAiStatsMsg"></div>
         </div>
 
         <div class="card" style="margin-top:20px;">
@@ -744,7 +746,7 @@
    ใช้ version.json ไฟล์เดียวกับ index.html (แก้เลขคู่กันทุกครั้งที่ deploy)
    เจอเวอร์ชันใหม่แล้วรีเฟรชอัตโนมัติทันที ยกเว้นกำลังพิมพ์อะไรอยู่ (เช่น เหตุผลไม่ผ่านภารกิจ) จะรอรอบถัดไปก่อน
    ========================================================= */
-const APP_VERSION = "2026-09-10-9"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-10-10"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
@@ -1503,6 +1505,30 @@ async function loadCategorySummary(){
   }
 }
 
+// ล้างสถิติ "จำนวนครั้งที่เรียก AI จริงทั้งหมด" — ลบ collection aiVisionCalls ทิ้งทั้งหมด แล้วเริ่มนับใหม่จาก 0
+// ใช้ตอนอยากตัดข้อมูลทดสอบ/ดีบักออก ก่อนเริ่มใช้งานจริงกับนักเรียน — ไม่กระทบข้อมูลนักเรียนใดๆ เลย (แค่ log สถิติฝั่งแอดมิน)
+async function resetAiCallStats(){
+  if(!confirm('ล้างสถิติ "จำนวนครั้งที่เรียก AI จริงทั้งหมด" ทิ้งทั้งหมดเลยไหม? กู้คืนไม่ได้ (ไม่กระทบข้อมูลนักเรียน/บันทึกประจำวันใดๆ เลย แค่ล้าง log สถิตินี้อย่างเดียว)')) return;
+  const msgEl = document.getElementById('resetAiStatsMsg');
+  msgEl.style.color = 'var(--lagoon)';
+  msgEl.textContent = 'กำลังล้าง...';
+  try{
+    const snap = await db.collection('aiVisionCalls').get();
+    const docs = snap.docs;
+    for(let i=0; i<docs.length; i+=450){ // แบ่งเป็นชุดละ 450 กันชนลิมิต batch write 500 ของ Firestore
+      const batch = db.batch();
+      docs.slice(i, i+450).forEach(d => batch.delete(d.ref));
+      await batch.commit();
+    }
+    msgEl.textContent = `ล้างสถิติแล้ว (ลบ ${docs.length} รายการ) เริ่มนับใหม่จาก 0`;
+    loadAiVisionCallLog();
+  }catch(e){
+    console.error(e);
+    msgEl.style.color = 'var(--red-high)';
+    msgEl.textContent = 'ล้างไม่สำเร็จ: ' + (e.message || e.code);
+  }
+}
+
 async function loadAiVisionStats(){
   const wrap = document.getElementById('aiVisionStats');
   try{
@@ -1601,11 +1627,16 @@ async function loadAiVisionCallLog(){
     wrap.innerHTML = `
       <div class="row" style="margin-top:0;">
         <div class="kpi"><div class="n">${total}</div><div class="l">เรียก AI จริงทั้งหมด</div></div>
+        <div class="kpi"><div class="n">${foundCount}</div><div class="l">อ่านฉลากเจอค่า</div></div>
+        <div class="kpi"><div class="n">${notFoundCount}</div><div class="l">อ่านฉลากไม่เจอค่า</div></div>
+        <div class="kpi"><div class="n">${missionCheckCount}</div><div class="l">ตรวจภารกิจ (คนละเรื่องกับอ่านฉลาก)</div></div>
+      </div>
+      <p style="font-size:11px; color:#aab5b8; margin-top:2px;">${foundCount} + ${notFoundCount} + ${missionCheckCount} = ${total} ครั้ง (ตรวจภารกิจคือประเมินหลักฐานภารกิจ ไม่ใช่อ่านตัวเลขจากฉลาก จึงแยกออกจากอ่านเจอ/ไม่เจอ)</p>
+      <div class="row" style="margin-top:14px;">
         <div class="kpi"><div class="n">${mainCalls.length}</div><div class="l">จากแอปหลัก</div></div>
         <div class="kpi"><div class="n">${kioskCalls.length}</div><div class="l">จากจุดตรวจร้านค้า</div></div>
-        <div class="kpi"><div class="n">${foundCount}</div><div class="l">อ่านฉลากเจอค่า (${notFoundCount} ไม่เจอ)</div></div>
       </div>
-      <p style="font-size:11.5px; color:#aab5b8; margin-top:8px;">ไม่รวมการตรวจภารกิจอีก ${missionCheckCount} ครั้ง (คนละเรื่องกับ "อ่านฉลากเจอค่า" — เป็นการประเมินหลักฐานภารกิจ ไม่ใช่การอ่านตัวเลขจากฉลาก) · จากที่เรียก AI อ่านฉลากในบันทึกประจำวัน ${labelCalls.length} ครั้ง มีคนกดบันทึกเก็บไว้จริง ${savedAiCount} ครั้ง (${savedPct}%)</p>
+      <p style="font-size:11.5px; color:#aab5b8; margin-top:8px;">จากที่เรียก AI อ่านฉลากในบันทึกประจำวัน ${labelCalls.length} ครั้ง มีคนกดบันทึกเก็บไว้จริง ${savedAiCount} ครั้ง (${savedPct}%)</p>
       ${warnHtml}
     `;
   }catch(e){
