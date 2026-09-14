@@ -1344,11 +1344,23 @@
     <div class="tabpanel" id="tab-check">
       <div class="card">
         <h3 style="margin-top:0;">🔍 ผู้ช่วยอ่านฉลาก (ตรวจฉลาก)</h3>
-        <p style="color:#6b7c80; font-size:13.5px; margin-top:-8px;">กรอกค่าโซเดียม (มก.) ต่อหนึ่งหน่วยบริโภคจากฉลากโภชนาการ แล้วดูว่าเค็มแค่ไหนของวันนี้</p>
+        <p style="color:#6b7c80; font-size:13.5px; margin-top:-8px;">กรอกค่าจากฉลาก GDA (พลังงาน/น้ำตาล/ไขมัน/โซเดียม) ต่อหนึ่งหน่วยบริโภค แล้วดูว่าหวาน มัน เค็ม แค่ไหนของวันนี้</p>
         <div class="field">
           <label>ชื่อสินค้า / เมนู</label>
           <input type="text" id="ciName" placeholder="เช่น มาม่าคัพ, น้ำปลา" oninput="debouncedProductMatch()">
           <div id="productSuggestions"></div>
+        </div>
+        <div class="field">
+          <label>พลังงาน (กิโลแคลอรี) <span style="color:#9aa8ab; font-weight:400;">— ไม่บังคับ</span></label>
+          <input type="number" id="ciEnergy" placeholder="เช่น 150" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label>น้ำตาล (กรัม)</label>
+          <input type="number" id="ciSugar" placeholder="เช่น 12" inputmode="numeric" step="0.1">
+        </div>
+        <div class="field">
+          <label>ไขมัน (กรัม)</label>
+          <input type="number" id="ciFat" placeholder="เช่น 5" inputmode="numeric" step="0.1">
         </div>
         <div class="field">
           <label>โซเดียม (มิลลิกรัม)</label>
@@ -1362,7 +1374,19 @@
         <button class="btn btn-primary btn-block" style="margin-top:10px;" onclick="calcSodium()">คำนวณ</button>
 
         <div id="gaugeArea" style="display:none;">
-          <div class="gauge-wrap">
+          <div class="gauge-wrap" id="gaugeWrap-sugar">
+            <div class="gauge-label" style="margin-top:0;">🍬 น้ำตาล</div>
+            <div class="progress-track"><div class="progress-fill-bar" id="sugarBar" style="width:0%;"></div></div>
+            <div class="gauge-num" id="sugarPct" style="font-size:22px;">0%</div>
+            <div class="gauge-label">ของขีดจำกัดน้ำตาลที่แนะนำต่อวัน (ไม่ควรเกิน <span id="sugarGoalLabel">24</span> กรัม)</div>
+          </div>
+          <div class="gauge-wrap" id="gaugeWrap-fat" style="margin-top:16px;">
+            <div class="gauge-label" style="margin-top:0;">🍟 ไขมัน</div>
+            <div class="progress-track"><div class="progress-fill-bar" id="fatBar" style="width:0%;"></div></div>
+            <div class="gauge-num" id="fatPct" style="font-size:22px;">0%</div>
+            <div class="gauge-label">ของขีดจำกัดไขมันที่แนะนำต่อวัน (ไม่ควรเกิน <span id="fatGoalLabel">65</span> กรัม)</div>
+          </div>
+          <div class="gauge-wrap" id="gaugeWrap-sodium" style="margin-top:16px;">
             <div class="shaker">
               <div class="shaker-body"><div class="shaker-fill" id="shakerFill"></div></div>
               <div class="shaker-cap"></div>
@@ -1373,11 +1397,12 @@
             <div class="gauge-tip" id="gaugeTip" style="display:none;"></div>
             <div class="gauge-tip" id="gaugeServings" style="display:none;"></div>
           </div>
+          <div id="energyInfoLine" style="text-align:center; font-size:12.5px; color:#6b7c80; margin-top:10px;"></div>
           <div class="field" style="margin-top:10px;">
             <label>กินกี่หน่วย? (ถ้ากินมากกว่า 1 หน่วยบริโภคตามฉลาก)</label>
             <input type="number" id="ciServings" value="1" min="1" step="1" inputmode="numeric">
           </div>
-          <button class="btn btn-coral btn-block" style="margin-top:14px;" onclick="saveSodiumCheck(true)">🍽️ กินแล้ว เพิ่มเข้าโซเดียมวันนี้</button>
+          <button class="btn btn-coral btn-block" style="margin-top:14px;" onclick="saveSodiumCheck(true)">🍽️ กินแล้ว เพิ่มเข้าวันนี้</button>
           <button class="btn btn-ghost btn-block" style="margin-top:8px;" onclick="saveSodiumCheck(false)">🔍 บันทึกไว้ แค่ตรวจดู (ยังไม่ได้กิน)</button>
         </div>
       </div>
@@ -1969,7 +1994,7 @@
    ถ้าเจอเวอร์ชันใหม่กว่าที่ฝังมากับโค้ดตอนนี้ จะรีเฟรชอัตโนมัติทันที (ไม่ต้องรอให้ใครกดเอง กันเครื่องค้างเวอร์ชันเก่าไม่รู้ตัว)
    ยกเว้นตอนกำลังพิมพ์อะไรอยู่ในช่องกรอกข้อความ (เช่น เขียนสะท้อนตัวเอง) จะรอรอบถัดไปก่อน กันข้อมูลที่พิมพ์ค้างอยู่หายกะทันหัน
    ========================================================= */
-const APP_VERSION = "2026-09-10-10"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-10-11"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
@@ -2057,6 +2082,8 @@ const FCM_VAPID_KEY = "BGRE_VUUUsDABT1Y08ugsrjY_g863r9ckALalsLxRiCrB0cajPMcRYDOQ
    CONSTANTS
    ========================================================= */
 const SODIUM_DAILY_MAX = 2000; // mg — ค่า default ถ้านักเรียนยังไม่ได้ปรับเป้าหมายเอง
+const SUGAR_DAILY_MAX = 24; // กรัม — ตามที่ใช้ในการ์ดความรู้ "ลดหวาน" (น้ำตาลเติมเพิ่มไม่ควรเกิน ~6 ช้อนชา/วัน)
+const FAT_DAILY_MAX = 65; // กรัม — ตามที่ใช้ในการ์ดความรู้ "ลดมัน" (ไขมันรวมจากอาหารทั้งหมดไม่ควรเกินต่อวัน)
 // กันฟาร์มคะแนนจากการตรวจฉลาก: ได้คะแนนแค่ครั้งแรกของวันต่อ "ชื่อสินค้า" เดียวกัน + จำกัดจำนวนครั้งที่ได้คะแนนต่อวันไว้อีกชั้น
 const SODIUM_CHECK_DAILY_POINT_CAP = 5;
 
@@ -3520,16 +3547,24 @@ async function handleLabelPhoto(event){
     let sodiumHeroHtml = '';
     if(data.found && data.sodium_mg){
       document.getElementById('ciSodium').value = data.sodium_mg;
+      if(data.energy_kcal != null) document.getElementById('ciEnergy').value = data.energy_kcal;
+      if(data.sugar_g != null) document.getElementById('ciSugar').value = data.sugar_g;
+      if(data.fat_g != null) document.getElementById('ciFat').value = data.fat_g;
       // สีเข้มขึ้นตาม % ของขีดจำกัดโซเดียมต่อวัน (เกณฑ์เดียวกับมาตรวัด 20%/40%) ให้อ่านง่าย เห็นชัดตั้งแต่แวบแรก
       const heroPct = Math.min(Math.round((data.sodium_mg/getSodiumGoal())*100),200);
       const heroColor = heroPct < 20 ? 'var(--green-ok)' : (heroPct < 40 ? 'var(--amber-warn)' : 'var(--red-high)');
+      const extraLines = [];
+      if(data.energy_kcal != null) extraLines.push(`⚡ ${data.energy_kcal} กิโลแคลอรี`);
+      if(data.sugar_g != null) extraLines.push(`🍬 น้ำตาล ${data.sugar_g} กรัม`);
+      if(data.fat_g != null) extraLines.push(`🍟 ไขมัน ${data.fat_g} กรัม`);
       sodiumHeroHtml = `
         <div style="text-align:center; padding:4px 0 2px;">
-          <div style="font-size:15px; font-weight:700; color:#3d4b4f;">AI อ่านโซเดียมได้</div>
+          <div style="font-size:15px; font-weight:700; color:#3d4b4f;">AI อ่านฉลากได้</div>
           <div style="font-family:'Kanit',sans-serif; font-weight:900; font-size:48px; color:${heroColor}; line-height:1.15;">
-            ${data.sodium_mg}<span style="font-size:20px; font-weight:700; margin-left:3px;">มก.</span>
+            ${data.sodium_mg}<span style="font-size:20px; font-weight:700; margin-left:3px;">มก. โซเดียม</span>
           </div>
-          <div style="font-size:16px; font-weight:700; color:${heroColor}; margin-top:2px;">= ${heroPct}% ของขีดจำกัดที่แนะนำต่อวัน</div>
+          <div style="font-size:16px; font-weight:700; color:${heroColor}; margin-top:2px;">= ${heroPct}% ของขีดจำกัดโซเดียมที่แนะนำต่อวัน</div>
+          ${extraLines.length ? `<div style="font-size:13.5px; color:#4c5c60; margin-top:8px;">${extraLines.join(' · ')}</div>` : ''}
         </div>`;
     } else {
       sodiumHeroHtml = `<div style="text-align:center; font-size:16px; font-weight:700; color:var(--red-high); padding:6px 0;">AI อ่านฉลากนี้ไม่เจอค่าโซเดียม ลองถ่ายให้ใกล้/ชัดขึ้น หรือพิมพ์ตัวเลขเองจากฉลากได้เลย</div>`;
@@ -3695,9 +3730,17 @@ async function upsertVerifiedProduct(name, sodium, extra){
 function calcSodium(){
   const name = document.getElementById('ciName').value.trim();
   const sodium = parseFloat(document.getElementById('ciSodium').value);
-  if(!name || isNaN(sodium) || sodium<0){ showToast('กรอกชื่อและค่าโซเดียมให้ครบ'); return; }
+  if(!name || isNaN(sodium) || sodium<0){ showToast('กรอกชื่อและค่าโซเดียมให้ครบ (น้ำตาล/ไขมัน/พลังงาน ไม่บังคับ)'); return; }
+  const sugar = parseFloat(document.getElementById('ciSugar').value); // อาจเป็น NaN ถ้าไม่กรอก — ไม่บังคับ
+  const fat = parseFloat(document.getElementById('ciFat').value);
+  const energy = parseFloat(document.getElementById('ciEnergy').value);
   const pct = Math.min(Math.round((sodium/getSodiumGoal())*100),200);
-  state.pendingCalc = {name, sodium, pct};
+  state.pendingCalc = {
+    name, sodium, pct,
+    sugar: isNaN(sugar) ? null : sugar,
+    fat: isNaN(fat) ? null : fat,
+    energy: isNaN(energy) ? null : energy
+  };
   document.getElementById('gaugeGoalLabel').textContent = getSodiumGoal().toLocaleString('th-TH');
   document.getElementById('gaugeArea').style.display='block';
   document.getElementById('gaugePct').textContent = pct + '%';
@@ -3730,6 +3773,35 @@ function calcSodium(){
   } else {
     servingsEl.style.display='none';
   }
+
+  // ---- น้ำตาล + ไขมัน: โชว์เกจก็ต่อเมื่อกรอกค่ามา (ไม่บังคับกรอกเหมือนโซเดียม) ----
+  const sugarWrap = document.getElementById('gaugeWrap-sugar');
+  if(!isNaN(sugar) && sugar>=0){
+    sugarWrap.style.display='flex';
+    const sugarPct = Math.min(Math.round((sugar/SUGAR_DAILY_MAX)*100),200);
+    document.getElementById('sugarGoalLabel').textContent = SUGAR_DAILY_MAX;
+    document.getElementById('sugarPct').textContent = sugarPct + '%';
+    document.getElementById('sugarPct').style.color = sugarPct<20?'var(--green-ok)':(sugarPct<40?'var(--amber-warn)':'var(--red-high)');
+    document.getElementById('sugarBar').style.width = Math.min(sugarPct,100) + '%';
+  } else {
+    sugarWrap.style.display='none';
+  }
+
+  const fatWrap = document.getElementById('gaugeWrap-fat');
+  if(!isNaN(fat) && fat>=0){
+    fatWrap.style.display='flex';
+    const fatPct = Math.min(Math.round((fat/FAT_DAILY_MAX)*100),200);
+    document.getElementById('fatGoalLabel').textContent = FAT_DAILY_MAX;
+    document.getElementById('fatPct').textContent = fatPct + '%';
+    document.getElementById('fatPct').style.color = fatPct<20?'var(--green-ok)':(fatPct<40?'var(--amber-warn)':'var(--red-high)');
+    document.getElementById('fatBar').style.width = Math.min(fatPct,100) + '%';
+  } else {
+    fatWrap.style.display='none';
+  }
+
+  // พลังงาน: โชว์ไว้ดูเฉยๆ ไม่มีเกจ/ขีดจำกัด เพราะปริมาณที่เหมาะสมต่อวันต่างกันมากตามอายุ/กิจกรรมแต่ละคน ไม่มีเลขเดียวที่ใช้ได้กับทุกคน
+  const energyEl = document.getElementById('energyInfoLine');
+  energyEl.textContent = !isNaN(energy) ? `⚡ พลังงาน ${energy.toLocaleString('th-TH')} กิโลแคลอรีต่อหน่วยบริโภค (ไม่มีเกณฑ์ตายตัว ขึ้นกับแต่ละคน)` : '';
 }
 
 /* ---- Streak การเก็บข้อมูลโซเดียม (ตรวจฉลาก หรือเพิ่มเมนูอาหาร นับเป็น "เก็บข้อมูล" ของวันนั้นเหมือนกัน) ---- */
@@ -3758,6 +3830,13 @@ async function saveSodiumCheck(consumed){
   const perUnitSodium = state.pendingCalc.sodium; // ค่าต่อหนึ่งหน่วยบริโภคตามฉลาก (เก็บไว้เผื่อดูย้อนหลัง)
   const totalSodium = Math.round(perUnitSodium * servings);
   const totalPct = Math.min(Math.round((totalSodium/getSodiumGoal())*100),200);
+  // น้ำตาล/ไขมัน/พลังงาน ไม่บังคับกรอก ถ้าไม่มีค่าก็ไม่ต้องคูณ (เก็บเป็น null ต่อไป)
+  const perUnitSugar = state.pendingCalc.sugar;
+  const perUnitFat = state.pendingCalc.fat;
+  const perUnitEnergy = state.pendingCalc.energy;
+  const totalSugar = perUnitSugar != null ? Math.round(perUnitSugar * servings * 10) / 10 : null;
+  const totalFat = perUnitFat != null ? Math.round(perUnitFat * servings * 10) / 10 : null;
+  const totalEnergy = perUnitEnergy != null ? Math.round(perUnitEnergy * servings) : null;
 
   // ที่มาของค่าโซเดียม: 'ai' ถ้ามีการอ่านฉลากด้วย AI Vision มาก่อนหน้านี้ในรอบเดียวกัน (ยังไม่ได้บันทึก/ยังไม่ถ่ายรูปใหม่ทับ)
   // ไว้ใช้ทำสถิติ "AI ช่วยอ่านไปกี่ครั้ง" และเทียบความแม่นยำกับค่าที่บันทึกจริง (เผื่อนักเรียนแก้เลขเอง)
@@ -3773,8 +3852,12 @@ async function saveSodiumCheck(consumed){
   const eligibleForPoints = !alreadyCheckedTodaySameName && pointsAwardedSoFarToday < SODIUM_CHECK_DAILY_POINT_CAP;
 
   state.sodiumChecks.push({
-    ...state.pendingCalc,
-    sodium: totalSodium, pct: totalPct, perUnitSodium, servings, consumed: !!consumed,
+    name: state.pendingCalc.name,
+    sodium: totalSodium, pct: totalPct, perUnitSodium,
+    sugar: totalSugar, perUnitSugar,
+    fat: totalFat, perUnitFat,
+    energy: totalEnergy, perUnitEnergy,
+    servings, consumed: !!consumed,
     category, time: new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}),
     pointsAwarded: eligibleForPoints,
     source, aiSodiumMg
@@ -3788,6 +3871,9 @@ async function saveSodiumCheck(consumed){
   }, {merge:true});
   await upsertVerifiedProduct(state.pendingCalc.name, perUnitSodium, state.lastAiReadExtra || {});
   document.getElementById('ciName').value='';
+  document.getElementById('ciEnergy').value='';
+  document.getElementById('ciSugar').value='';
+  document.getElementById('ciFat').value='';
   document.getElementById('ciSodium').value='';
   document.getElementById('ciServings').value='1';
   document.getElementById('productSuggestions').innerHTML = '';
@@ -3852,12 +3938,17 @@ function renderAllTimeCheckHistory(){
   (state.sodiumChecks||[]).forEach(c=> items.push({...c, date: state.todaysDateStr}));
   items.sort((a,b)=> (b.date+(b.time||'')).localeCompare(a.date+(a.time||'')));
   if(items.length===0){ el.innerHTML = '<div class="empty-note">ยังไม่เคยตรวจฉลากเลย</div>'; return; }
-  el.innerHTML = items.slice(0,50).map(c=>`
+  el.innerHTML = items.slice(0,50).map(c=>{
+    const extras = [];
+    if(c.sugar != null) extras.push(`🍬${c.sugar}ก.`);
+    if(c.fat != null) extras.push(`🍟${c.fat}ก.`);
+    const extraHtml = extras.length ? ` · ${extras.join(' ')}` : '';
+    return `
     <div class="check-item">
       <div class="ci-name">${c.name} <span style="color:#9aa8ab;font-weight:400;">· ${c.date}${c.time?' '+c.time:''}${c.consumed===false?' · 🔍 แค่ตรวจดู':' · 🍽️ กินแล้ว'}</span></div>
-      <div class="ci-val">${c.sodium} มก. (${c.pct}%)</div>
+      <div class="ci-val">🧂${c.sodium} มก. (${c.pct}%)${extraHtml}</div>
     </div>
-  `).join('');
+  `;}).join('');
 }
 
 // เขียน sodiumChecks + mealSodiumEntries ของวันนี้กลับลง Firestore (ใช้ร่วมกันตอนแก้ไข/ลบ)
