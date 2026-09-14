@@ -160,8 +160,8 @@
         </div>
 
         <div class="card" style="margin-top:20px;">
-          <h3 style="margin-top:0;">🤖 สถิติ AI Vision อ่านฉลาก</h3>
-          <p style="font-size:12.5px; color:#9aa8ab; margin-top:-6px;">เทียบว่านักเรียนใช้ AI ช่วยอ่านฉลากกี่ครั้ง เทียบกับพิมพ์เอง และค่าที่ AI อ่านตรงกับค่าที่บันทึกจริงแค่ไหน (นับเฉพาะรายการที่บันทึกหลังอัปเดตระบบครั้งนี้ รายการเก่าก่อนหน้าไม่มีข้อมูลที่มา) · <b>นับเฉพาะรายการที่กดบันทึกในแอปแล้วเท่านั้น</b> ไม่รวมการสแกนที่หน้าตรวจฉลากร้านค้า (checklabel.html) ที่ยังไม่ถูกเคลม/บันทึกต่อ — ดูยอดสแกนรวมทั้งหมดของจุดร้านค้าได้ที่แท็บ "ฐานข้อมูลสินค้า"</p>
+          <h3 style="margin-top:0;">🤖 อัตราการใช้ AI ช่วยอ่านฉลาก</h3>
+          <p style="font-size:12.5px; color:#9aa8ab; margin-top:-6px;">นับจากฉลากแต่ละประเภท (ทั่วไป/GDA/โภชนาการ) ในบันทึกประจำวันทุกวัน — วัด<b>อัตราการใช้ AI เทียบกับพิมพ์เอง</b> เท่านั้น ไม่ใช่ความแม่นยำของ AI (ระบบยังไม่เก็บค่าที่ AI อ่านได้แยกจากค่าที่บันทึกจริงหลังแก้ไข จึงยังวัดความแม่นยำแบบเป๊ะๆ ไม่ได้ในตอนนี้ — ถ้าต้องการวัดตรงนี้เพิ่ม บอกได้)</p>
           <div id="aiVisionStats"><div class="empty-note">กำลังโหลด…</div></div>
         </div>
 
@@ -172,8 +172,8 @@
         </div>
 
         <div class="card" style="margin-top:20px;">
-          <h3 style="margin-top:0;">🗂️ หมวดหมู่สินค้าที่ตรวจบ่อยที่สุด</h3>
-          <p style="font-size:12.5px; color:#9aa8ab; margin-top:-6px;">นับทุกครั้งที่เรียก AI Vision จริง ไม่ว่าจะกดบันทึกต่อ ("กินแล้ว"/"แค่ตรวจดู") หรือไม่ก็ตาม — รวมทั้งจากแอปหลักและจุดตรวจฉลากร้านค้า (checklabel.html) เพราะถือว่าใช้ AI ไปแล้วตั้งแต่ตอนนั้น (เริ่มนับตั้งแต่วันที่อัปเดตระบบรอบนี้เป็นต้นไป)</p>
+          <h3 style="margin-top:0;">🗂️ หมวดหมู่สินค้าที่ตรวจบ่อยที่สุด (เฉพาะ Sodium Hub/จุดตรวจร้านค้า)</h3>
+          <p style="font-size:12.5px; color:#9aa8ab; margin-top:-6px;"><b>เฉพาะการตรวจแบบเก่าที่มีข้อมูลหมวดหมู่สินค้า</b> (Sodium Hub ในแอปหลัก + จุดตรวจฉลากร้านค้า checklabel.html) — การอ่านฉลากในบันทึกประจำวัน (ฟีเจอร์หลักตอนนี้) ไม่มีแนวคิด "หมวดหมู่สินค้า" จึงไม่ถูกนับในนี้ นับทุกครั้งที่เรียก AI Vision จริง ไม่ว่าจะกดบันทึกต่อหรือไม่ก็ตาม (เริ่มนับตั้งแต่วันที่อัปเดตระบบรอบนี้เป็นต้นไป)</p>
           <div id="categorySummary"><div class="empty-note">กำลังโหลด…</div></div>
         </div>
 
@@ -744,7 +744,7 @@
    ใช้ version.json ไฟล์เดียวกับ index.html (แก้เลขคู่กันทุกครั้งที่ deploy)
    เจอเวอร์ชันใหม่แล้วรีเฟรชอัตโนมัติทันที ยกเว้นกำลังพิมพ์อะไรอยู่ (เช่น เหตุผลไม่ผ่านภารกิจ) จะรอรอบถัดไปก่อน
    ========================================================= */
-const APP_VERSION = "2026-09-10-8"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-10-9"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
@@ -1507,42 +1507,28 @@ async function loadAiVisionStats(){
   const wrap = document.getElementById('aiVisionStats');
   try{
     const allLogsSnap = await db.collection('dailyLogs').get();
-    let aiCount=0, manualCount=0, legacyCount=0;
-    let diffSum=0, diffCount=0, unchangedCount=0;
+    let aiCount=0, manualCount=0;
     allLogsSnap.docs.forEach(d=>{
-      const checks = d.data().sodiumChecks || [];
-      checks.forEach(c=>{
-        if(c.source === 'ai'){
-          aiCount++;
-          if(c.aiSodiumMg != null && c.perUnitSodium != null){
-            const diff = Math.abs(c.perUnitSodium - c.aiSodiumMg);
-            diffSum += diff; diffCount++;
-            if(diff === 0) unchangedCount++;
-          }
-        } else if(c.source === 'manual'){
-          manualCount++;
-        } else {
-          legacyCount++; // บันทึกก่อนอัปเดตระบบ ยังไม่มีฟิลด์ source เลย
-        }
+      const lr = d.data().labelReadings;
+      if(!lr) return;
+      ['general','gda','nutrition'].forEach(t=>{
+        const entry = lr[t];
+        if(!entry || !entry.source) return; // ยังไม่ได้กรอกอะไรเลยในประเภทนี้ ไม่นับ
+        if(entry.source === 'ai') aiCount++;
+        else if(entry.source === 'manual') manualCount++;
       });
     });
-    const known = aiCount + manualCount;
-    if(known === 0){
-      wrap.innerHTML = `<div class="empty-note">ยังไม่มีข้อมูลที่มา — รอรายการใหม่หลังอัปเดตระบบ${legacyCount>0 ? ` (มีรายการเก่า ${legacyCount} รายการที่นับไม่ได้)` : ''}</div>`;
+    const total = aiCount + manualCount;
+    if(total === 0){
+      wrap.innerHTML = '<div class="empty-note">ยังไม่มีข้อมูลการอ่านฉลากในบันทึกประจำวันเลย</div>';
       return;
     }
-    const aiPct = Math.round(aiCount/known*100);
-    const manualPct = 100 - aiPct;
-    const unchangedPct = diffCount>0 ? Math.round(unchangedCount/diffCount*100) : 0;
-    const avgDiff = diffCount>0 ? Math.round(diffSum/diffCount) : 0;
+    const aiPct = Math.round(aiCount/total*100);
     wrap.innerHTML = `
       <div class="row" style="margin-top:0;">
-        <div class="kpi"><div class="n">${aiCount}</div><div class="l">อ่านด้วย AI (${aiPct}%)</div></div>
-        <div class="kpi"><div class="n">${manualCount}</div><div class="l">พิมพ์เอง (${manualPct}%)</div></div>
-        <div class="kpi"><div class="n">${unchangedPct}%</div><div class="l">ค่า AI ตรงกับที่บันทึกจริงเป๊ะ</div></div>
-        <div class="kpi"><div class="n">${avgDiff}</div><div class="l">คลาดเคลื่อนเฉลี่ย (มก.)</div></div>
+        <div class="kpi"><div class="n">${aiCount}</div><div class="l">ใช้ AI ช่วยอ่าน (${aiPct}%)</div></div>
+        <div class="kpi"><div class="n">${manualCount}</div><div class="l">พิมพ์เอง ไม่ใช้ AI (${100-aiPct}%)</div></div>
       </div>
-      ${legacyCount>0 ? `<p style="font-size:11.5px; color:#aab5b8; margin-top:8px;">*ไม่นับรวม ${legacyCount} รายการเก่าก่อนอัปเดตระบบ (ไม่มีข้อมูลที่มา)</p>` : ''}
     `;
   }catch(e){
     console.error(e);
@@ -1573,20 +1559,35 @@ async function loadAiVisionCallLog(){
     }
 
     const total = mainCalls.length + kioskCalls.length;
-    const mainFound = mainCalls.filter(d=>d.found).length;
-    const kioskFound = kioskCalls.filter(d=>d.found).length;
-    const foundCount = mainFound + kioskFound;
-    const notFoundCount = total - foundCount;
 
-    // เทียบกับจำนวนที่ถูกกดบันทึกต่อจริงในแอป (source:'ai' ใน dailyLogs) ว่าคิดเป็นกี่ % ของที่เรียก AI ทั้งหมด
+    // แยกประเภทการเรียกให้ถูกต้อง — แต่ละแบบมี field คนละชุด ต้องเช็คคนละแบบ:
+    // - missionCheck (ตรวจภารกิจ): ประเมินหลักฐาน ไม่ใช่ "อ่านค่าฉลาก" คนละมิติกันเลย แยกออกไปนับต่างหาก ไม่ปนกับ found/not found
+    // - productLabel (อ่านฉลากในบันทึกประจำวัน — ของใหม่/หลัก): ไม่มี field .found แต่ใช้ "มีชื่อสินค้า + ไม่ติด mismatch" แทนได้
+    // - ที่เหลือ (ไม่มี type แปลว่าเป็น checkSodiumLabel ตัวเก่า): มี field .found ตรงๆ อยู่แล้ว
+    const missionCalls = mainCalls.filter(d => d.type === 'missionCheck');
+    const labelCalls = mainCalls.filter(d => d.type === 'productLabel');
+    const legacyCalls = mainCalls.filter(d => !d.type); // เก่าก่อนมี field "type" เลย (checkSodiumLabel)
+
+    const legacyFound = legacyCalls.filter(d=>d.found).length;
+    const labelFound = labelCalls.filter(d=>d.productName && !d.typeMismatchWarning).length;
+    const kioskFound = kioskCalls.filter(d=>d.found).length;
+
+    const labelReadingTotal = legacyCalls.length + labelCalls.length + kioskCalls.length; // เฉพาะที่มีแนวคิด "เจอ/ไม่เจอค่า" จริง
+    const foundCount = legacyFound + labelFound + kioskFound;
+    const notFoundCount = labelReadingTotal - foundCount;
+    const missionCheckCount = missionCalls.length;
+
+    // เทียบกับจำนวนที่ถูกบันทึกจริงในบันทึกประจำวัน (source:'ai' ใน labelReadings) ว่าคิดเป็นกี่ % ของที่เรียก AI อ่านฉลากทั้งหมด
     let savedAiCount = 0;
     try{
       const allLogsSnap = await db.collection('dailyLogs').get();
       allLogsSnap.docs.forEach(d=>{
-        (d.data().sodiumChecks||[]).forEach(c=>{ if(c.source==='ai') savedAiCount++; });
+        const lr = d.data().labelReadings;
+        if(!lr) return;
+        ['general','gda','nutrition'].forEach(t=>{ if(lr[t] && lr[t].source==='ai') savedAiCount++; });
       });
     }catch(e){ console.error('โหลด dailyLogs (เทียบยอดบันทึกจริง) ไม่สำเร็จ:', e); }
-    const savedPct = total>0 ? Math.round(Math.min(savedAiCount,total)/total*100) : 0;
+    const savedPct = labelCalls.length>0 ? Math.round(Math.min(savedAiCount,labelCalls.length)/labelCalls.length*100) : 0;
 
     const warnHtml = (mainErr || kioskErr)
       ? `<p style="font-size:11.5px; color:var(--red-high); margin-top:8px;">⚠️ โหลดข้อมูลได้ไม่ครบ: ${mainErr ? 'แอปหลัก (index.html) โหลดไม่สำเร็จ — ' + (mainErr.message||mainErr.code) : ''}${kioskErr ? 'จุดตรวจร้านค้า (checklabel.html) โหลดไม่สำเร็จ — ' + (kioskErr.message||kioskErr.code) : ''} (เลขที่โชว์ด้านบนเป็นแค่ส่วนที่โหลดได้เท่านั้น ไม่ใช่ยอดจริงทั้งหมด — ถ้าขึ้น "Missing or insufficient permissions" ต้องไปแก้ firestore.rules ให้แอดมินอ่าน collection นี้ได้)</p>`
@@ -1602,9 +1603,9 @@ async function loadAiVisionCallLog(){
         <div class="kpi"><div class="n">${total}</div><div class="l">เรียก AI จริงทั้งหมด</div></div>
         <div class="kpi"><div class="n">${mainCalls.length}</div><div class="l">จากแอปหลัก</div></div>
         <div class="kpi"><div class="n">${kioskCalls.length}</div><div class="l">จากจุดตรวจร้านค้า</div></div>
-        <div class="kpi"><div class="n">${foundCount}</div><div class="l">อ่านเจอค่า (${notFoundCount} ไม่เจอ)</div></div>
+        <div class="kpi"><div class="n">${foundCount}</div><div class="l">อ่านฉลากเจอค่า (${notFoundCount} ไม่เจอ)</div></div>
       </div>
-      <p style="font-size:11.5px; color:#aab5b8; margin-top:8px;">กดบันทึกต่อจริงในแอป ${savedAiCount} จาก ${total} ครั้ง (${savedPct}%)</p>
+      <p style="font-size:11.5px; color:#aab5b8; margin-top:8px;">ไม่รวมการตรวจภารกิจอีก ${missionCheckCount} ครั้ง (คนละเรื่องกับ "อ่านฉลากเจอค่า" — เป็นการประเมินหลักฐานภารกิจ ไม่ใช่การอ่านตัวเลขจากฉลาก) · จากที่เรียก AI อ่านฉลากในบันทึกประจำวัน ${labelCalls.length} ครั้ง มีคนกดบันทึกเก็บไว้จริง ${savedAiCount} ครั้ง (${savedPct}%)</p>
       ${warnHtml}
     `;
   }catch(e){
