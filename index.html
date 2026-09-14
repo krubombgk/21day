@@ -1160,7 +1160,7 @@
       <!-- Growth Hero: Day X/21 + ระยะการเติบโตของ Sprout — จุดเด่นที่สุดของหน้า Home ตามธีมใหม่ -->
       <div class="home-hero" style="cursor:default; text-align:center;">
         <div style="font-family:'Kanit'; font-weight:700; font-size:13px; color:var(--deep-sea); opacity:0.8;" id="growthHeroDay">Day 1 / 21</div>
-        <div style="font-size:44px; line-height:1.2; margin:6px 0;" id="growthHeroEmoji">🌰</div>
+        <img style="width:44px; height:44px; object-fit:contain; margin:6px 0;" id="growthHeroEmoji" src="growth-seed.png" alt="">
         <div style="font-family:'Kanit'; font-weight:700; font-size:15px; color:var(--deep-sea);" id="growthHeroStage">เมล็ดพันธุ์</div>
         <div style="font-size:12.5px; color:#6b7c80; margin-top:4px;" id="growthHeroMsg">วันนี้โตขึ้นอีกนิดไปด้วยกันนะ!</div>
       </div>
@@ -1375,13 +1375,13 @@
 
         <div id="gaugeArea" style="display:none;">
           <div class="gauge-wrap" id="gaugeWrap-sugar">
-            <div class="gauge-label" style="margin-top:0;">🍬 น้ำตาล</div>
+            <div class="gauge-label" style="margin-top:0;"><img src="nutrient-sugar.png" alt="" style="width:18px; height:18px; object-fit:contain; vertical-align:-4px; margin-right:2px;"> น้ำตาล</div>
             <div class="progress-track"><div class="progress-fill-bar" id="sugarBar" style="width:0%;"></div></div>
             <div class="gauge-num" id="sugarPct" style="font-size:22px;">0%</div>
             <div class="gauge-label">ของขีดจำกัดน้ำตาลที่แนะนำต่อวัน (ไม่ควรเกิน <span id="sugarGoalLabel">24</span> กรัม)</div>
           </div>
           <div class="gauge-wrap" id="gaugeWrap-fat" style="margin-top:16px;">
-            <div class="gauge-label" style="margin-top:0;">🍟 ไขมัน</div>
+            <div class="gauge-label" style="margin-top:0;"><img src="nutrient-fat.png" alt="" style="width:18px; height:18px; object-fit:contain; vertical-align:-4px; margin-right:2px;"> ไขมัน</div>
             <div class="progress-track"><div class="progress-fill-bar" id="fatBar" style="width:0%;"></div></div>
             <div class="gauge-num" id="fatPct" style="font-size:22px;">0%</div>
             <div class="gauge-label">ของขีดจำกัดไขมันที่แนะนำต่อวัน (ไม่ควรเกิน <span id="fatGoalLabel">65</span> กรัม)</div>
@@ -1649,7 +1649,7 @@
         </div>
         <div style="text-align:center; margin-top:10px;">
           <span style="font-family:'Kanit'; font-weight:700; font-size:13px; color:var(--deep-sea); opacity:0.85;" id="pgDayLabel">Day 1 / 21</span>
-          <span style="font-size:20px; margin:0 4px;" id="pgGrowthEmoji">🌰</span>
+          <img style="width:20px; height:20px; object-fit:contain; vertical-align:-4px; margin:0 4px;" id="pgGrowthEmoji" src="growth-seed.png" alt="">
           <span style="font-family:'Kanit'; font-weight:700; font-size:13px; color:var(--deep-sea);" id="pgGrowthStage">เมล็ดพันธุ์</span>
         </div>
       </div>
@@ -1994,7 +1994,7 @@
    ถ้าเจอเวอร์ชันใหม่กว่าที่ฝังมากับโค้ดตอนนี้ จะรีเฟรชอัตโนมัติทันที (ไม่ต้องรอให้ใครกดเอง กันเครื่องค้างเวอร์ชันเก่าไม่รู้ตัว)
    ยกเว้นตอนกำลังพิมพ์อะไรอยู่ในช่องกรอกข้อความ (เช่น เขียนสะท้อนตัวเอง) จะรอรอบถัดไปก่อน กันข้อมูลที่พิมพ์ค้างอยู่หายกะทันหัน
    ========================================================= */
-const APP_VERSION = "2026-09-10-11"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-10-12"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
@@ -3041,12 +3041,12 @@ async function submitPostSurvey(){
 function growthStageFor(day, total){
   // ระยะการเติบโตของ Sprout ตาม Day ปัจจุบัน — เทียบสัดส่วนกับความยาวแคมเปญจริง (เผื่อไม่ใช่ 21 วันเป๊ะ)
   const pct = day / total;
-  if(day <= 1) return {emoji:'🌰', label:'เมล็ดพันธุ์', msg:'เริ่มต้นวันแรกไปด้วยกันนะ!'};
-  if(pct <= 3/21) return {emoji:'🌱', label:'เริ่มงอก', msg:'ทีละก้าวเล็กๆ นะ วันนี้ก็เก่งมากแล้ว'};
-  if(pct <= 7/21) return {emoji:'🌱', label:'ต้นอ่อนใบแรก', msg:'วันนี้โตขึ้นอีกนิดไปด้วยกันนะ!'};
-  if(pct <= 14/21) return {emoji:'🌿', label:'เติบโตมากขึ้น', msg:'ทุกก้าวเล็กๆ มีความหมายเสมอ'};
-  if(day < total) return {emoji:'🌿', label:'ใกล้สมบูรณ์แล้ว', msg:'อีกไม่ไกลแล้ว ไปให้ถึงเส้นชัยกันนะ!'};
-  return {emoji:'🌳', label:'ต้นอ่อนที่สมบูรณ์', msg:'เก่งมาก! ดูแลตัวเองมาครบแล้ว 🎉'};
+  if(day <= 1) return {icon:'growth-seed.png', label:'เมล็ดพันธุ์', msg:'เริ่มต้นวันแรกไปด้วยกันนะ!'};
+  if(pct <= 3/21) return {icon:'growth-sprout1.png', label:'เริ่มงอก', msg:'ทีละก้าวเล็กๆ นะ วันนี้ก็เก่งมากแล้ว'};
+  if(pct <= 7/21) return {icon:'growth-sprout2.png', label:'ต้นอ่อนใบแรก', msg:'วันนี้โตขึ้นอีกนิดไปด้วยกันนะ!'};
+  if(pct <= 14/21) return {icon:'growth-leaf1.png', label:'เติบโตมากขึ้น', msg:'ทุกก้าวเล็กๆ มีความหมายเสมอ'};
+  if(day < total) return {icon:'growth-leaf2.png', label:'ใกล้สมบูรณ์แล้ว', msg:'อีกไม่ไกลแล้ว ไปให้ถึงเส้นชัยกันนะ!'};
+  return {icon:'growth-tree.png', label:'ต้นอ่อนที่สมบูรณ์', msg:'เก่งมาก! ดูแลตัวเองมาครบแล้ว 🎉'};
 }
 
 function refreshHomeTab(){
@@ -3059,7 +3059,7 @@ function refreshHomeTab(){
   // ---- Growth Hero: Day X/21 + ระยะการเติบโต ----
   const stage = growthStageFor(state.dayNumber, state.totalDays);
   document.getElementById('growthHeroDay').textContent = `Day ${state.dayNumber} / ${state.totalDays}`;
-  document.getElementById('growthHeroEmoji').textContent = stage.emoji;
+  document.getElementById('growthHeroEmoji').src = stage.icon;
   document.getElementById('growthHeroStage').textContent = stage.label;
   document.getElementById('growthHeroMsg').textContent = stage.msg;
 
@@ -3554,9 +3554,9 @@ async function handleLabelPhoto(event){
       const heroPct = Math.min(Math.round((data.sodium_mg/getSodiumGoal())*100),200);
       const heroColor = heroPct < 20 ? 'var(--green-ok)' : (heroPct < 40 ? 'var(--amber-warn)' : 'var(--red-high)');
       const extraLines = [];
-      if(data.energy_kcal != null) extraLines.push(`⚡ ${data.energy_kcal} กิโลแคลอรี`);
-      if(data.sugar_g != null) extraLines.push(`🍬 น้ำตาล ${data.sugar_g} กรัม`);
-      if(data.fat_g != null) extraLines.push(`🍟 ไขมัน ${data.fat_g} กรัม`);
+      if(data.energy_kcal != null) extraLines.push(`<img src="nutrient-energy.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> ${data.energy_kcal} กิโลแคลอรี`);
+      if(data.sugar_g != null) extraLines.push(`<img src="nutrient-sugar.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> น้ำตาล ${data.sugar_g} กรัม`);
+      if(data.fat_g != null) extraLines.push(`<img src="nutrient-fat.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> ไขมัน ${data.fat_g} กรัม`);
       sodiumHeroHtml = `
         <div style="text-align:center; padding:4px 0 2px;">
           <div style="font-size:15px; font-weight:700; color:#3d4b4f;">AI อ่านฉลากได้</div>
@@ -3801,7 +3801,7 @@ function calcSodium(){
 
   // พลังงาน: โชว์ไว้ดูเฉยๆ ไม่มีเกจ/ขีดจำกัด เพราะปริมาณที่เหมาะสมต่อวันต่างกันมากตามอายุ/กิจกรรมแต่ละคน ไม่มีเลขเดียวที่ใช้ได้กับทุกคน
   const energyEl = document.getElementById('energyInfoLine');
-  energyEl.textContent = !isNaN(energy) ? `⚡ พลังงาน ${energy.toLocaleString('th-TH')} กิโลแคลอรีต่อหน่วยบริโภค (ไม่มีเกณฑ์ตายตัว ขึ้นกับแต่ละคน)` : '';
+  energyEl.innerHTML = !isNaN(energy) ? `<img src="nutrient-energy.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> พลังงาน ${energy.toLocaleString('th-TH')} กิโลแคลอรีต่อหน่วยบริโภค (ไม่มีเกณฑ์ตายตัว ขึ้นกับแต่ละคน)` : '';
 }
 
 /* ---- Streak การเก็บข้อมูลโซเดียม (ตรวจฉลาก หรือเพิ่มเมนูอาหาร นับเป็น "เก็บข้อมูล" ของวันนั้นเหมือนกัน) ---- */
@@ -3940,13 +3940,13 @@ function renderAllTimeCheckHistory(){
   if(items.length===0){ el.innerHTML = '<div class="empty-note">ยังไม่เคยตรวจฉลากเลย</div>'; return; }
   el.innerHTML = items.slice(0,50).map(c=>{
     const extras = [];
-    if(c.sugar != null) extras.push(`🍬${c.sugar}ก.`);
-    if(c.fat != null) extras.push(`🍟${c.fat}ก.`);
+    if(c.sugar != null) extras.push(`<img src="nutrient-sugar.png" alt="" style="width:12px; height:12px; object-fit:contain; vertical-align:-1px;">${c.sugar}ก.`);
+    if(c.fat != null) extras.push(`<img src="nutrient-fat.png" alt="" style="width:12px; height:12px; object-fit:contain; vertical-align:-1px;">${c.fat}ก.`);
     const extraHtml = extras.length ? ` · ${extras.join(' ')}` : '';
     return `
     <div class="check-item">
       <div class="ci-name">${c.name} <span style="color:#9aa8ab;font-weight:400;">· ${c.date}${c.time?' '+c.time:''}${c.consumed===false?' · 🔍 แค่ตรวจดู':' · 🍽️ กินแล้ว'}</span></div>
-      <div class="ci-val">🧂${c.sodium} มก. (${c.pct}%)${extraHtml}</div>
+      <div class="ci-val"><img src="nutrient-sodium.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;">${c.sodium} มก. (${c.pct}%)${extraHtml}</div>
     </div>
   `;}).join('');
 }
@@ -5333,10 +5333,10 @@ async function awardQuizPointsOnce(points, targetDate){
 function renderJourney(){
   const daysCompleted = state.selectedStudent.daysCompleted || 0;
   const milestones = [
-    {threshold:1, icon:'🌱', label:'เริ่มต้นวันแรก'},
-    {threshold:7, icon:'🔍', label:'เริ่มสังเกตและเรียนรู้'},
-    {threshold:14, icon:'❤️', label:'ลองปรับพฤติกรรม'},
-    {threshold:21, icon:'⭐', label:'เป็นตัวเราที่ดีที่สุด'}
+    {threshold:1, icon:'journey-start.png', label:'เริ่มต้นวันแรก'},
+    {threshold:7, icon:'journey-observe.png', label:'เริ่มสังเกตและเรียนรู้'},
+    {threshold:14, icon:'journey-adjust.png', label:'ลองปรับพฤติกรรม'},
+    {threshold:21, icon:'journey-bestself.png', label:'เป็นตัวเราที่ดีที่สุด'}
   ];
   const scaled = milestones.map(m => ({...m, threshold: Math.min(m.threshold, state.totalDays)}));
   let currentStage = 0;
@@ -5347,7 +5347,7 @@ function renderJourney(){
   document.getElementById('journeyPoints').innerHTML = scaled.map(m=>{
     const done = daysCompleted >= m.threshold;
     return `<div class="journey-point ${done?'done':''}">
-      <div class="journey-circle">${done?'✅':m.icon}</div>
+      <div class="journey-circle">${done?'✅':`<img src="${m.icon}" alt="" style="width:22px; height:22px; object-fit:contain;">`}</div>
       <div class="journey-label">${m.label}</div>
     </div>`;
   }).join('');
@@ -5369,14 +5369,14 @@ function renderHighlights(){
   const quizPct = quizTotalSum>0 ? Math.round(quizCorrectSum/quizTotalSum*100) : null;
 
   const candidates = [
-    { icon:'🔥', title:'ทำต่อเนื่อง', value: streak, text: v=>`บันทึกต่อเนื่อง <b>${v} วัน</b>` },
-    { icon:'🔍', title:'อ่านฉลากบ่อยขึ้น', value: sodiumCheckCount, text: v=>`ตรวจฉลากแล้ว <b>${v} ครั้ง</b>` },
-    { icon:'❓', title:'ความรู้เพิ่มขึ้น', value: quizPct, text: v=>`Quiz ถูกสะสม <b>${v}%</b>` },
-    { icon:'🎯', title:'ทำภารกิจสำเร็จ', value: approvedMissionCount, text: v=>`ผ่านภารกิจแล้ว <b>${v} ครั้ง</b>` },
-    { icon:'🥗', title:'เลือกทางเลือกสุขภาพ', value: healthyChoiceCount, text: v=>`บันทึกการเลือกแล้ว <b>${v} วัน</b>` },
-    { icon:'📋', title:'อ่านฉลาก GDA', value: readGDACount, text: v=>`อ่านฉลาก GDA แล้ว <b>${v} วัน</b>` },
-    { icon:'💧', title:'ดื่มน้ำสม่ำเสมอ', value: drinkWaterCount, text: v=>`บันทึกดื่มน้ำแล้ว <b>${v} วัน</b>` },
-    { icon:'🏷️', title:'อ่านฉลากโภชนาการ', value: readLabelCount, text: v=>`อ่านฉลากก่อนกินแล้ว <b>${v} วัน</b>` }
+    { icon:'highlight-streak.png', title:'ทำต่อเนื่อง', value: streak, text: v=>`บันทึกต่อเนื่อง <b>${v} วัน</b>` },
+    { icon:'highlight-label.png', title:'อ่านฉลากบ่อยขึ้น', value: sodiumCheckCount, text: v=>`ตรวจฉลากแล้ว <b>${v} ครั้ง</b>` },
+    { icon:'highlight-quiz.png', title:'ความรู้เพิ่มขึ้น', value: quizPct, text: v=>`Quiz ถูกสะสม <b>${v}%</b>` },
+    { icon:'highlight-mission.png', title:'ทำภารกิจสำเร็จ', value: approvedMissionCount, text: v=>`ผ่านภารกิจแล้ว <b>${v} ครั้ง</b>` },
+    { icon:'highlight-healthychoice.png', title:'เลือกทางเลือกสุขภาพ', value: healthyChoiceCount, text: v=>`บันทึกการเลือกแล้ว <b>${v} วัน</b>` },
+    { icon:'highlight-gda.png', title:'อ่านฉลาก GDA', value: readGDACount, text: v=>`อ่านฉลาก GDA แล้ว <b>${v} วัน</b>` },
+    { icon:'highlight-water.png', title:'ดื่มน้ำสม่ำเสมอ', value: drinkWaterCount, text: v=>`บันทึกดื่มน้ำแล้ว <b>${v} วัน</b>` },
+    { icon:'highlight-nutrition.png', title:'อ่านฉลากโภชนาการ', value: readLabelCount, text: v=>`อ่านฉลากก่อนกินแล้ว <b>${v} วัน</b>` }
   ].filter(c => c.value !== null && c.value > 0);
   candidates.sort((a,b)=>b.value-a.value);
   const top3 = candidates.slice(0,3);
@@ -5388,7 +5388,7 @@ function renderHighlights(){
   }
   gridEl.innerHTML = top3.map(c=>`
     <div class="hl-card">
-      <div class="hl-icon">${c.icon}</div>
+      <img class="hl-icon" src="${c.icon}" alt="" style="width:28px; height:28px; object-fit:contain;">
       <div><div class="hl-title">${c.title}</div><div class="hl-value">${c.text(c.value)}</div></div>
     </div>
   `).join('');
@@ -5399,14 +5399,14 @@ function renderHighlights(){
 function renderPlantStory(){
   const dayNum = state.dayNumber || 1;
   const stages = [
-    {emoji:'🌱', name:'เริ่มต้น', sub:'วันที่ 1', active: dayNum>=1},
-    {emoji:'🌿', name:'เริ่มสังเกต', sub:'สัปดาห์แรก', active: dayNum>=2},
-    {emoji:'🌼', name:'กำลังฝึก', sub:'สัปดาห์ที่ 2-3', active: dayNum>=8},
-    {emoji:'🌳', name:'ทำต่อเนื่อง', sub:'หลังจบ Challenge', active: dayNum>=15}
+    {icon:'maturity-start.png', name:'เริ่มต้น', sub:'วันที่ 1', active: dayNum>=1},
+    {icon:'maturity-observe.png', name:'เริ่มสังเกต', sub:'สัปดาห์แรก', active: dayNum>=2},
+    {icon:'maturity-practice.png', name:'กำลังฝึก', sub:'สัปดาห์ที่ 2-3', active: dayNum>=8},
+    {icon:'maturity-consistent.png', name:'ทำต่อเนื่อง', sub:'หลังจบ Challenge', active: dayNum>=15}
   ];
   document.getElementById('plantRow').innerHTML = stages.map((s,i)=>
     `<div class="plant-stage ${s.active?'active':''}">
-      <div class="plant-emoji">${s.emoji}</div>
+      <img class="plant-emoji" src="${s.icon}" alt="" style="width:30px; height:30px; object-fit:contain; margin-bottom:6px;">
       <div class="plant-name">${s.name}</div>
       <div class="plant-sub">${s.sub}</div>
     </div>${i<stages.length-1 ? '<div class="plant-arrow">→</div>' : ''}`
@@ -5506,7 +5506,7 @@ function renderStats(){
 
   const pgStage = growthStageFor(state.dayNumber, state.totalDays);
   document.getElementById('pgDayLabel').textContent = `Day ${state.dayNumber} / ${state.totalDays}`;
-  document.getElementById('pgGrowthEmoji').textContent = pgStage.emoji;
+  document.getElementById('pgGrowthEmoji').src = pgStage.icon;
   document.getElementById('pgGrowthStage').textContent = pgStage.label;
 
   const cats = state.selectedStudent.pointsByCategory || {};
@@ -5545,25 +5545,25 @@ function renderStats(){
   // รายชื่อ badge ทั้งหมด (ยังเป็นชุดชั่วคราว รอคุยกันว่าจะปรับรายการ/เงื่อนไขจริงหรือไม่)
   // แสดงครบทุกใบเสมอ ใบที่ยังไม่ปลดล็อกจะเป็นสีเทา กดดูได้ว่าต้องทำอะไรถึงจะได้
   const BADGE_DEFS = [
-    { key:'consistency', icon:'⭐', name:'Consistency Star', earned:(state.selectedStudent.longestStreak||0) >= halfway,
+    { key:'consistency', icon:'badge-consistency.png', name:'Consistency Star', earned:(state.selectedStudent.longestStreak||0) >= halfway,
       reqText:`ทำต่อเนื่องติดกัน ${halfway} วัน`,
       desc:`ทำต่อเนื่องติดกัน ${halfway} วัน (ตอนนี้ทำได้สูงสุด ${state.selectedStudent.longestStreak||0} วัน)` },
-    { key:'labelStreak', icon:'🔥', name:'Label Streak', earned: labelReadLongestStreak >= halfway,
+    { key:'labelStreak', icon:'badge-labelstreak.png', name:'Label Streak', earned: labelReadLongestStreak >= halfway,
       reqText:`อ่านฉลากต่อเนื่อง ${halfway} วัน`,
       desc:`อ่านฉลาก (ประเภทไหนก็ได้) ต่อเนื่อง ${halfway} วัน (ตอนนี้ทำได้สูงสุด ${labelReadLongestStreak} วัน)` },
-    { key:'labelDetective', icon:'🔍', name:'Label Detective', earned: labelReadCount >= 10,
+    { key:'labelDetective', icon:'badge-labeldetective.png', name:'Label Detective', earned: labelReadCount >= 10,
       reqText:`อ่านฉลากสะสม 10 วัน`,
       desc:`อ่านฉลาก (ประเภทไหนก็ได้) สะสม 10 วัน (ตอนนี้อ่านไปแล้ว ${labelReadCount} วัน)` },
     { key:'quizMaster', icon:'🧠', name:'Quiz Master', earned: quizTotalSum>0 && quizAccuracy >= 0.8,
       reqText:`ตอบ Quiz ถูกสะสม 80% ขึ้นไป`,
       desc:`ตอบ Quiz ถูกสะสม 80% ขึ้นไป (ตอนนี้ ${quizTotalSum>0 ? Math.round(quizAccuracy*100) : 0}%)` },
-    { key:'missionExplorer', icon:'🎯', name:'Mission Explorer', earned: approvedMissionCount >= 15,
+    { key:'missionExplorer', icon:'badge-missionexplorer.png', name:'Mission Explorer', earned: approvedMissionCount >= 15,
       reqText:`ผ่านภารกิจสะสม 15 ครั้ง`,
       desc:`ผ่านภารกิจสะสม 15 ครั้ง (ตอนนี้ผ่านแล้ว ${approvedMissionCount} ครั้ง)` },
-    { key:'healthyChoice', icon:'💚', name:'Healthy Choice', earned: healthyChoiceCount >= 10,
+    { key:'healthyChoice', icon:'badge-healthychoice.png', name:'Healthy Choice', earned: healthyChoiceCount >= 10,
       reqText:`เลือกทางเลือกสุขภาพสะสม 10 วัน`,
       desc:`เลือกทางเลือกสุขภาพสะสม 10 วัน (ตอนนี้ ${healthyChoiceCount} วัน)` },
-    { key:'finisher', icon:'🏆', name:'21-Day Finisher', earned:(state.selectedStudent.daysCompleted||0) >= state.totalDays,
+    { key:'finisher', icon:'badge-finisher.png', name:'21-Day Finisher', earned:(state.selectedStudent.daysCompleted||0) >= state.totalDays,
       reqText:`ทำกิจกรรมครบทุกวันตลอด ${state.totalDays} วัน`,
       desc:`ทำกิจกรรมครบทุกวันตลอด ${state.totalDays} วัน (ตอนนี้ทำสำเร็จ ${state.selectedStudent.daysCompleted||0} วัน)` },
   ];
@@ -5589,7 +5589,7 @@ async function captureBadgeTimestamps(badgeDefs){
 function showBadgeDetail(i){
   const b = (state.badgeDefsCache||[])[i];
   if(!b) return;
-  alert(`${b.icon} ${b.name}\n\n${b.earned ? '✅ ปลดล็อกแล้ว!' : '🔒 ยังไม่ปลดล็อก'}\n\nวิธีได้รับ: ${b.desc}`);
+  alert(`🏅 ${b.name}\n\n${b.earned ? '✅ ปลดล็อกแล้ว!' : '🔒 ยังไม่ปลดล็อก'}\n\nวิธีได้รับ: ${b.desc}`);
 }
 
 // วาดหน้า "รางวัลของฉัน" แบบ Collection (สรุปคะแนน/จำนวนตรา, กริดตราที่ได้แล้ว, progress, กริดตราที่รอปลดล็อก)
@@ -5616,7 +5616,7 @@ function renderRewardsPage(badgeDefs){
   function badgeCardHtml(b, idx, locked){
     return `
       <div class="rw-badge-card${locked?' locked':''}" onclick="showBadgeDetail(${idx})">
-        ${locked ? '<div class="rw-badge-lock">🔒</div>' : `<div class="rw-badge-icon">${b.icon}</div>`}
+        ${locked ? '<div class="rw-badge-lock">🔒</div>' : `<img class="rw-badge-icon" src="${b.icon}" alt="" style="width:34px; height:34px; object-fit:contain; margin-bottom:8px;">`}
         <div class="rw-badge-name">${b.name}</div>
         <div class="rw-badge-desc">${b.reqText}</div>
       </div>`;
@@ -5667,7 +5667,7 @@ async function openRewardHistory(){
     listEl.innerHTML = events.length>0
       ? events.map(e=>`
         <div class="rw-history-item">
-          <div class="rw-history-icon">${e.icon}</div>
+          <div class="rw-history-icon">${e.icon.endsWith('.png') ? `<img src="${e.icon}" alt="" style="width:24px; height:24px; object-fit:contain;">` : e.icon}</div>
           <div><div class="rw-history-name">${e.name}</div><div class="rw-history-date">${dayLabelThai(e.date.slice(0,10))}</div></div>
         </div>`).join('')
       : '<div class="empty-note">ยังไม่มีประวัติการได้รับ ลองทำกิจกรรมดูนะ</div>';
