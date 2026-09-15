@@ -934,7 +934,7 @@
       <p>เคยสมัครแล้วพิมพ์ชื่อเดิม / ยังไม่เคยสมัครพิมพ์ชื่อใหม่ได้เลย</p>
     </div>
     <input type="text" id="usernameInput" oninput="clearUsernameError()" maxlength="20"
-      placeholder="เช่น บอมเก่ง99"
+      placeholder="เช่น อยน้อย2026"
       style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box;">
     <div id="usernameError" style="color:var(--red-high); font-size:13px; font-weight:600; min-height:18px; margin:6px 0;"></div>
     <button class="welcome-btn" onclick="submitUsername()">ต่อไป</button>
@@ -1994,7 +1994,7 @@
    ถ้าเจอเวอร์ชันใหม่กว่าที่ฝังมากับโค้ดตอนนี้ จะรีเฟรชอัตโนมัติทันที (ไม่ต้องรอให้ใครกดเอง กันเครื่องค้างเวอร์ชันเก่าไม่รู้ตัว)
    ยกเว้นตอนกำลังพิมพ์อะไรอยู่ในช่องกรอกข้อความ (เช่น เขียนสะท้อนตัวเอง) จะรอรอบถัดไปก่อน กันข้อมูลที่พิมพ์ค้างอยู่หายกะทันหัน
    ========================================================= */
-const APP_VERSION = "2026-09-10-13"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-10-14"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
