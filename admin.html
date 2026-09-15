@@ -746,7 +746,7 @@
    ใช้ version.json ไฟล์เดียวกับ index.html (แก้เลขคู่กันทุกครั้งที่ deploy)
    เจอเวอร์ชันใหม่แล้วรีเฟรชอัตโนมัติทันที ยกเว้นกำลังพิมพ์อะไรอยู่ (เช่น เหตุผลไม่ผ่านภารกิจ) จะรอรอบถัดไปก่อน
    ========================================================= */
-const APP_VERSION = "2026-09-10-12"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-10-13"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
@@ -816,6 +816,30 @@ function logoutAdmin(){
   location.reload();
 }
 
+// เก็บรหัสผ่านแอดมินไว้ในหน่วยความจำเท่านั้น (ไม่ persist ลง sessionStorage) ใช้แนบไปกับ Cloud Function
+// ที่ตรวจรหัสผ่านจริงฝั่งเซิร์ฟเวอร์ทุกครั้งก่อนทำงานอันตราย (ลบ/ย้าย/รีเซ็ตข้อมูลจำนวนมาก)
+// รีเฟรชหน้าแล้วจะหายไป (เพราะเป็นแค่ตัวแปร JS ธรรมดา) ต้องกรอกใหม่ตอนทำ action แรกหลังรีเฟรช ถือว่าตั้งใจ ไม่ใช่บั๊ก
+let adminPasswordCache = '';
+
+// เรียก Cloud Function ที่ต้องยืนยันรหัสผ่านแอดมิน — ถ้ายังไม่มีรหัสผ่านค้างอยู่ในหน่วยความจำ (เช่น เพิ่ง refresh มา) จะถามให้กรอกก่อน 1 ครั้ง
+async function callAdminAction(functionName, extraParams){
+  if(!adminPasswordCache){
+    const pw = prompt('ยืนยันรหัสผ่านแอดมินอีกครั้งก่อนทำรายการนี้ (ต้องยืนยันใหม่หลัง refresh หน้า)');
+    if(!pw) throw new Error('ยกเลิก — ไม่ได้กรอกรหัสผ่าน');
+    adminPasswordCache = pw;
+  }
+  const fn = functions.httpsCallable(functionName);
+  try{
+    const result = await fn({ password: adminPasswordCache, ...extraParams });
+    return result.data;
+  }catch(e){
+    if(e.code === 'functions/permission-denied'){
+      adminPasswordCache = ''; // รหัสผ่านผิด ล้างแคชทิ้ง กันเรียกซ้ำด้วยรหัสผ่านผิดเดิม
+    }
+    throw e;
+  }
+}
+
 async function checkAdminPw(){
   const pw = document.getElementById('adminPw').value;
   const btn = document.querySelector('#gateScreen .btn-primary');
@@ -826,6 +850,7 @@ async function checkAdminPw(){
     const checkAdminAccess = functions.httpsCallable('checkAdminAccess');
     const result = await checkAdminAccess({ password: pw });
     currentRole = result.data.role; // 'admin' หรือ 'youth'
+    if(currentRole === 'admin') adminPasswordCache = pw; // เก็บไว้ใช้เรียก action อันตรายต่อได้เลยไม่ต้องถามซ้ำ (ยุวทูตทำ action กลุ่มนี้ไม่ได้อยู่แล้ว ไม่ต้องเก็บ)
     saveAdminSession();
     enterAdminApp();
   }catch(e){
@@ -1513,14 +1538,8 @@ async function resetAiCallStats(){
   msgEl.style.color = 'var(--lagoon)';
   msgEl.textContent = 'กำลังล้าง...';
   try{
-    const snap = await db.collection('aiVisionCalls').get();
-    const docs = snap.docs;
-    for(let i=0; i<docs.length; i+=450){ // แบ่งเป็นชุดละ 450 กันชนลิมิต batch write 500 ของ Firestore
-      const batch = db.batch();
-      docs.slice(i, i+450).forEach(d => batch.delete(d.ref));
-      await batch.commit();
-    }
-    msgEl.textContent = `ล้างสถิติแล้ว (ลบ ${docs.length} รายการ) เริ่มนับใหม่จาก 0`;
+    const result = await callAdminAction('adminResetAiCallStats', {});
+    msgEl.textContent = `ล้างสถิติแล้ว (ลบ ${result.deletedCount} รายการ) เริ่มนับใหม่จาก 0`;
     loadAiVisionCallLog();
   }catch(e){
     console.error(e);
@@ -1791,12 +1810,17 @@ async function rejectSchool(schoolId, name){
   const count = schoolStudentCount(schoolId);
   if(count>0){ alert(`ปฏิเสธ "${name}" ไม่ได้ เพราะมีนักเรียนอยู่แล้ว ${count} คน — อนุมัติหรือรวมเข้าโรงเรียนอื่นแทนดีกว่า`); return; }
   if(!confirm(`ปฏิเสธโรงเรียน "${name}" เลยไหม? ลบออกจากระบบถาวร (กู้คืนไม่ได้)`)) return;
-  await db.collection('schools').doc(schoolId).delete();
-  schoolsCache = schoolsCache.filter(s=>s.id!==schoolId);
-  loadSchoolTable();
+  try{
+    await callAdminAction('adminDeleteSchool', { schoolId });
+    schoolsCache = schoolsCache.filter(s=>s.id!==schoolId);
+    loadSchoolTable();
+  }catch(e){
+    alert('ปฏิเสธไม่สำเร็จ: ' + (e.message || e.code));
+  }
 }
 
 // รวมโรงเรียน source เข้ากับ target: ย้ายนักเรียนทุกคน + ย้าย username subcollection ตาม (เช็คชนแล้วเปลี่ยนให้อัตโนมัติถ้าจำเป็น)
+// ทำผ่าน Cloud Function ทั้งหมด (adminMergeSchool) เพราะเป็น action ที่กระทบข้อมูลนักเรียนจำนวนมาก ต้องยืนยันรหัสผ่านจริงฝั่งเซิร์ฟเวอร์
 async function mergeSchool(sourceId, selectElId){
   const targetId = document.getElementById(selectElId).value;
   if(!targetId){ alert('กรุณาเลือกโรงเรียนปลายทางก่อน'); return; }
@@ -1805,44 +1829,23 @@ async function mergeSchool(sourceId, selectElId){
   if(!source || !target) return;
   if(!confirm(`รวม "${source.schoolName}" เข้ากับ "${target.schoolName}" เลยไหม?\n\nนักเรียนทุกคนในโรงเรียนเดิมจะถูกย้ายไปอยู่โรงเรียนใหม่ ถ้า username ชนกันระบบจะเปลี่ยน username ให้อัตโนมัติ (จะมีสรุปแจ้งตอนจบ)`)) return;
 
-  const affected = studentsCache.filter(s=>s.schoolId===sourceId);
-  const renamedList = [];
-  const msgBox = document.getElementById('schoolMsg');
-  setMsg('schoolMsg', `กำลังย้ายนักเรียน 0/${affected.length} คน...`);
+  setMsg('schoolMsg', `กำลังรวมโรงเรียน... (อาจใช้เวลาสักครู่ถ้ามีนักเรียนหลายคน)`);
+  try{
+    const result = await callAdminAction('adminMergeSchool', { sourceSchoolId: sourceId, targetSchoolId: targetId });
+    await loadStudentsCache(); // โหลดใหม่จาก Firestore เพราะย้ายผ่าน Cloud Function ไม่ได้อัปเดต cache ในเครื่องให้อัตโนมัติ
+    const srcCache = schoolsCache.find(s=>s.id===sourceId);
+    if(srcCache) srcCache.mergedIntoSchoolId = targetId;
 
-  for(let i=0; i<affected.length; i++){
-    const student = affected[i];
-    let newUsername = student.username;
-    const targetUsernameRef = db.collection('schools').doc(targetId).collection('usernames').doc(student.username);
-    const targetUsernameSnap = await targetUsernameRef.get();
-    if(targetUsernameSnap.exists){
-      let suffix = 2;
-      while(true){
-        const candidate = student.username + suffix;
-        const candSnap = await db.collection('schools').doc(targetId).collection('usernames').doc(candidate).get();
-        if(!candSnap.exists){ newUsername = candidate; break; }
-        suffix++;
-      }
-      renamedList.push(`${student.fullName}: ${student.username} → ${newUsername}`);
+    loadSchoolTable();
+    loadStudentTable();
+    const renamedList = result.renamedList || [];
+    setMsg('schoolMsg', `รวมโรงเรียนสำเร็จ ย้ายนักเรียน ${result.movedCount} คน` +
+      (renamedList.length ? ` (เปลี่ยน username ${renamedList.length} คนเพราะชนกัน — ดูรายละเอียดที่ alert)` : ''));
+    if(renamedList.length){
+      alert('มีการเปลี่ยน username เนื่องจากชนกันตอนรวมโรงเรียน:\n\n' + renamedList.map(r=>`${r.fullName}: ${r.from} → ${r.to}`).join('\n'));
     }
-    await db.collection('schools').doc(targetId).collection('usernames').doc(newUsername).set({studentId: student.id, createdAt: new Date().toISOString()});
-    await db.collection('students').doc(student.id).update({schoolId: targetId, username: newUsername});
-    await db.collection('schools').doc(sourceId).collection('usernames').doc(student.username).delete().catch(()=>{});
-    student.schoolId = targetId; // อัปเดต cache ในเครื่องด้วย
-    student.username = newUsername;
-    setMsg('schoolMsg', `กำลังย้ายนักเรียน ${i+1}/${affected.length} คน...`);
-  }
-
-  await db.collection('schools').doc(sourceId).update({status:'pending', mergedIntoSchoolId: targetId});
-  const srcCache = schoolsCache.find(s=>s.id===sourceId);
-  if(srcCache) srcCache.mergedIntoSchoolId = targetId;
-
-  loadSchoolTable();
-  loadStudentTable();
-  setMsg('schoolMsg', `รวมโรงเรียนสำเร็จ ย้ายนักเรียน ${affected.length} คน` +
-    (renamedList.length ? ` (เปลี่ยน username ${renamedList.length} คนเพราะชนกัน — ดูรายละเอียดที่ alert)` : ''));
-  if(renamedList.length){
-    alert('มีการเปลี่ยน username เนื่องจากชนกันตอนรวมโรงเรียน:\n\n' + renamedList.join('\n'));
+  }catch(e){
+    setMsg('schoolMsg', 'รวมโรงเรียนไม่สำเร็จ: ' + (e.message || e.code), true);
   }
 }
 
@@ -1850,8 +1853,12 @@ async function deleteSchool(id, name){
   const count = schoolStudentCount(id);
   if(count>0){ alert(`ลบโรงเรียน "${name}" ไม่ได้ เพราะยังมีนักเรียนอยู่ ${count} คน — ย้ายนักเรียนออกก่อน (ใช้ปุ่มรวมโรงเรียน) แล้วค่อยลบ`); return; }
   if(!confirm(`ลบโรงเรียน "${name}" เลยไหม? กู้คืนไม่ได้`)) return;
-  await db.collection('schools').doc(id).delete();
-  await loadSchools();
+  try{
+    await callAdminAction('adminDeleteSchool', { schoolId: id });
+    await loadSchools();
+  }catch(e){
+    alert('ลบไม่สำเร็จ: ' + (e.message || e.code));
+  }
 }
 
 async function addSchool(){
@@ -1976,18 +1983,24 @@ async function deleteAllInactiveShown(){
   list = list.filter(s=>daysInactiveInfo(s).isInactive);
   if(list.length===0){ alert('ไม่มีรายชื่อ inactive ในตัวกรองปัจจุบัน'); return; }
   if(!confirm(`ลบนักเรียน inactive ทั้งหมด ${list.length} คนที่แสดงอยู่ตอนนี้เลยไหม? ข้อมูลคะแนน/ประวัติของทุกคนจะหายไปด้วย กู้คืนไม่ได้`)) return;
-  for(const s of list){
-    await db.collection('students').doc(s.id).delete();
+  try{
+    await callAdminAction('adminDeleteStudents', { studentIds: list.map(s=>s.id) });
+    await loadStudentsCache();
+    loadStudentTable();
+    alert(`ลบไปแล้ว ${list.length} คน`);
+  }catch(e){
+    alert('ลบไม่สำเร็จ: ' + (e.message || e.code));
   }
-  await loadStudentsCache();
-  loadStudentTable();
-  alert(`ลบไปแล้ว ${list.length} คน`);
 }
 async function deleteStudent(id, name){
   if(!confirm(`ลบนักเรียน "${name}" ออกจากระบบเลยไหม? ข้อมูลคะแนน/ประวัติทั้งหมดของคนนี้จะหายไปด้วย กู้คืนไม่ได้`)) return;
-  await db.collection('students').doc(id).delete();
-  await loadStudentsCache();
-  loadStudentTable();
+  try{
+    await callAdminAction('adminDeleteStudent', { studentId: id });
+    await loadStudentsCache();
+    loadStudentTable();
+  }catch(e){
+    alert('ลบไม่สำเร็จ: ' + (e.message || e.code));
+  }
 }
 async function resetPin(id){
   await db.collection('students').doc(id).update({pin:''});
