@@ -885,7 +885,7 @@
 <div class="screen welcome-screen" id="screen-welcome">
   <img src="welcome-logo.png" alt="21 Days Challenge" class="welcome-logo">
   <div class="welcome-tagline">21 วัน เปลี่ยนพฤติกรรม อย.น้อย</div>
-  <div class="welcome-sub">แอพติดตามพฤติกรรม ลดหวาน มัน เค็ม กับนักเรียน อย. น้อย<br>มาลดการบริโภค หวาน มัน เค็ม ไปด้วยกันนะ ✨</div>
+  <div class="welcome-sub">แอพติดตามพฤติกรรม ลดหวาน มัน เค็ม กับนักเรียน อย. น้อย<br>มาลดการบริโภค หวาน มัน เค็ม ไปด้วยกันนะ <img src="icon-sparkle.png" alt="" style="width:15px; height:15px; object-fit:contain; vertical-align:-2px;"></div>
   <button class="welcome-btn" id="welcomeBtn" onclick="enterFromWelcome()">เริ่มต้นใช้งาน</button>
 </div>
 
@@ -938,7 +938,7 @@
       style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box;">
     <div id="usernameError" style="color:var(--red-high); font-size:13px; font-weight:600; min-height:18px; margin:6px 0;"></div>
     <button class="welcome-btn" onclick="submitUsername()">ต่อไป</button>
-    <button class="welcome-btn" style="background:var(--sand); color:var(--ink); margin-top:8px;" onclick="randomizeUsername()">🎲 สุ่มชื่อให้ฉัน</button>
+    <button class="welcome-btn" style="background:var(--sand); color:var(--ink); margin-top:8px;" onclick="randomizeUsername()"><img src="icon-dice.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> สุ่มชื่อให้ฉัน</button>
   </div>
 </div>
 
@@ -974,7 +974,7 @@
 <!-- ================= SCREEN: FORGOT PIN ================= -->
 <div class="screen" id="screen-forgot-pin">
   <div class="brandbar">
-    <div class="brand-row"><div class="brand-mark">🔑</div><div><div class="brand-title">ลืมรหัสผ่าน</div><div class="brand-sub">ยืนยันตัวตนด้วยชื่อจริง+วันเกิด</div></div></div>
+    <div class="brand-row"><div class="brand-mark"><img src="icon-key.png" alt="" style="width:28px; height:28px; object-fit:contain;"></div><div><div class="brand-title">ลืมรหัสผ่าน</div><div class="brand-sub">ยืนยันตัวตนด้วยชื่อจริง+วันเกิด</div></div></div>
   </div>
   <div class="wrap" style="max-width:420px;">
     <div class="backlink" onclick="goScreen('screen-pin')">‹ ย้อนกลับ</div>
@@ -1013,7 +1013,7 @@
 <div class="screen" id="screen-before-challenge">
   <div class="brandbar">
     <div class="brand-row">
-      <div class="brand-mark">📋</div>
+      <div class="brand-mark"><img src="icon-clipboard.png" alt="" style="width:28px; height:28px; object-fit:contain; vertical-align:-3px; margin-right:2px;"></div>
       <div><div class="brand-title">ก่อนเริ่ม 21 วัน</div><div class="brand-sub">แบบสำรวจพฤติกรรม + เป้าหมาย + ข้อมูลสุขภาพ</div></div>
     </div>
   </div>
@@ -1052,7 +1052,7 @@
 <div class="screen" id="screen-after-challenge">
   <div class="brandbar">
     <div class="brand-row">
-      <div class="brand-mark">🏁</div>
+      <img src="icon-finish-flag.png" alt="" style="width:24px; height:24px; object-fit:contain;">
       <div><div class="brand-title">After Challenge</div><div class="brand-sub">21 วัน ฉันเปลี่ยนไปอย่างไร</div></div>
     </div>
   </div>
@@ -1108,7 +1108,7 @@
 <div class="screen" id="screen-post-survey">
   <div class="brandbar">
     <div class="brand-row">
-      <div class="brand-mark">📋</div>
+      <div class="brand-mark"><img src="icon-clipboard.png" alt="" style="width:28px; height:28px; object-fit:contain; vertical-align:-3px; margin-right:2px;"></div>
       <div><div class="brand-title">แบบสำรวจพฤติกรรมหลัง Challenge</div><div class="brand-sub">มาดูกันว่าเรามีพฤติกรรมสุขภาพที่ดีขึ้นกันไหม</div></div>
     </div>
   </div>
@@ -1154,8 +1154,8 @@
 
     <!-- TAB: HOME (ย้ายมาจาก screen-home เดิม เพื่อรวมเป็นแท็บเดียวในระบบเดียวกับแท็บอื่น) -->
     <div class="tabpanel" id="tab-home">
-      <div class="section-title" id="homeGreeting" style="font-size:16px; margin-top:0;">สวัสดี! 👋</div>
-      <div style="text-align:right; margin:-6px 0 8px;"><span style="color:var(--lagoon); font-family:'Kanit'; font-weight:600; font-size:12px; cursor:pointer;" onclick="openAnnounceHistory()">📋 ดูประกาศทั้งหมด</span></div>
+      <div class="section-title" id="homeGreeting" style="font-size:16px; margin-top:0;">สวัสดี! <img src="icon-wave.png" alt="" style="width:20px; height:20px; object-fit:contain; vertical-align:-4px;"></div>
+      <div style="text-align:right; margin:-6px 0 8px;"><span style="color:var(--lagoon); font-family:'Kanit'; font-weight:600; font-size:12px; cursor:pointer;" onclick="openAnnounceHistory()"><img src="icon-clipboard.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ดูประกาศทั้งหมด</span></div>
 
       <!-- Growth Hero: Day X/21 + ระยะการเติบโตของ Sprout — จุดเด่นที่สุดของหน้า Home ตามธีมใหม่ -->
       <div class="home-hero" style="cursor:default; text-align:center;">
@@ -1168,7 +1168,7 @@
       <!-- เตือนทำ Before Challenge ถ้ายังไม่เคยทำ — โผล่ทุกครั้งที่ login จนกว่าจะทำเสร็จ (กดข้ามได้ ไม่บังคับ) -->
       <div class="card" id="preTestReminderCard" style="display:none; background:#FDE9E4; border-color:var(--clay);">
         <div style="display:flex; align-items:center; gap:10px;">
-          <div style="font-size:24px;">📋</div>
+          <img src="icon-clipboard.png" alt="" style="width:24px; height:24px; object-fit:contain;">
           <div style="flex:1;">
             <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px;">ยังไม่ได้ทำแบบสำรวจก่อนเริ่มโครงการ</div>
             <div style="font-size:12px; color:#6b7c80;">ทำ Before Challenge ให้เสร็จก่อน จะได้เทียบผลตอนจบ 21 วันได้ครบ</div>
@@ -1180,7 +1180,7 @@
       <!-- เตือนทำ After Challenge + Post Survey — โผล่เฉพาะตอนแอดมินปลดล็อกแล้วเท่านั้น (afterChallengeUnlocked) -->
       <div class="card" id="afterChallengeReminderCard" style="display:none; background:#E3F5EE; border-color:var(--teal);">
         <div style="display:flex; align-items:center; gap:10px;">
-          <div style="font-size:24px;">🏁</div>
+          <img src="icon-finish-flag.png" alt="" style="width:24px; height:24px; object-fit:contain;">
           <div style="flex:1;">
             <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px;">ครบ 21 วันแล้ว! มาดูกันว่าเปลี่ยนไปแค่ไหน</div>
             <div style="font-size:12px; color:#6b7c80;">ทำ After Challenge + แบบสำรวจหลัง เพื่อขอเกียรติบัตรจาก อย.</div>
@@ -1192,7 +1192,7 @@
       <!-- แจ้งเตือนภารกิจรายวัน: โผล่เฉพาะตอนยังไม่เคยเปิด/ยังไม่เคยตอบปฏิเสธ -->
       <div class="card" id="notifyOptInCard" style="display:none; background:#FFF7E0; border-color:#E8C468;">
         <div style="display:flex; align-items:center; gap:10px;">
-          <div style="font-size:24px;">🔔</div>
+          <img src="icon-bell.png" alt="" style="width:24px; height:24px; object-fit:contain;">
           <div style="flex:1;">
             <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px;" id="notifyOptInTitle">เปิดแจ้งเตือนภารกิจ</div>
             <div style="font-size:12px; color:#6b7c80;" id="notifyOptInDesc">รับแจ้งเตือนถ้ายังไม่ได้ทำภารกิจของวันนั้น จะได้ไม่ลืม</div>
@@ -1206,7 +1206,7 @@
       <div class="home-hero" id="homeNextActionCard">
         <div class="home-hero-top">
           <div class="home-hero-text">
-            <div class="home-hero-tag" id="homeHeroMissionTag">🎯 ภารกิจวันนี้</div>
+            <div class="home-hero-tag" id="homeHeroMissionTag"><img src="icon-target.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ภารกิจวันนี้</div>
             <div class="home-hero-title" id="homeHeroMissionTitle">กำลังโหลด...</div>
             <div class="home-hero-reward" id="homeHeroMissionReward">+0 คะแนน</div>
           </div>
@@ -1223,14 +1223,14 @@
         </div>
         <div class="progress-track"><div class="progress-fill-bar" id="homeTodoBar" style="width:0%;"></div></div>
         <div class="status-pill-row">
-          <div class="status-pill" id="homeMissionPill" onclick="switchTab('tab-mission-hub')">🎯 ภารกิจ<span id="homeMissionStatus">-</span></div>
-          <div class="status-pill" id="homeQuizPill" onclick="switchTab('tab-quiz')">❓ Quiz<span id="homeQuizStatus">-</span></div>
-          <div class="status-pill" id="homeLogPill" onclick="switchTab('tab-log')">📝 บันทึก<span id="homeLogStatus">-</span></div>
+          <div class="status-pill" id="homeMissionPill" onclick="switchTab('tab-mission-hub')"><img src="icon-target.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ภารกิจ<span id="homeMissionStatus">-</span></div>
+          <div class="status-pill" id="homeQuizPill" onclick="switchTab('tab-quiz')"><img src="icon-quiz.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> Quiz<span id="homeQuizStatus">-</span></div>
+          <div class="status-pill" id="homeLogPill" onclick="switchTab('tab-log')"><img src="icon-write.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> บันทึก<span id="homeLogStatus">-</span></div>
         </div>
       </div>
 
       <!-- เครื่องมือสุขภาพ: ตรวจฉลาก + เพิ่มอาหาร (เอาการ์ด "โซเดียมวันนี้" ออกแล้ว — เป็นตัวเลขเฉพาะโซเดียม ไม่เข้ากับโมเดลใหม่ที่ประเมินหวาน-มัน-เค็มแบบความรู้สึก ไม่ใช่ตัวเลขสะสม) -->
-      <div class="section-title" style="font-size:14.5px;">🌿 เครื่องมือสุขภาพ</div>
+      <div class="section-title" style="font-size:14.5px;"><img src="icon-tools-leaf.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> เครื่องมือสุขภาพ</div>
 
       <div class="quick-action-grid">
         <div class="quick-action qa-check" onclick="goHomeShortcut('tab-check')">
@@ -1249,11 +1249,11 @@
       <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
         <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-streak.png" alt=""><div class="num" id="homeStreak">0</div><div class="lbl">วันต่อเนื่อง</div></div>
         <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-score.png" alt=""><div class="num" id="homePoints">0</div><div class="lbl">คะแนนสะสม</div></div>
-        <div class="mini-stat"><div class="mini-stat-icon is-emoji">🎴</div><div class="num" id="homeCards">0</div><div class="lbl">การ์ดสะสม</div></div>
+        <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-card.png" alt=""><div class="num" id="homeCards">0</div><div class="lbl">การ์ดสะสม</div></div>
       </div>
 
       <!-- ข่าวและกิจกรรม: TikTok + ประกาศ ย้ายมาไว้ล่างสุด (เดิมอยู่บนสุด) -->
-      <div class="section-title" style="font-size:14.5px;">📰 ข่าวและกิจกรรม</div>
+      <div class="section-title" style="font-size:14.5px;"><img src="icon-news.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ข่าวและกิจกรรม</div>
       <div class="tiktok-banner" onclick="openTiktokClips()">
         <img src="icon-tiktok.png" alt="">
         <div style="flex:1;">
@@ -1274,7 +1274,7 @@
         <img src="mascot-header.png" alt="" class="sh-header-mascot">
       </div>
 
-      <div class="stat-pill" style="margin-bottom:10px; display:inline-flex;">🔥 เก็บข้อมูลต่อเนื่อง <span id="sodiumTrackStreakVal" style="margin-left:4px;">0</span> วัน</div>
+      <div class="stat-pill" style="margin-bottom:10px; display:inline-flex;"><img src="icon-fire.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> เก็บข้อมูลต่อเนื่อง <span id="sodiumTrackStreakVal" style="margin-left:4px;">0</span> วัน</div>
 
       <!-- Sodium Summary Card -->
       <div class="card sh-summary-card">
@@ -1322,7 +1322,7 @@
 
       <!-- รายการอาหารวันนี้ -->
       <div class="sh-list-header">
-        <div class="section-title" style="margin:0;">🍽️ รายการอาหารวันนี้</div>
+        <div class="section-title" style="margin:0;"><img src="icon-meal.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> รายการอาหารวันนี้</div>
         <div class="sh-list-count" id="hubFoodCount">0 รายการ</div>
       </div>
       <div class="card" id="hubFoodListCard">
@@ -1343,7 +1343,7 @@
     <!-- TAB: CHECK LABEL -->
     <div class="tabpanel" id="tab-check">
       <div class="card">
-        <h3 style="margin-top:0;">🔍 ผู้ช่วยอ่านฉลาก (ตรวจฉลาก)</h3>
+        <h3 style="margin-top:0;"><img src="icon-search.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ผู้ช่วยอ่านฉลาก (ตรวจฉลาก)</h3>
         <p style="color:#6b7c80; font-size:13.5px; margin-top:-8px;">กรอกค่าจากฉลาก GDA (พลังงาน/น้ำตาล/ไขมัน/โซเดียม) ต่อหนึ่งหน่วยบริโภค แล้วดูว่าหวาน มัน เค็ม แค่ไหนของวันนี้</p>
         <div class="field">
           <label>ชื่อสินค้า / เมนู</label>
@@ -1368,7 +1368,7 @@
         </div>
 
         <input type="file" accept="image/*" id="labelPhotoInput" style="display:none" onchange="handleLabelPhoto(event)">
-        <button class="btn btn-ghost btn-block" type="button" onclick="document.getElementById('labelPhotoInput').click()">📷 ถ่ายรูป/แนบไฟล์ฉลากให้ช่วยอ่าน</button>
+        <button class="btn btn-ghost btn-block" type="button" onclick="document.getElementById('labelPhotoInput').click()"><img src="icon-camera.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ถ่ายรูป/แนบไฟล์ฉลากให้ช่วยอ่าน</button>
         <div class="ocr-status" id="ocrStatus"></div>
 
         <button class="btn btn-primary btn-block" style="margin-top:10px;" onclick="calcSodium()">คำนวณ</button>
@@ -1402,8 +1402,8 @@
             <label>กินกี่หน่วย? (ถ้ากินมากกว่า 1 หน่วยบริโภคตามฉลาก)</label>
             <input type="number" id="ciServings" value="1" min="1" step="1" inputmode="numeric">
           </div>
-          <button class="btn btn-coral btn-block" style="margin-top:14px;" onclick="saveSodiumCheck(true)">🍽️ กินแล้ว เพิ่มเข้าวันนี้</button>
-          <button class="btn btn-ghost btn-block" style="margin-top:8px;" onclick="saveSodiumCheck(false)">🔍 บันทึกไว้ แค่ตรวจดู (ยังไม่ได้กิน)</button>
+          <button class="btn btn-coral btn-block" style="margin-top:14px;" onclick="saveSodiumCheck(true)"><img src="icon-meal.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> กินแล้ว เพิ่มเข้าวันนี้</button>
+          <button class="btn btn-ghost btn-block" style="margin-top:8px;" onclick="saveSodiumCheck(false)"><img src="icon-search.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> บันทึกไว้ แค่ตรวจดู (ยังไม่ได้กิน)</button>
         </div>
       </div>
 
@@ -1455,7 +1455,7 @@
 
       <!-- บันทึกวันนี้ — จงใจทำให้เล็ก/เรียบกว่า Mission กับ Quiz เพราะมีปุ่มกลางใน Bottom Nav เข้าตรงอยู่แล้ว (ตามบรีฟ) -->
       <div class="mh-card mh-log" id="mhLogCard" onclick="switchTab('tab-log')" style="flex-direction:row; align-items:center; gap:10px;">
-        <div style="font-size:20px;">🌱</div>
+        <div><img src="icon-leaf-small.png" alt="" style="width:20px; height:20px; object-fit:contain;"></div>
         <div style="flex:1; min-width:0;">
           <div class="mh-card-title" style="font-size:13.5px; margin-bottom:1px;">บันทึกวันนี้</div>
           <div class="mh-card-sub" id="hubLogStatus" style="margin-bottom:0;">ยังไม่ได้บันทึก</div>
@@ -1468,7 +1468,7 @@
       <div class="mh-bonus">
         <img src="mascot-complete.png" alt="" class="mh-bonus-mascot">
         <div>
-          <div class="mh-bonus-title">🎁 ทำครบ Quiz + บันทึก ได้สุ่มการ์ดความรู้!</div>
+          <div class="mh-bonus-title"><img src="icon-gift.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ทำครบ Quiz + บันทึก ได้สุ่มการ์ดความรู้!</div>
           <div class="mh-bonus-sub">ทำ Quiz + บันทึกประจำวันให้ครบ เพื่อสะสมคะแนนและปลดล็อกการ์ด</div>
         </div>
       </div>
@@ -1477,12 +1477,12 @@
     <!-- TAB: QUIZ -->
     <div class="tabpanel" id="tab-quiz">
       <div class="card" id="quizBackfillPicker" style="display:none; background:var(--sand);">
-        <div style="font-family:'Kanit'; font-weight:700; font-size:14.5px; margin-bottom:8px;">📅 จะทำ Quiz ของวันไหน?</div>
+        <div style="font-family:'Kanit'; font-weight:700; font-size:14.5px; margin-bottom:8px;"><img src="icon-calendar.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> จะทำ Quiz ของวันไหน?</div>
         <p style="color:#6b7c80; font-size:13px; margin-top:-4px;">ปกติทำ Quiz ของวันนี้ ถ้าพลาดวันก่อนหน้าที่เปิดให้ย้อนหลังได้ เลือกวันนั้นได้เลย</p>
         <div class="chip-row" id="quizBackfillChips"></div>
       </div>
       <div class="card" id="quizCard">
-        <h3 style="margin-top:0;" id="quizCardTitle">❓ Quiz ประจำวัน</h3>
+        <h3 style="margin-top:0;" id="quizCardTitle"><img src="icon-quiz.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> Quiz ประจำวัน</h3>
         <div id="quizBody"><div class="empty-note">กำลังโหลดคำถาม…</div></div>
       </div>
     </div>
@@ -1490,12 +1490,12 @@
     <!-- TAB: MISSION -->
     <div class="tabpanel" id="tab-mission">
       <div class="card" id="missionBackfillPicker" style="display:none; background:var(--sand);">
-        <div style="font-family:'Kanit'; font-weight:700; font-size:14.5px; margin-bottom:8px;">📅 จะทำภารกิจของวันไหน?</div>
+        <div style="font-family:'Kanit'; font-weight:700; font-size:14.5px; margin-bottom:8px;"><img src="icon-calendar.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> จะทำภารกิจของวันไหน?</div>
         <p style="color:#6b7c80; font-size:13px; margin-top:-4px;">ปกติทำภารกิจของวันนี้ ถ้าพลาดวันหยุดที่ครูเปิดให้ย้อนหลังได้ เลือกวันนั้นได้เลย</p>
         <div class="chip-row" id="missionBackfillChips"></div>
       </div>
       <div class="card">
-        <h3 style="margin-top:0;" id="missionCardTitle">🎯 ภารกิจวันนี้</h3>
+        <h3 style="margin-top:0;" id="missionCardTitle"><img src="icon-target.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ภารกิจวันนี้</h3>
         <div id="missionBody"><div class="empty-note">กำลังโหลด…</div></div>
       </div>
     </div>
@@ -1504,7 +1504,7 @@
     <div class="tabpanel" id="tab-log">
       <div class="mh-header">
         <div>
-          <div class="section-title" style="margin:0 0 2px;">🌱 บันทึกวันนี้</div>
+          <div class="section-title" style="margin:0 0 2px;"><img src="icon-leaf-small.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> บันทึกวันนี้</div>
           <p class="mh-progress-msg" style="color:#DFF3D6;">บันทึกเล็ก ๆ สู่สุขภาพที่ดีกว่า</p>
           <p class="mh-progress-msg" id="logDayLabel" style="color:#DFF3D6;">Day 1 / 21</p>
         </div>
@@ -1520,14 +1520,14 @@
       </div>
 
       <div class="card" id="backfillPicker" style="background:var(--sand);">
-        <div style="font-family:'Kanit'; font-weight:700; font-size:14.5px; margin-bottom:8px;">📅 กำลังบันทึกของวันที่</div>
+        <div style="font-family:'Kanit'; font-weight:700; font-size:14.5px; margin-bottom:8px;"><img src="icon-calendar.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> กำลังบันทึกของวันที่</div>
         <p style="color:#6b7c80; font-size:13px; margin-top:-4px;">ค่าเริ่มต้นคือวันนี้ เลือกวันอื่นได้ถ้าอยากย้อนกลับไปบันทึกวันที่ยังไม่ได้ทำ</p>
         <select id="logDateSelect" onchange="selectLogDate(this.value)"
           style="width:100%; padding:12px 14px; border:1.5px solid #ddd; border-radius:10px; font-family:Kanit,sans-serif; font-size:14.5px; box-sizing:border-box; background:#fff;"></select>
       </div>
 
       <div id="logPickDatePrompt" class="card" style="text-align:center; color:#9aa8ab; display:none;">
-        👆 เลือกวันที่ด้านบนก่อน เพื่อเริ่มบันทึก
+        <img src="icon-tap.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> เลือกวันที่ด้านบนก่อน เพื่อเริ่มบันทึก
       </div>
 
       <div class="card" id="logLockedBanner" style="display:none; background:var(--sand); border:2px solid var(--lagoon);">
@@ -1539,25 +1539,25 @@
       <div id="logDateHeading" style="font-family:'Kanit'; font-weight:700; font-size:15px; color:var(--deep-sea); margin-bottom:10px;"></div>
 
       <div class="card">
-        <div class="log-card-head"><h3 style="margin:0;">🌱 1. เป้าหมายวันนี้ของฉัน</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
+        <div class="log-card-head"><h3 style="margin:0;"><img src="icon-leaf-small.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> 1. เป้าหมายวันนี้ของฉัน</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
         <div class="info-box">เลือกได้มากกว่า 1 ข้อ เลือกใหม่ได้ทุกวัน</div>
         <div class="sticker-row" id="todayGoalChips"></div>
       </div>
 
       <div class="card">
-        <div class="log-card-head"><h3 style="margin:0;">🏃 2. วันนี้ขยับร่างกายอะไรบ้าง?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
+        <div class="log-card-head"><h3 style="margin:0;"><img src="icon-exercise.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> 2. วันนี้ขยับร่างกายอะไรบ้าง?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
         <div class="info-box">แตะได้มากกว่า 1 อย่าง</div>
         <div class="sticker-row" id="exerciseChips"></div>
       </div>
 
       <div class="card">
-        <div class="log-card-head"><h3 style="margin:0;">🍰 3. วันนี้บริโภคหวาน มัน เค็ม แค่ไหน?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
+        <div class="log-card-head"><h3 style="margin:0;"><img src="icon-sweet-fat-salty.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> 3. วันนี้บริโภคหวาน มัน เค็ม แค่ไหน?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
         <div class="info-box">ตอบตามความรู้สึกจริงของคุณ ไม่มีคำตอบไหนถูกหรือผิด — "พอดี" คือ หวาน/มัน ไม่เกิน 65 กรัม, เค็ม (โซเดียม) ไม่เกิน 2,000 มิลลิกรัม/วัน</div>
         <div id="levelRows"></div>
       </div>
 
       <div class="card">
-        <div class="log-card-head"><h3 style="margin:0;">🔍 4. วันนี้อ่านฉลากอะไรบ้าง?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
+        <div class="log-card-head"><h3 style="margin:0;"><img src="icon-search.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> 4. วันนี้อ่านฉลากอะไรบ้าง?</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
         <div class="info-box">เลือกประเภทฉลากที่อ่านวันนี้ได้มากกว่า 1 แบบ อย่างน้อย 1 รายการ</div>
         <div class="sticker-row" id="labelTypeChips"></div>
         <input type="file" id="aiLabelFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleAiLabelFile(event)">
@@ -1565,7 +1565,7 @@
       </div>
 
       <div class="card">
-        <div class="log-card-head"><h3 style="margin:0;">🥗 5. อาหารครบ 5 หมู่ + น้ำเปล่า</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
+        <div class="log-card-head"><h3 style="margin:0;"><img src="icon-healthy-food.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> 5. อาหารครบ 5 หมู่ + น้ำเปล่า</h3><span class="info-icon" onclick="toggleInfoBox(this)">ⓘ</span></div>
         <div class="info-box">ตอบตามความเป็นจริง ไม่มีคำตอบไหนถูกหรือผิด</div>
         <div class="lvl-label" style="font-family:'Kanit'; font-weight:600; font-size:14.5px; margin-bottom:8px;">วันนี้กินอาหารครบ 5 หมู่ไหม</div>
         <div class="level-btns" id="fiveFoodGroupsBtns" style="margin-bottom:16px;"></div>
@@ -1574,61 +1574,61 @@
       </div>
 
       <div class="card">
-        <h3 style="margin-top:0;">🍽️ 6. บันทึกการบริโภควันนี้</h3>
+        <h3 style="margin-top:0;"><img src="icon-meal.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> 6. บันทึกการบริโภควันนี้</h3>
         <div class="field">
           <label>มื้อเช้า</label>
           <div class="voice-input-row">
             <textarea id="mealBreakfast" placeholder="เช่น ข้าวไข่เจียว" style="min-height:44px;"></textarea>
-            <button type="button" class="mic-btn" id="micBtn-mealBreakfast" onclick="toggleVoiceInput('mealBreakfast')">🎤</button>
+            <button type="button" class="mic-btn" id="micBtn-mealBreakfast" onclick="toggleVoiceInput('mealBreakfast')"><img src="icon-mic.png" alt="" style="width:20px; height:20px; object-fit:contain;"></button>
           </div>
         </div>
         <div class="field">
           <label>มื้อกลางวัน</label>
           <div class="voice-input-row">
             <textarea id="mealLunch" placeholder="เช่น ก๋วยเตี๋ยว" style="min-height:44px;"></textarea>
-            <button type="button" class="mic-btn" id="micBtn-mealLunch" onclick="toggleVoiceInput('mealLunch')">🎤</button>
+            <button type="button" class="mic-btn" id="micBtn-mealLunch" onclick="toggleVoiceInput('mealLunch')"><img src="icon-mic.png" alt="" style="width:20px; height:20px; object-fit:contain;"></button>
           </div>
         </div>
         <div class="field">
           <label>มื้อเย็น</label>
           <div class="voice-input-row">
             <textarea id="mealDinner" placeholder="เช่น ข้าวผัด" style="min-height:44px;"></textarea>
-            <button type="button" class="mic-btn" id="micBtn-mealDinner" onclick="toggleVoiceInput('mealDinner')">🎤</button>
+            <button type="button" class="mic-btn" id="micBtn-mealDinner" onclick="toggleVoiceInput('mealDinner')"><img src="icon-mic.png" alt="" style="width:20px; height:20px; object-fit:contain;"></button>
           </div>
         </div>
         <div class="field">
           <label>ของว่าง/เครื่องดื่ม</label>
           <div class="voice-input-row">
             <textarea id="mealSnack" placeholder="เช่น ชานมไข่มุก" style="min-height:44px;"></textarea>
-            <button type="button" class="mic-btn" id="micBtn-mealSnack" onclick="toggleVoiceInput('mealSnack')">🎤</button>
+            <button type="button" class="mic-btn" id="micBtn-mealSnack" onclick="toggleVoiceInput('mealSnack')"><img src="icon-mic.png" alt="" style="width:20px; height:20px; object-fit:contain;"></button>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <h3 style="margin-top:0;">💭 7. เล่าเพิ่มนิดเดียว <span class="log-optional-badge">ไม่บังคับ</span></h3>
+        <h3 style="margin-top:0;"><img src="icon-thought.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> 7. เล่าเพิ่มนิดเดียว <span class="log-optional-badge">ไม่บังคับ</span></h3>
         <div class="field">
           <label>วันนี้เลือกได้ดีตรงไหน เพราะอะไร</label>
           <div class="voice-input-row">
             <textarea id="reflectionText" placeholder="เขียนสั้น ๆ เล่าให้ฟังหน่อย…"></textarea>
-            <button type="button" class="mic-btn" id="micBtn-reflectionText" onclick="toggleVoiceInput('reflectionText')">🎤</button>
+            <button type="button" class="mic-btn" id="micBtn-reflectionText" onclick="toggleVoiceInput('reflectionText')"><img src="icon-mic.png" alt="" style="width:20px; height:20px; object-fit:contain;"></button>
           </div>
         </div>
         <div class="field">
           <label>สิ่งที่ควรปรับปรุงในวันถัดไป</label>
           <div class="voice-input-row">
             <textarea id="improveText" placeholder="พรุ่งนี้อยากทำอะไรให้ดีขึ้น…" style="min-height:60px;"></textarea>
-            <button type="button" class="mic-btn" id="micBtn-improveText" onclick="toggleVoiceInput('improveText')">🎤</button>
+            <button type="button" class="mic-btn" id="micBtn-improveText" onclick="toggleVoiceInput('improveText')"><img src="icon-mic.png" alt="" style="width:20px; height:20px; object-fit:contain;"></button>
           </div>
         </div>
       </div>
 
       <div class="log-encourage">
         <img src="mascot-complete.png" alt="" class="log-encourage-mascot">
-        <div class="log-encourage-text">ไม่มีคำตอบถูกหรือผิด บันทึกตามที่เกิดขึ้นจริงได้เลย 😊</div>
+        <div class="log-encourage-text">ไม่มีคำตอบถูกหรือผิด บันทึกตามที่เกิดขึ้นจริงได้เลย <img src="icon-happy.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"></div>
       </div>
 
-      <p style="text-align:center; font-size:12.5px; color:#6b7c80; margin:0 0 10px;">🌱 บันทึกวันนี้ ให้ Sprout ของเราโตขึ้นอีกนิด</p>
+      <p style="text-align:center; font-size:12.5px; color:#6b7c80; margin:0 0 10px;"><img src="icon-leaf-small.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> บันทึกวันนี้ ให้ Sprout ของเราโตขึ้นอีกนิด</p>
       <button class="btn btn-primary btn-block" id="submitLogBtn" onclick="submitDailyLog()">บันทึก</button>
       </div>
     </div>
@@ -1640,7 +1640,7 @@
         <div class="pg-header-top">
           <div>
             <div class="pg-header-title">ความก้าวหน้าของฉัน</div>
-            <div class="pg-header-sub">เรื่องราวการดูแลตัวเองในแบบของคุณ ✨</div>
+            <div class="pg-header-sub">เรื่องราวการดูแลตัวเองในแบบของคุณ <img src="icon-sparkle.png" alt="" style="width:15px; height:15px; object-fit:contain; vertical-align:-2px;"></div>
           </div>
           <div class="pg-header-mascot-wrap">
             <div class="pg-speech" id="pgSpeech"></div>
@@ -1656,7 +1656,7 @@
 
       <!-- การเดินทางของฉัน -->
       <div class="card">
-        <div class="pg-card-icon-row"><span style="font-size:18px;">🗺️</span><div class="pg-section-title">การเดินทางของฉัน</div></div>
+        <div class="pg-card-icon-row"><img src="icon-map.png" alt="" style="width:18px; height:18px; object-fit:contain;"><div class="pg-section-title">การเดินทางของฉัน</div></div>
         <div class="pg-section-sub">เส้นทางเล็ก ๆ ที่เราทำด้วยกัน</div>
         <div class="journey-badge" id="journeyBadge"></div>
         <div class="journey-track">
@@ -1671,8 +1671,8 @@
         <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);">
           <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-streak.png" alt=""><div class="num" id="stStreak">0</div><div class="lbl">วันต่อเนื่อง</div></div>
           <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-score.png" alt=""><div class="num" id="stPoints">0</div><div class="lbl">คะแนนสะสม</div></div>
-          <div class="mini-stat"><div class="mini-stat-icon is-emoji">📅</div><div class="num" id="stDays">0/21</div><div class="lbl">วันที่ทำสำเร็จ</div></div>
-          <div class="mini-stat"><div class="mini-stat-icon is-emoji">🎯</div><div class="num" id="stQuiz">0%</div><div class="lbl">ความแม่นยำ Quiz</div></div>
+          <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-calendar.png" alt=""><div class="num" id="stDays">0/21</div><div class="lbl">วันที่ทำสำเร็จ</div></div>
+          <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-target.png" alt=""><div class="num" id="stQuiz">0%</div><div class="lbl">ความแม่นยำ Quiz</div></div>
         </div>
       </div>
       <!-- คะแนนแยกตามหมวด: เดิมเคยโชว์เป็นกริดแยก ตอนนี้ยุบไปรวมอยู่ใน "ไฮไลต์ของฉัน" ด้านล่างแทน (เลือกเฉพาะจุดที่โดดเด่นจริง)
@@ -1686,31 +1686,31 @@
 
       <!-- พฤติกรรมดี ๆ ที่กำลังเติบโต -->
       <div class="card">
-        <div class="pg-card-icon-row"><span style="font-size:18px;">🌱</span><div class="pg-section-title">พฤติกรรมดี ๆ ที่กำลังเติบโต</div></div>
+        <div class="pg-card-icon-row"><img src="icon-leaf-small.png" alt="" style="width:18px; height:18px; object-fit:contain; vertical-align:-3px;"><div class="pg-section-title">พฤติกรรมดี ๆ ที่กำลังเติบโต</div></div>
         <div class="pg-section-sub">เราค่อย ๆ ฝึกและพัฒนาไปด้วยกันนะ</div>
         <div class="plant-row" id="plantRow"></div>
       </div>
 
       <!-- ไฮไลต์ของฉัน -->
       <div class="card">
-        <div class="pg-card-icon-row"><span style="font-size:18px;">✨</span><div class="pg-section-title">ไฮไลต์ของฉัน</div></div>
+        <div class="pg-card-icon-row"><img src="icon-sparkle.png" alt="" style="width:18px; height:18px; object-fit:contain;"><div class="pg-section-title">ไฮไลต์ของฉัน</div></div>
         <div class="pg-section-sub">ความสำเร็จเล็ก ๆ ที่น่าภูมิใจ</div>
         <div class="hl-grid" id="hlGrid"></div>
       </div>
 
       <!-- ข้อความให้กำลังใจ -->
       <div class="pg-encourage-card">
-        <div class="pg-encourage-icon">💬</div>
+        <div class="pg-encourage-icon"><img src="icon-chat.png" alt="" style="width:24px; height:24px; object-fit:contain;"></div>
         <div class="pg-encourage-text" id="pgEncourageText"></div>
       </div>
 
       <!-- จุดเด่นเรื่องโซเดียม -->
       <div class="card" id="sodiumInsightCard" style="display:none; margin-top:16px;">
-        <div class="pg-card-icon-row"><span style="font-size:18px;">🌟</span><div class="pg-section-title">จุดเด่นเรื่องโซเดียม</div></div>
+        <div class="pg-card-icon-row"><img src="icon-special-star.png" alt="" style="width:18px; height:18px; object-fit:contain;"><div class="pg-section-title">จุดเด่นเรื่องโซเดียม</div></div>
         <div id="sodiumInsightBody"></div>
       </div>
 
-      <div class="section-title" style="margin-top:20px;">📉 แนวโน้มโซเดียมของฉัน</div>
+      <div class="section-title" style="margin-top:20px;"><img src="icon-trend-chart.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> แนวโน้มโซเดียมของฉัน</div>
       <p style="color:#8b979a; font-size:12px; margin-top:-8px;">ดูแนวโน้มจากรายการอาหารที่คุณบันทึกในแต่ละวัน (ค่าประมาณจากสิ่งที่บันทึกไว้ ไม่ใช่การวัดจริงทั้งหมด)</p>
       <div class="card">
         <div id="sodiumTrendChart"><div class="empty-note">กำลังโหลด…</div></div>
@@ -1718,7 +1718,7 @@
 
       <div class="card">
         <div class="pg-collapse-btn" onclick="toggleTableCollapse()">
-          <div class="pg-section-title" style="margin:0;">📅 รายละเอียด 21 วัน</div>
+          <div class="pg-section-title" style="margin:0;"><img src="icon-calendar.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> รายละเอียด 21 วัน</div>
           <span class="pg-collapse-icon" id="pgCollapseIcon">▾</span>
         </div>
         <div id="pgTableCollapseArea" style="display:none; margin-top:12px;">
@@ -1727,7 +1727,7 @@
         </div>
       </div>
 
-      <div class="section-title">🏆 อันดับของฉัน</div>
+      <div class="section-title"><img src="icon-trophy.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> อันดับของฉัน</div>
       <div class="section-title" style="font-size:14px; margin-top:14px;">ในโรงเรียน</div>
       <div class="card" id="classLeaderboard"><div class="empty-note">กำลังโหลด…</div></div>
       <div class="section-title" style="font-size:14px;">ทั้งประเทศ</div>
@@ -1748,19 +1748,19 @@
       <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
         <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-streak.png" alt=""><div class="num" id="rwStreakMini">0</div><div class="lbl">วันต่อเนื่อง</div></div>
         <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-score.png" alt=""><div class="num" id="rwTotalPoints">0</div><div class="lbl">คะแนนสะสม</div></div>
-        <div class="mini-stat"><div class="mini-stat-icon is-emoji">🎁</div><div class="num" id="rwBadgeRatio">0/0</div><div class="lbl">ตราที่ได้</div></div>
+        <div class="mini-stat"><img class="mini-stat-icon is-img" src="icon-gift.png" alt=""><div class="num" id="rwBadgeRatio">0/0</div><div class="lbl">ตราที่ได้</div></div>
       </div>
 
       <!-- Quick jump — เลื่อนไปหมวดที่อยากดู ไม่ใช่แท็บแยกจริง (ของเดิมยังอยู่หน้าเดียวกันทั้งหมด) -->
       <div style="display:flex; gap:8px; margin:12px 0 18px;">
-        <button class="btn btn-ghost" style="flex:1; padding:9px 4px; font-size:12px;" onclick="document.getElementById('rwBadgeSection').scrollIntoView({behavior:'smooth'})">🏅 ตราของฉัน</button>
-        <button class="btn btn-ghost" style="flex:1; padding:9px 4px; font-size:12px;" onclick="document.getElementById('rwCardSection').scrollIntoView({behavior:'smooth'})">🎴 การ์ดความรู้</button>
-        <button class="btn btn-ghost" style="flex:1; padding:9px 4px; font-size:12px;" onclick="openRewardHistory()">📅 ประวัติ</button>
+        <button class="btn btn-ghost" style="flex:1; padding:9px 4px; font-size:12px;" onclick="document.getElementById('rwBadgeSection').scrollIntoView({behavior:'smooth'})"><img src="icon-medal.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ตราของฉัน</button>
+        <button class="btn btn-ghost" style="flex:1; padding:9px 4px; font-size:12px;" onclick="document.getElementById('rwCardSection').scrollIntoView({behavior:'smooth'})"><img src="icon-card.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> การ์ดความรู้</button>
+        <button class="btn btn-ghost" style="flex:1; padding:9px 4px; font-size:12px;" onclick="openRewardHistory()"><img src="icon-calendar.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ประวัติ</button>
       </div>
 
       <div id="rwBadgeSection">
       <div class="sh-list-header">
-        <div class="section-title" style="margin:0;">🏅 ตราของฉัน</div>
+        <div class="section-title" style="margin:0;"><img src="icon-medal.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ตราของฉัน</div>
         <select id="rwBadgeFilter" class="rw-filter" onchange="renderRewardsPage()">
           <option value="all">ทั้งหมด</option>
           <option value="earned">ได้แล้ว</option>
@@ -1770,7 +1770,7 @@
       <div class="rw-badge-grid" id="rwEarnedGrid"></div>
 
       <div class="card rw-progress-card">
-        <div class="rw-progress-icon">🎒</div>
+        <div class="rw-progress-icon"><img src="icon-backpack.png" alt="" style="width:26px; height:26px; object-fit:contain;"></div>
         <div class="rw-progress-text">
           <div class="rw-progress-num"><span id="rwProgressNum">0 / 0</span> <span>ตรา</span></div>
           <div class="progress-track"><div class="progress-fill-bar" id="rwProgressBar" style="width:0%;"></div></div>
@@ -1788,7 +1788,7 @@
       </div>
 
       <div id="rwCardSection">
-      <div class="section-title">🎴 ความรู้ที่ปลดล็อก</div>
+      <div class="section-title"><img src="icon-card.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ความรู้ที่ปลดล็อก</div>
       <div class="card" style="text-align:center;">
         <div id="albumProgress" style="font-family:'Kanit'; font-weight:700; color:var(--lagoon);">กำลังโหลด…</div>
       </div>
@@ -1801,7 +1801,7 @@
       <div class="mh-bonus" style="margin-top:14px;">
         <img src="mascot-complete.png" alt="" class="mh-bonus-mascot">
         <div>
-          <div class="mh-bonus-title">🎁 ทำครบ Quiz + บันทึก ได้สุ่มการ์ดความรู้!</div>
+          <div class="mh-bonus-title"><img src="icon-gift.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ทำครบ Quiz + บันทึก ได้สุ่มการ์ดความรู้!</div>
           <div class="mh-bonus-sub">ทำ Quiz + บันทึกประจำวันให้ครบ เพื่อสะสมคะแนนและปลดล็อกการ์ด</div>
         </div>
       </div>
@@ -1811,7 +1811,7 @@
     <div class="kcard-overlay" id="rwHistoryOverlay" style="display:none;" onclick="if(event.target===this) closeRewardHistory()">
       <div class="kcard-box" style="max-width:360px;">
         <div style="padding:18px 20px 8px; display:flex; align-items:center; justify-content:space-between;">
-          <h3 style="margin:0; font-family:'Kanit';">📅 ประวัติการได้รับ</h3>
+          <h3 style="margin:0; font-family:'Kanit';"><img src="icon-calendar.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ประวัติการได้รับ</h3>
           <span style="cursor:pointer; font-size:20px;" onclick="closeRewardHistory()">✕</span>
         </div>
         <div style="padding:8px 20px 20px; max-height:60vh; overflow-y:auto;" id="rwHistoryList"><div class="empty-note">กำลังโหลด…</div></div>
@@ -1821,7 +1821,7 @@
     <div class="kcard-overlay" id="announceHistoryOverlay" style="display:none;" onclick="if(event.target===this) closeAnnounceHistory()">
       <div class="kcard-box" style="max-width:360px;">
         <div style="padding:18px 20px 8px; display:flex; align-items:center; justify-content:space-between;">
-          <h3 style="margin:0; font-family:'Kanit';">📢 ประกาศทั้งหมด</h3>
+          <h3 style="margin:0; font-family:'Kanit';"><img src="icon-megaphone.png" alt="" style="width:20px; height:20px; object-fit:contain;"> ประกาศทั้งหมด</h3>
           <span style="cursor:pointer; font-size:20px;" onclick="closeAnnounceHistory()">✕</span>
         </div>
         <div style="padding:8px 20px 20px; max-height:60vh; overflow-y:auto;" id="announceHistoryList"><div class="empty-note">กำลังโหลด…</div></div>
@@ -1838,7 +1838,7 @@
     <div class="kcard-overlay" id="tiktokOverlay" style="display:none;" onclick="if(event.target===this) closeTiktokClips()">
       <div class="kcard-box" style="max-width:360px;">
         <div style="padding:18px 20px 8px; display:flex; align-items:center; justify-content:space-between;">
-          <h3 style="margin:0; font-family:'Kanit';">🎬 คลิป TikTok โครงการ</h3>
+          <h3 style="margin:0; font-family:'Kanit';"><img src="icon-video-clip.png" alt="" style="width:18px; height:18px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> คลิป TikTok โครงการ</h3>
           <span style="cursor:pointer; font-size:20px;" onclick="closeTiktokClips()">✕</span>
         </div>
         <div style="padding:8px 20px 20px; max-height:60vh; overflow-y:auto;" id="tiktokList"><div class="empty-note">กำลังโหลด…</div></div>
@@ -1983,7 +1983,7 @@
     <div class="msub-line1">COLLECTION COMPLETE!</div>
     <div class="msub-line2">คุณค้นพบความรู้ครบทั้ง 21 ใบแล้ว</div>
   </div>
-  <button class="btn btn-coral" id="masterIntroBtn" style="display:none; max-width:220px; margin:24px auto 0;" onclick="finishMasterIntro()">ดูการ์ดพิเศษ ✨</button>
+  <button class="btn btn-coral" id="masterIntroBtn" style="display:none; max-width:220px; margin:24px auto 0;" onclick="finishMasterIntro()">ดูการ์ดพิเศษ <img src="icon-sparkle.png" alt="" style="width:15px; height:15px; object-fit:contain; vertical-align:-2px;"></button>
 </div>
 
 <script>
@@ -1994,7 +1994,7 @@
    ถ้าเจอเวอร์ชันใหม่กว่าที่ฝังมากับโค้ดตอนนี้ จะรีเฟรชอัตโนมัติทันที (ไม่ต้องรอให้ใครกดเอง กันเครื่องค้างเวอร์ชันเก่าไม่รู้ตัว)
    ยกเว้นตอนกำลังพิมพ์อะไรอยู่ในช่องกรอกข้อความ (เช่น เขียนสะท้อนตัวเอง) จะรอรอบถัดไปก่อน กันข้อมูลที่พิมพ์ค้างอยู่หายกะทันหัน
    ========================================================= */
-const APP_VERSION = "2026-09-10-14"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-10-15"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
@@ -2013,7 +2013,7 @@ function autoReloadForUpdate(){
   const b = document.createElement('div');
   b.id = 'appUpdateBanner';
   b.style.cssText = 'position:fixed; top:0; left:0; right:0; z-index:99999; background:var(--coral); color:#fff; padding:12px 16px; text-align:center; font-family:Kanit,sans-serif; font-weight:600; font-size:13.5px; box-shadow:0 2px 10px rgba(0,0,0,0.15);';
-  b.textContent = '🔄 กำลังอัปเดตเป็นเวอร์ชันล่าสุด รอสักครู่นะ...';
+  b.innerHTML = '<img src="icon-refresh.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> กำลังอัปเดตเป็นเวอร์ชันล่าสุด รอสักครู่นะ...';
   document.body.prepend(b);
   setTimeout(() => location.reload(), 700); // หน่วงนิดหน่อยให้เห็นข้อความก่อน ไม่ใช่รีเฟรชวูบวาบจนงง
 }
@@ -2445,7 +2445,7 @@ function renderSchoolResults(){
   matches.slice(0,15).forEach(s=>{
     const el = document.createElement('div');
     el.className = 'pick-tile';
-    el.innerHTML = `<span class="emoji">🏫</span>${s.schoolName}` +
+    el.innerHTML = `<img src="icon-school.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;">${s.schoolName}` +
       (s.status==='pending' ? ' <span style="font-size:11px;color:#9aa8ab;">(รอตรวจสอบ)</span>' : '');
     el.onclick = () => selectSchool(s);
     grid.appendChild(el);
@@ -2793,7 +2793,7 @@ function initNotifyOptIn(){
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   if(isIOS && !isStandalone){
     // iPhone/iPad ต้องกด "เพิ่มไปยังหน้าจอโฮม" ก่อน ถึงจะขอ permission แจ้งเตือนได้ (ข้อจำกัดของ Safari)
-    desc.textContent = 'ใช้ iPhone/iPad อยู่ใช่ไหม? กด แชร์ 📤 → เพิ่มไปยังหน้าจอโฮม ก่อน แล้วเปิดแอปจากหน้าจอโฮมอีกครั้งถึงจะเปิดแจ้งเตือนได้';
+    desc.innerHTML = 'ใช้ iPhone/iPad อยู่ใช่ไหม? กด แชร์ <img src="icon-upload.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> → เพิ่มไปยังหน้าจอโฮม ก่อน แล้วเปิดแอปจากหน้าจอโฮมอีกครั้งถึงจะเปิดแจ้งเตือนได้';
     btn.style.display = 'none';
   }
   card.style.display = 'block';
@@ -3051,7 +3051,7 @@ function growthStageFor(day, total){
 
 function refreshHomeTab(){
   const s = state.selectedStudent;
-  document.getElementById('homeGreeting').textContent = 'สวัสดี ' + s.nickname + ' 👋';
+  document.getElementById('homeGreeting').innerHTML = 'สวัสดี ' + s.nickname + ' <img src="icon-wave.png" alt="" style="width:20px; height:20px; object-fit:contain; vertical-align:-4px;">';
   document.getElementById('homeStreak').textContent = s.currentStreak || 0;
   document.getElementById('homePoints').textContent = s.totalPoints || 0;
   document.getElementById('homeCards').textContent = state.albumCollectedCount || 0;
@@ -3085,7 +3085,7 @@ function refreshHomeTab(){
 
   if(missionNeedsAction){
     heroCardEl.style.display = 'block';
-    heroTagEl.textContent = '🎯 ภารกิจวันนี้';
+    heroTagEl.innerHTML = '<img src="icon-target.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ภารกิจวันนี้';
     heroTitleEl.textContent = (state.todaysMission && state.todaysMission.text) || 'ภารกิจวันนี้';
     heroRewardEl.textContent = `+${(state.todaysMission && state.todaysMission.points)||15} คะแนน`;
     heroBtnEl.textContent = state.todaysMissionStatus==='rejected' ? 'ส่งใหม่อีกครั้ง' : 'เริ่มภารกิจ';
@@ -3093,7 +3093,7 @@ function refreshHomeTab(){
     heroBtnEl.onclick = (e) => { e.stopPropagation(); switchTab('tab-mission-hub'); };
   } else if(!quizDone){
     heroCardEl.style.display = 'block';
-    heroTagEl.textContent = '❓ Quiz วันนี้';
+    heroTagEl.innerHTML = '<img src="icon-quiz.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> Quiz วันนี้';
     heroTitleEl.textContent = 'ทำ Quiz 3 คำถามวันนี้กันเถอะ';
     heroRewardEl.textContent = '+15 คะแนน';
     heroBtnEl.textContent = 'เริ่ม Quiz';
@@ -3101,7 +3101,7 @@ function refreshHomeTab(){
     heroBtnEl.onclick = (e) => { e.stopPropagation(); switchTab('tab-quiz'); };
   } else if(!logDone){
     heroCardEl.style.display = 'block';
-    heroTagEl.textContent = '🌱 บันทึกวันนี้';
+    heroTagEl.innerHTML = '<img src="icon-leaf-small.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> บันทึกวันนี้';
     heroTitleEl.textContent = 'บันทึกพฤติกรรมของวันนี้ให้ Sprout โตอีกนิด';
     heroRewardEl.textContent = 'บันทึกเล็กๆ สู่สุขภาพที่ดีกว่า';
     heroBtnEl.textContent = 'ไปบันทึก';
@@ -3155,7 +3155,7 @@ function refreshMissionHub(){
   const missionBtn = document.getElementById('mhMissionBtn');
   if(mission){
     document.getElementById('hubMissionDesc').textContent = mission.text || '';
-    document.getElementById('hubMissionReward').innerHTML = `⭐ <b>+${mission.points||15} คะแนน</b>`;
+    document.getElementById('hubMissionReward').innerHTML = `<img src="icon-points-star.png" alt="" style="width:15px; height:15px; object-fit:contain; vertical-align:-2px;"> <b>+${mission.points||15} คะแนน</b>`;
     // เลือกภาพ mascot ตามประเภทหลักฐานที่ต้องส่ง — 'text' ใช้ท่าจดบันทึก นอกนั้น (photo/both) ใช้ท่าถ่ายรูป
     document.getElementById('mhMissionMascot').src = mission.evidenceType==='text' ? 'mascot-text.png' : 'mascot-photo.png';
   }
@@ -3175,10 +3175,10 @@ function refreshMissionHub(){
   const quizRewardEl = document.getElementById('hubQuizReward');
   if(state.quizFinished){
     const correct = state.quizAnswers.filter(a=>a.correct).length;
-    quizRewardEl.innerHTML = `⭐ ได้ <b>${correct*5} คะแนน</b> (${correct}/${totalQ} ข้อถูก)`;
+    quizRewardEl.innerHTML = `<img src="icon-points-star.png" alt="" style="width:15px; height:15px; object-fit:contain; vertical-align:-2px;"> ได้ <b>${correct*5} คะแนน</b> (${correct}/${totalQ} ข้อถูก)`;
     quizBtn.textContent = '✅ ทำ Quiz แล้ว';
   } else {
-    quizRewardEl.innerHTML = `⭐ ได้สูงสุด <b>${totalQ*5} คะแนน</b>`;
+    quizRewardEl.innerHTML = `<img src="icon-points-star.png" alt="" style="width:15px; height:15px; object-fit:contain; vertical-align:-2px;"> ได้สูงสุด <b>${totalQ*5} คะแนน</b>`;
     quizBtn.textContent = 'เริ่ม Quiz';
   }
   quizCard.classList.toggle('done', !!state.quizFinished);
@@ -3189,10 +3189,10 @@ function refreshMissionHub(){
   const logDone = !!(state.targetLog && state.targetLog.submitted);
   const logRewardEl = document.getElementById('hubLogReward');
   if(logDone){
-    logRewardEl.innerHTML = `⭐ ได้ <b>${state.targetLog.pointsEarned||0} คะแนน</b>`; // โชว์คะแนนจริงที่บันทึกไว้ ไม่ใช่ตัวเลขคงที่
+    logRewardEl.innerHTML = `<img src="icon-points-star.png" alt="" style="width:15px; height:15px; object-fit:contain; vertical-align:-2px;"> ได้ <b>${state.targetLog.pointsEarned||0} คะแนน</b>`; // โชว์คะแนนจริงที่บันทึกไว้ ไม่ใช่ตัวเลขคงที่
     logBtn.textContent = '✅ บันทึกแล้ว';
   } else {
-    logRewardEl.innerHTML = `⭐ ได้ <b>10–47 คะแนน</b> ตามที่บันทึก`; // คะแนนไม่คงที่ ขึ้นกับกรอกครบแค่ไหน จึงบอกเป็นช่วง
+    logRewardEl.innerHTML = `<img src="icon-points-star.png" alt="" style="width:15px; height:15px; object-fit:contain; vertical-align:-2px;"> ได้ <b>10–47 คะแนน</b> ตามที่บันทึก`; // คะแนนไม่คงที่ ขึ้นกับกรอกครบแค่ไหน จึงบอกเป็นช่วง
     logBtn.textContent = 'เริ่มบันทึก';
   }
   logCard.classList.toggle('done', logDone);
@@ -3205,7 +3205,7 @@ function refreshMissionHub(){
   document.getElementById('mhProgressTitle').textContent = doneCount>=3 ? '✅ วันนี้ทำครบแล้ว' : 'วันนี้ทำไปแล้ว';
   document.getElementById('mhProgressMsg').textContent = doneCount>=3
     ? 'เก่งมาก! วันนี้ทำครบทุกกิจกรรมแล้ว 🎉'
-    : 'เก่งมาก! ทำต่ออีกนิดนะ 💪';
+    : 'เก่งมาก! ทำต่ออีกนิดนะ <img src="icon-strong.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;">';
 }
 
 // อัปเดตยอดโซเดียมในแท็บฮับ "โซเดียม" (ตรวจฉลาก + โซเดียมวันนี้ รวมเป็นทางเข้าเดียว)
@@ -3241,7 +3241,7 @@ function renderHubFoodList(){
     const qty = c.servings>1 ? `${c.servings} หน่วย` : '1 หน่วย';
     return `
       <div class="sh-food-item">
-        <div class="sh-food-icon">📦</div>
+        <div class="sh-food-icon"><img src="icon-package.png" alt="" style="width:24px; height:24px; object-fit:contain;"></div>
         <div class="sh-food-info">
           <div class="sh-food-name">${c.name}</div>
           <div class="sh-food-qty">${qty}${c.time?' · '+c.time:''}</div>
@@ -3256,7 +3256,7 @@ function renderHubFoodList(){
 
   const mealRows = (state.mealSodiumEntries||[]).map((m,i)=>{
     const dish = THAI_DISHES.find(d=>d.name===m.dishName);
-    const rawIcon = dish ? dish.icon : '🍽️';
+    const rawIcon = dish ? dish.icon : 'icon-meal.png';
     const icon = rawIcon.endsWith('.png') ? `<img src="${rawIcon}" alt="" style="width:26px;height:26px;object-fit:contain;">` : rawIcon;
     const tier = sodiumTier(m.estimatedSodium||0);
     const qty = m.gramsEaten ? `${m.gramsEaten} กรัม` : (m.servings>1 ? `${m.servings} หน่วย` : '1 หน่วย');
@@ -3433,8 +3433,8 @@ async function loadLogForDate(dateStr){
     document.getElementById('improveText').value = '';
   }
   document.getElementById('logDateHeading').textContent =
-    dateStr===state.todaysDateStr ? '📝 บันทึกของวันนี้ (' + dayLabelThai(dateStr) + ')'
-    : '📝 บันทึกย้อนหลัง: ' + dayLabelThai(dateStr);
+    dateStr===state.todaysDateStr ? '<img src="icon-write.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> บันทึกของวันนี้ (' + dayLabelThai(dateStr) + ')'
+    : '<img src="icon-write.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> บันทึกย้อนหลัง: ' + dayLabelThai(dateStr);
   applyLogLockState();
   renderTodayGoalChips();
   renderExerciseChips();
@@ -3520,7 +3520,7 @@ async function handleLabelPhoto(event){
   const file = event.target.files[0];
   if(!file) return;
   const statusEl = document.getElementById('ocrStatus');
-  statusEl.innerHTML = '🔎 กำลังส่งรูปให้ AI ช่วยอ่าน... รอสักครู่นะ';
+  statusEl.innerHTML = '<img src="icon-search.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> กำลังส่งรูปให้ AI ช่วยอ่าน... รอสักครู่นะ';
   console.log('handleLabelPhoto: ไฟล์ที่เลือก', { name: file.name, type: file.type, size: file.size });
 
   let imageBase64;
@@ -3573,11 +3573,11 @@ async function handleLabelPhoto(event){
     let detailLines = [];
     if(data.product_name){
       document.getElementById('ciName').value = data.product_name;
-      detailLines.push(`📦 ชื่อสินค้า: <b>${data.product_name}</b>`);
+      detailLines.push(`<img src="icon-package.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> ชื่อสินค้า: <b>${data.product_name}</b>`);
       triggerProductMatch(); // มีชื่อแล้ว ลองหาของที่เคยตรวจไว้มาเทียบให้เลย
     }
     if(data.category){
-      detailLines.push(`🏷️ หมวดหมู่: <b>${data.category}</b>`);
+      detailLines.push(`<img src="icon-tag.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> หมวดหมู่: <b>${data.category}</b>`);
     }
     const detailHtml = detailLines.length
       ? `<div style="text-align:center; font-size:15px; font-weight:500; color:#3d4b4f; margin-top:6px; line-height:1.7;">${detailLines.join('<br>')}</div>`
@@ -3585,7 +3585,7 @@ async function handleLabelPhoto(event){
 
     let healthyChoiceHtml = '';
     if(data.healthy_choice_logo){
-      healthyChoiceHtml = `<div style="text-align:center; font-size:13.5px; color:var(--lagoon); font-weight:600; margin-top:8px;">💚 เห็นสัญลักษณ์ "ทางเลือกสุขภาพ" ด้วย! ระบบจะติ๊กให้อัตโนมัติตอนบันทึกพฤติกรรมของวันนี้นะ</div>`;
+      healthyChoiceHtml = `<div style="text-align:center; font-size:13.5px; color:var(--lagoon); font-weight:600; margin-top:8px;"><img src="icon-heart-health.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> เห็นสัญลักษณ์ "ทางเลือกสุขภาพ" ด้วย! ระบบจะติ๊กให้อัตโนมัติตอนบันทึกพฤติกรรมของวันนี้นะ</div>`;
       // เก็บ flag ไว้ที่เอกสารของวันนี้ (docId เดียวกับที่ recall form จะมาโหลดใช้ทีหลัง)
       await db.collection('dailyLogs').doc(logDocId()).set({ aiDetectedHealthyChoice: true }, { merge:true });
     }
@@ -3945,7 +3945,7 @@ function renderAllTimeCheckHistory(){
     const extraHtml = extras.length ? ` · ${extras.join(' ')}` : '';
     return `
     <div class="check-item">
-      <div class="ci-name">${c.name} <span style="color:#9aa8ab;font-weight:400;">· ${c.date}${c.time?' '+c.time:''}${c.consumed===false?' · 🔍 แค่ตรวจดู':' · 🍽️ กินแล้ว'}</span></div>
+      <div class="ci-name">${c.name} <span style="color:#9aa8ab;font-weight:400;">· ${c.date}${c.time?' '+c.time:''}${c.consumed===false?' · <img src="icon-search.png" alt="" style="width:12px;height:12px;vertical-align:-1px;"> แค่ตรวจดู':' · <img src="icon-meal.png" alt="" style="width:13px; height:13px; object-fit:contain; vertical-align:-2px;"> กินแล้ว'}</span></div>
       <div class="ci-val"><img src="nutrient-sodium.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;">${c.sodium} มก. (${c.pct}%)${extraHtml}</div>
     </div>
   `;}).join('');
@@ -4065,7 +4065,7 @@ function updateMealServingsLabel(){
 function renderMealLevelRow(selectedLevel){
   const row = document.getElementById('mealLevelRow');
   row.innerHTML = '';
-  const levels = [{key:'low',emoji:'🙂'},{key:'mid',emoji:'😐'},{key:'high',emoji:'🥵'}];
+  const levels = [{key:'low',emoji:'scale-face-low.png'},{key:'mid',emoji:'scale-face-mid.png'},{key:'high',emoji:'scale-face-high.png'}];
   levels.forEach(l=>{
     row.appendChild(stickerButton(l.key, l.emoji, SALTY_LEVEL_LABEL[l.key], l.key===selectedLevel, ()=>{
       state.mealPickerLevel = l.key;
@@ -4186,8 +4186,8 @@ function loadMissionForDate(dateStr){
 async function loadMission(){
   const bodyEl = document.getElementById('missionBody');
   if(!state.missionTargetDate) state.missionTargetDate = state.todaysDateStr;
-  document.getElementById('missionCardTitle').textContent =
-    state.missionTargetDate===state.todaysDateStr ? '🎯 ภารกิจวันนี้' : '🎯 ภารกิจย้อนหลัง: ' + dayLabelThai(state.missionTargetDate);
+  document.getElementById('missionCardTitle').innerHTML =
+    state.missionTargetDate===state.todaysDateStr ? '<img src="icon-target.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ภารกิจวันนี้' : '<img src="icon-target.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ภารกิจย้อนหลัง: ' + dayLabelThai(state.missionTargetDate);
   try{
     const snap = await db.collection('missions').where('active', '==', true).get();
     const missions = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (a.order || 0) - (b.order || 0));
@@ -4226,7 +4226,7 @@ function renderMissionUI(mission, sub){
     else if (sub.status === 'approved') statusHtml = `<div class="mission-status approved">✅ ผ่านแล้ว! ได้ ${sub.pointsAwarded || 0} คะแนน</div>`;
     else if (sub.status === 'rejected') {
       const effortNote = sub.effortCreditAwarded
-        ? `<br><span style="color:var(--lagoon);">💚 ได้คะแนนความพยายาม ${sub.pointsAwarded||0} คะแนนแล้ว (หมดเวลาส่งใหม่ของวันนั้นแล้ว)</span>`
+        ? `<br><span style="color:var(--lagoon);"><img src="icon-heart-health.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> ได้คะแนนความพยายาม ${sub.pointsAwarded||0} คะแนนแล้ว (หมดเวลาส่งใหม่ของวันนั้นแล้ว)</span>`
         : ' — ลองส่งใหม่ได้เลย';
       statusHtml = `<div class="mission-status rejected">❌ ยังไม่ผ่าน${sub.reviewNote ? ': ' + sub.reviewNote : ''}${effortNote}</div>`;
     }
@@ -4241,7 +4241,7 @@ function renderMissionUI(mission, sub){
     formHtml = `
       ${needsPhoto ? `
         <input type="file" accept="image/*" id="missionPhotoInput" multiple style="display:none" onchange="previewMissionPhoto(event)">
-        <button class="btn btn-ghost btn-block" type="button" onclick="document.getElementById('missionPhotoInput').click()">📷 ถ่ายรูป/แนบไฟล์หลักฐาน (สูงสุด ${MAX_MISSION_PHOTOS} รูป)</button>
+        <button class="btn btn-ghost btn-block" type="button" onclick="document.getElementById('missionPhotoInput').click()"><img src="icon-camera.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ถ่ายรูป/แนบไฟล์หลักฐาน (สูงสุด ${MAX_MISSION_PHOTOS} รูป)</button>
         <div id="missionPhotoPreview" style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;"></div>
       ` : ''}
       ${needsText ? `
@@ -4368,7 +4368,7 @@ async function loadQuiz(){
   if(!state.quizTargetDate) state.quizTargetDate = state.todaysDateStr;
   const targetDate = state.quizTargetDate; // ผูกไว้กับตัวแปรนี้ตลอดฟังก์ชัน เทียบกับ state.quizTargetDate ตอนจบ await แต่ละจุด กันผลลัพธ์เก่าทับของใหม่เวลาสลับวันเร็วๆ (race condition)
   document.getElementById('quizCardTitle').textContent =
-    targetDate===state.todaysDateStr ? '❓ Quiz ประจำวัน' : '❓ Quiz ย้อนหลัง: ' + dayLabelThai(targetDate);
+    targetDate===state.todaysDateStr ? '<img src="icon-quiz.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> Quiz ประจำวัน' : '<img src="icon-quiz.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> Quiz ย้อนหลัง: ' + dayLabelThai(targetDate);
 
   let data;
   if(targetDate === state.todaysDateStr && state.todayLog){
@@ -4718,7 +4718,7 @@ function labelField(typeKey, fieldKey, labelText, placeholder, inputType){
 }
 
 function aiButtonHtml(typeKey, locked){
-  return `<button type="button" class="btn btn-primary" style="width:auto; padding:8px 16px; font-size:12.5px; margin-bottom:6px;" ${locked?'disabled':''} onclick="triggerAiLabelScan('${typeKey}')">📷 ให้ AI ช่วยอ่าน</button>
+  return `<button type="button" class="btn btn-primary" style="width:auto; padding:8px 16px; font-size:12.5px; margin-bottom:6px;" ${locked?'disabled':''} onclick="triggerAiLabelScan('${typeKey}')"><img src="icon-camera.png" alt="" style="width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-right:2px;"> ให้ AI ช่วยอ่าน</button>
     <div id="aiLabelMsg-${typeKey}" style="font-size:12.5px; color:#6b7c80; margin-bottom:8px;"></div>`;
 }
 
@@ -5418,7 +5418,7 @@ function renderEncouragement(){
   const dayNum = state.dayNumber || 1;
   let msg;
   if(dayNum < 7) msg = 'เริ่มต้นได้ดีเลย ลองค่อย ๆ สังเกตพฤติกรรมของตัวเองต่อไปนะ 🌱';
-  else if(dayNum < 14) msg = 'ผ่านสัปดาห์แรกมาแล้ว! สิ่งเล็ก ๆ ที่ทำซ้ำกำลังช่วยให้เราเข้าใจตัวเองมากขึ้น 💪';
+  else if(dayNum < 14) msg = 'ผ่านสัปดาห์แรกมาแล้ว! สิ่งเล็ก ๆ ที่ทำซ้ำกำลังช่วยให้เราเข้าใจตัวเองมากขึ้น <img src="icon-strong.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;">';
   else if(dayNum < 21) msg = 'มาไกลมากแล้ว ลองสังเกตว่าสิ่งไหนที่เราทำได้ง่ายขึ้นกว่าเดิม ✨';
   else msg = 'ครบ 21-Day Challenge แล้ว! ใช้สิ่งที่เรียนรู้ไปเลือกดูแลตัวเองต่อได้เลย 🎉';
   document.getElementById('pgEncourageText').textContent = msg;
@@ -5459,14 +5459,14 @@ function renderSodiumInsights(){
   let html = '';
   if(bestDay){
     html += `<div class="hl-card" style="margin-bottom:${trendInsight?'10px':'0'};">
-      <div class="hl-icon">🏅</div>
+      <img class="hl-icon" src="icon-medal.png" alt="" style="width:28px; height:28px; object-fit:contain;">
       <div><div class="hl-title">วันที่ทำได้ดีที่สุด</div>
       <div class="hl-value">${dayLabelThai(bestDay.date)} — บันทึกโซเดียมแค่ <b>${bestDay.total.toLocaleString('th-TH')} มก.</b></div></div>
     </div>`;
   }
   if(trendInsight){
     html += `<div class="hl-card">
-      <div class="hl-icon">📉</div>
+      <img class="hl-icon" src="icon-trend-chart.png" alt="" style="width:28px; height:28px; object-fit:contain;">
       <div><div class="hl-title">แนวโน้มดีขึ้น</div>
       <div class="hl-value">ค่าเฉลี่ยช่วงหลังบันทึกไว้ <b>${trendInsight.avgSecond.toLocaleString('th-TH')} มก.</b> ต่ำกว่าช่วงแรก (${trendInsight.avgFirst.toLocaleString('th-TH')} มก.) อยู่ <b>${trendInsight.diff.toLocaleString('th-TH')} มก.</b></div></div>
     </div>`;
@@ -5554,7 +5554,7 @@ function renderStats(){
     { key:'labelDetective', icon:'badge-labeldetective.png', name:'Label Detective', earned: labelReadCount >= 10,
       reqText:`อ่านฉลากสะสม 10 วัน`,
       desc:`อ่านฉลาก (ประเภทไหนก็ได้) สะสม 10 วัน (ตอนนี้อ่านไปแล้ว ${labelReadCount} วัน)` },
-    { key:'quizMaster', icon:'🧠', name:'Quiz Master', earned: quizTotalSum>0 && quizAccuracy >= 0.8,
+    { key:'quizMaster', icon:'badge-quizmaster.png', name:'Quiz Master', earned: quizTotalSum>0 && quizAccuracy >= 0.8,
       reqText:`ตอบ Quiz ถูกสะสม 80% ขึ้นไป`,
       desc:`ตอบ Quiz ถูกสะสม 80% ขึ้นไป (ตอนนี้ ${quizTotalSum>0 ? Math.round(quizAccuracy*100) : 0}%)` },
     { key:'missionExplorer', icon:'badge-missionexplorer.png', name:'Mission Explorer', earned: approvedMissionCount >= 15,
@@ -5660,7 +5660,7 @@ async function openRewardHistory(){
       const data = d.data();
       const card = cardsById[data.cardId];
       if(!card || !data.collectedAt) return;
-      events.push({icon: card.isSpecial ? '🌟' : '🎴', name: (card.text||'การ์ดความรู้').slice(0,36), date: data.collectedAt});
+      events.push({icon: card.isSpecial ? 'icon-special-star.png' : 'icon-card.png', name: (card.text||'การ์ดความรู้').slice(0,36), date: data.collectedAt});
     });
 
     events.sort((a,b)=> new Date(b.date) - new Date(a.date));
@@ -5735,7 +5735,7 @@ function openAnnounceHistory(){
         const dateStr = a.createdAt ? (a.createdAt.toDate ? a.createdAt.toDate() : new Date(a.createdAt)).toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'}) : '';
         const imgHtml = a.imageUrl ? `<img src="${a.imageUrl}" alt="" style="width:100%; border-radius:10px; margin:8px 0; display:block; cursor:zoom-in;" onclick="openImageLightbox(this.src)" onerror="this.style.display='none'">` : '';
         return `<div class="rw-history-item" style="display:block;">
-          <div class="rw-history-name">📢 ${a.title} <span style="color:#9aa8ab; font-weight:400; font-size:11px;">· ${dateStr}</span></div>
+          <div class="rw-history-name"><img src="icon-megaphone.png" alt="" style="width:14px; height:14px; object-fit:contain; vertical-align:-2px;"> ${a.title} <span style="color:#9aa8ab; font-weight:400; font-size:11px;">· ${dateStr}</span></div>
           ${imgHtml}
           <div style="font-size:12.5px; color:#4c5c60; margin-top:3px; white-space:pre-wrap;">${a.message}</div>
         </div>`;
@@ -5765,13 +5765,13 @@ function openTiktokClips(){
   document.getElementById('tiktokOverlay').style.display = 'flex';
   const listEl = document.getElementById('tiktokList');
   if(TIKTOK_CLIPS.length===0){
-    listEl.innerHTML = '<div class="empty-note">เร็วๆ นี้! ครูกำลังทำคลิปอยู่นะ 🎥</div>';
+    listEl.innerHTML = '<div class="empty-note">เร็วๆ นี้! ครูกำลังทำคลิปอยู่นะ <img src="icon-video-clip.png" alt="" style="width:18px; height:18px; object-fit:contain; vertical-align:-3px; margin-right:2px;"></div>';
     return;
   }
   // โชว์รายชื่อคลิปพร้อมไอคอนตั้งต้นก่อนทันที ไม่รอ thumbnail โหลดเสร็จ กันหน้าจอค้าง
   listEl.innerHTML = TIKTOK_CLIPS.map((c,i)=>`
     <div class="rw-history-item" style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="window.open('${c.url}','_blank','noopener')">
-      <div id="tiktokThumb${i}" style="width:44px; height:44px; border-radius:10px; background:#FDEAF0; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; overflow:hidden;">🎬</div>
+      <div id="tiktokThumb${i}" style="width:44px; height:44px; border-radius:10px; background:#FDEAF0; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; overflow:hidden;"><img src="icon-video-clip.png" alt="" style="width:20px; height:20px; object-fit:contain;"></div>
       <div style="flex:1;">
         <div class="rw-history-name">${c.title}</div>
         <div style="font-size:11px; color:var(--lagoon); font-weight:600;">ดูใน TikTok ▶</div>
@@ -5783,7 +5783,7 @@ function openTiktokClips(){
     fetchTiktokThumb(c.url).then(thumbUrl=>{
       if(!thumbUrl) return;
       const el = document.getElementById('tiktokThumb'+i);
-      if(el) el.innerHTML = `<img src="${thumbUrl}" alt="" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.innerHTML='🎬'">`;
+      if(el) el.innerHTML = `<img src="${thumbUrl}" alt="" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.innerHTML='<img src=\"icon-video-clip.png\" alt=\"\" style=\"width:20px;height:20px;\">'">`;
     });
   });
 }
@@ -6117,8 +6117,8 @@ function renderHealthResult(entry){
   if (!isNormal) {
     referralEl.style.display = 'block';
     referralEl.innerHTML = entry.isAdult
-      ? '💬 ค่านี้อยู่นอกช่วง "ปกติ" ไม่ได้แปลว่าต้องกังวลทันที แต่ลองพูดคุยกับ<b>เจ้าหน้าที่สาธารณสุขหรือแพทย์</b>เพื่อขอคำแนะนำที่เหมาะกับตัวเองโดยเฉพาะดีกว่าครับ'
-      : '💬 ค่านี้อยู่นอกช่วง "ปกติ" ที่พบทั่วไปในเด็กวัยเดียวกัน ไม่ได้แปลว่าต้องกังวลทันที แต่ลองพูดคุยกับ<b>ครูอนามัยหรือเจ้าหน้าที่สาธารณสุขที่ดูแลโครงการนี้</b>เพื่อขอคำแนะนำที่เหมาะกับตัวเองโดยเฉพาะดีกว่าครับ';
+      ? '<img src="icon-chat.png" alt="" style="width:24px; height:24px; object-fit:contain;"> ค่านี้อยู่นอกช่วง "ปกติ" ไม่ได้แปลว่าต้องกังวลทันที แต่ลองพูดคุยกับ<b>เจ้าหน้าที่สาธารณสุขหรือแพทย์</b>เพื่อขอคำแนะนำที่เหมาะกับตัวเองโดยเฉพาะดีกว่าครับ'
+      : '<img src="icon-chat.png" alt="" style="width:24px; height:24px; object-fit:contain;"> ค่านี้อยู่นอกช่วง "ปกติ" ที่พบทั่วไปในเด็กวัยเดียวกัน ไม่ได้แปลว่าต้องกังวลทันที แต่ลองพูดคุยกับ<b>ครูอนามัยหรือเจ้าหน้าที่สาธารณสุขที่ดูแลโครงการนี้</b>เพื่อขอคำแนะนำที่เหมาะกับตัวเองโดยเฉพาะดีกว่าครับ';
   } else {
     referralEl.style.display = 'none';
   }
@@ -6160,7 +6160,7 @@ async function loadAlbum(){
 
     const collectedRegularCount = regularCards.filter(c=>collectedIds.includes(c.id)).length;
     state.albumCollectedCount = collectedRegularCount + (specialCard && collectedIds.includes(specialCard.id) ? 1 : 0);
-    progEl.textContent = `เก็บแล้ว ${collectedRegularCount}/${regularCards.length} ใบ` + (specialCard ? (collectedIds.includes(specialCard.id) ? ' 🌟 + การ์ดพิเศษ' : '') : '');
+    progEl.textContent = `เก็บแล้ว ${collectedRegularCount}/${regularCards.length} ใบ` + (specialCard ? (collectedIds.includes(specialCard.id) ? ' <img src="icon-special-star.png" alt="" style="width:13px;height:13px;vertical-align:-1px;"> + การ์ดพิเศษ' : '') : '');
 
     // จัดกลุ่มเป็น "ชั้น" ตามหมวดหมู่ เรียงตามลำดับสีที่กำหนดไว้ + หมวดอื่น ๆ ที่ไม่อยู่ในลิสต์ต่อท้าย
     const knownCats = Object.keys(CARD_CATEGORY_COLORS);
@@ -6183,7 +6183,7 @@ async function loadAlbum(){
       const unlocked = collectedIds.includes(specialCard.id);
       html += `<div class="album-shelf">
         <div class="album-shelf-header" style="background:#F4C86B;">
-          <span>🌟 การ์ดพิเศษ</span>
+          <span><img src="icon-special-star.png" alt="" style="width:14px;height:14px;vertical-align:-2px;"> การ์ดพิเศษ</span>
           <span class="cnt">${unlocked?1:0}/1</span>
         </div>
         <div class="album-grid">${renderAlbumItem(specialCard, unlocked, true)}</div>
@@ -6308,7 +6308,7 @@ function renderLB(elId, list){
     <div class="lb-row">
       <div class="lb-rank">${i+1}</div>
       <div class="lb-name">${s.nickname||'-'}</div>
-      <div class="lb-pts">${s.totalPoints||0} ⭐</div>
+      <div class="lb-pts">${s.totalPoints||0} <img src="icon-points-star.png" alt="" style="width:15px; height:15px; object-fit:contain; vertical-align:-2px;"></div>
     </div>`).join('');
 }
 
