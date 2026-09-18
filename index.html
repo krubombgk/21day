@@ -876,53 +876,76 @@
   .ptable-legend .dot{width:12px; height:12px; border-radius:4px; display:inline-block;}
   .loading{display:flex; align-items:center; justify-content:center; min-height:100vh; font-family:'Kanit'; color:var(--lagoon); font-weight:600;}
 
-  /* ---- Certificate Export: จำลองหน้า 67-68 ของเล่มสมุด เอาไปดาวน์โหลดอัปโหลดเข้า Google Form ของ อย. ---- */
+  /* ---- Certificate Export: จำลองหน้า 67-68 ของเล่มสมุด "After Challenge" ตัวจริง ให้ตรงกับดีไซน์ต้นฉบับ
+         (สี/เลย์เอาต์อ้างอิงจากไฟล์ template .pptx ที่ครูบอมทำไว้ — ไม่ใช้ธีม Sprout เขียวของแอป เพราะหน้านี้ต้องเหมือนหน้าในสมุดจริงที่ อย. คุ้นเคย) ---- */
+  :root{
+    --cert-cream:#FFFDF7;    --cert-red:#ED5D5C;      --cert-pink:#EE819D;
+    --cert-ink:#34444C;      --cert-yellow:#FFDE53;   --cert-blue:#7FD2E8;
+    --cert-line:#C9D2D4;
+  }
   .cert-preview-frame{
     width:100%; overflow-x:auto; overflow-y:hidden; border-radius:16px; box-shadow:var(--shadow);
     margin-bottom:8px; background:#EFE9D9; padding:14px;
   }
   .cert-page{
-    width:760px; min-height:1074px; background:#fff; border-radius:10px; overflow:hidden;
-    font-family:'Sarabun',sans-serif; color:var(--ink); position:relative; margin:0 auto;
-    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    width:780px; min-height:1104px; background:var(--cert-cream); border-radius:6px; overflow:hidden;
+    font-family:'Sarabun',sans-serif; color:var(--cert-ink); position:relative; margin:0 auto;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08); padding:44px 50px 70px;
   }
-  .cert-page-head{
-    background:linear-gradient(135deg, var(--deep-sea) 0%, var(--deep-sea-2) 60%, var(--lagoon) 130%);
-    color:#fff; padding:20px 34px;
-  }
-  .cert-page-head .cbrand{font-family:'Kanit'; font-weight:700; font-size:14px; opacity:0.92;}
-  .cert-page-head .ctitle{font-family:'Kanit'; font-weight:800; font-size:24px; margin-top:4px;}
-  .cert-page-head .csub{font-size:13px; opacity:0.92; margin-top:2px;}
-  .cert-body{padding:26px 34px 34px;}
-  .cert-idline{font-size:12.5px; color:#6b7c80; margin-bottom:14px; line-height:1.7;}
-  .cert-idline b{color:var(--ink);}
-  .cert-h{font-family:'Kanit'; font-weight:700; font-size:15.5px; color:var(--deep-sea); margin:18px 0 8px;}
-  .cert-h:first-child{margin-top:0;}
-  .cert-table{width:100%; border-collapse:collapse; margin-bottom:6px;}
-  .cert-table th{background:var(--lagoon); color:#fff; font-family:'Kanit'; font-weight:600; font-size:12.5px; padding:9px 6px; border:1px solid var(--lagoon);}
-  .cert-table td{border:1px solid #cfe3c6; padding:11px 6px; text-align:center; font-family:'Kanit'; font-weight:600; font-size:14px;}
-  .cert-checklist{list-style:none; margin:0 0 6px; padding:0; display:flex; flex-direction:column; gap:7px;}
-  .cert-checklist li{display:flex; align-items:center; gap:9px; font-size:13.5px;}
+  .cert-dot{position:absolute; width:11px; height:11px; border-radius:50%;}
+  .cert-dot.tl{top:22px; left:22px; background:#F6A0B8;}
+  .cert-dot.tr{top:22px; right:22px; background:var(--cert-blue);}
+  .cert-dot.bl{bottom:22px; left:22px; background:#F6A0B8;}
+  .cert-dot.br{bottom:22px; right:22px; background:var(--cert-yellow);}
+  .cert-idline{font-size:11.5px; color:#9aa8ab; margin:2px 0 16px; text-align:right;}
+  .cert-idline b{color:var(--cert-ink);}
+  .cert-title{font-family:'Kanit'; font-weight:800; font-size:30px; color:var(--cert-red); margin:0;}
+  .cert-subtitle{font-family:'Kanit'; font-weight:700; font-size:19px; color:var(--cert-ink); margin:2px 0 18px;}
+  .cert-section-head{font-family:'Kanit'; font-weight:700; font-size:16.5px; color:var(--cert-red); text-align:center; margin:0 0 10px;}
+  .cert-table{width:100%; border-collapse:collapse; margin-bottom:20px; border:1.5px solid var(--cert-ink);}
+  .cert-table th{background:var(--cert-pink); color:#fff; font-family:'Kanit'; font-weight:700; font-size:12.5px; padding:9px 6px; border:1.5px solid var(--cert-ink);}
+  .cert-table td{border:1.5px solid var(--cert-ink); padding:13px 6px; text-align:center; font-family:'Kanit'; font-weight:700; font-size:15px;}
+  .cert-bmi-note{font-size:10.5px; color:var(--cert-blue); line-height:1.6; margin-bottom:16px;}
+  .cert-bmi-note b{color:#4BAAC2;}
+  .cert-checklist-head{font-family:'Kanit'; font-weight:700; font-size:16px; color:var(--cert-red); margin:0 0 10px;}
+  .cert-checklist-head span{color:var(--cert-ink); font-size:13px; font-weight:700;}
+  .cert-checklist{list-style:none; margin:0 0 20px; padding:0; display:flex; flex-wrap:wrap; gap:10px 26px;}
+  .cert-checklist li{display:flex; align-items:center; gap:9px; font-size:13.5px; flex:0 0 auto;}
   .cert-checkbox{
-    width:17px; height:17px; border-radius:4px; border:2px solid var(--lagoon); flex:none;
+    width:17px; height:17px; border-radius:3px; border:1.6px solid var(--cert-ink); flex:none;
     display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff;
   }
-  .cert-checkbox.on{background:var(--lagoon);}
-  .cert-qa{margin-bottom:4px;}
-  .cert-qa .q{font-size:13px; color:#4c5c60; margin-bottom:5px;}
-  .cert-qa .a{
-    font-size:13.5px; line-height:1.7; background:var(--lagoon-light); border-radius:10px; padding:10px 13px;
-    min-height:44px; white-space:pre-wrap; word-break:break-word;
+  .cert-checkbox.on{background:var(--cert-red); border-color:var(--cert-red);}
+  .cert-qa{margin-bottom:18px;}
+  .cert-qa .qn{font-family:'Kanit'; font-weight:700; font-size:14.5px; color:var(--cert-red);}
+  .cert-qa .qt{font-family:'Sarabun'; font-weight:700; font-size:14.5px; color:var(--cert-ink);}
+  .cert-qa .qhint{font-size:11px; color:#9aa8ab; font-style:italic; margin:2px 0 6px;}
+  .cert-lined-answer{
+    font-size:14px; line-height:1.85em; color:var(--cert-ink); min-height:5.55em; white-space:pre-wrap; word-break:break-word;
+    background-image:repeating-linear-gradient(to bottom, transparent, transparent calc(1.85em - 1px), var(--cert-line) calc(1.85em - 1px), var(--cert-line) 1.85em);
+    padding-top:0.05em;
   }
-  .cert-sign-row{display:flex; gap:18px; margin-top:26px; flex-wrap:wrap;}
-  .cert-sign-box{flex:1; min-width:220px; text-align:center;}
-  .cert-sign-name{
-    font-family:'Kanit'; font-weight:700; font-size:17px; color:var(--deep-sea);
-    padding-bottom:6px; border-bottom:1.5px solid #cfe3c6; min-height:26px;
+  .cert-sign-row{margin-top:30px; display:flex; flex-direction:column; gap:26px;}
+  .cert-sign-item{display:flex; align-items:flex-end; gap:14px;}
+  .cert-sign-label{font-family:'Kanit'; font-weight:700; font-size:14px; color:var(--cert-red); white-space:nowrap;}
+  .cert-sign-line{flex:1; border-bottom:1.5px solid var(--cert-ink); min-height:40px; position:relative; display:flex; align-items:flex-end; justify-content:center; padding-bottom:4px;}
+  .cert-sign-cursive{font-family:'Kanit'; font-style:italic; font-weight:600; font-size:19px; color:#2C3F46;}
+  .cert-sign-line img{max-height:52px; max-width:100%; object-fit:contain; margin-bottom:-6px;}
+  .cert-page-foot{position:absolute; bottom:22px; left:0; right:0; text-align:center;}
+  .cert-page-badge{
+    display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%;
+    background:var(--cert-yellow); font-family:'Kanit'; font-weight:700; font-size:14px; color:var(--cert-ink);
   }
-  .cert-sign-label{font-size:12px; color:#6b7c80; margin-top:6px;}
-  .cert-page-foot{position:absolute; bottom:16px; left:0; right:0; text-align:center; font-size:11px; color:#9aa8ab;}
-  .cert-note{font-size:11.5px; color:#9aa8ab; margin-top:22px; line-height:1.6; border-top:1px dashed #d8e2d4; padding-top:12px;}
+  .cert-note{font-size:11px; color:#9aa8ab; margin-top:16px; line-height:1.6; border-top:1px dashed #d8e2d4; padding-top:10px;}
+  .cert-cta-box{
+    margin-top:22px; background:var(--cert-yellow); border-radius:20px; padding:20px 24px; text-align:center; position:relative; overflow:hidden;
+  }
+  .cert-cta-box .t1{font-family:'Kanit'; font-weight:800; font-size:18px; color:var(--cert-red);}
+  .cert-cta-box .t2{font-family:'Kanit'; font-weight:700; font-size:14.5px; color:var(--cert-ink); margin-top:2px;}
+  .cert-cta-box .t3{font-size:11px; color:#5c6b6f; margin-top:8px; line-height:1.6;}
+  .cert-cta-row{display:flex; align-items:center; justify-content:center; gap:6px; margin-top:12px;}
+  .cert-cta-row img.mascot{height:110px; object-fit:contain;}
+  .cert-cta-row img.qr{height:110px; width:110px; object-fit:contain; background:#fff; border-radius:8px; padding:4px;}
 </style>
 </head>
 <body>
@@ -2088,7 +2111,7 @@
    ถ้าเจอเวอร์ชันใหม่กว่าที่ฝังมากับโค้ดตอนนี้ จะรีเฟรชอัตโนมัติทันที (ไม่ต้องรอให้ใครกดเอง กันเครื่องค้างเวอร์ชันเก่าไม่รู้ตัว)
    ยกเว้นตอนกำลังพิมพ์อะไรอยู่ในช่องกรอกข้อความ (เช่น เขียนสะท้อนตัวเอง) จะรอรอบถัดไปก่อน กันข้อมูลที่พิมพ์ค้างอยู่หายกะทันหัน
    ========================================================= */
-const APP_VERSION = "2026-09-18-01"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-18-02"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
@@ -3156,82 +3179,118 @@ function loadCertLibs(){
   }))).then(()=>{ certLibsLoaded = true; });
 }
 
-function openCertificateExport(){
-  renderCertificatePages();
+async function openCertificateExport(){
   document.getElementById('certExportMsg').textContent = '';
   goScreen('screen-certificate');
   loadCertLibs().catch(e=>console.error('preload cert libs error:', e)); // เตรียมโหลดไว้ล่วงหน้าเงียบๆ กดดาวน์โหลดจะได้ไม่ต้องรอ
+
+  // ดึงลายเซ็นครูที่ปรึกษาของโรงเรียนนี้ (ถ้าเคยตั้งไว้ในหน้าแอดมินแล้ว) มาใช้แปะแทนชื่อพิมพ์
+  let teacherSignatureImage = null, teacherSignatureName = '';
+  try{
+    if(state.selectedSchoolId){
+      const schoolSnap = await db.collection('schools').doc(state.selectedSchoolId).get();
+      if(schoolSnap.exists){
+        teacherSignatureImage = schoolSnap.data().teacherSignatureImage || null;
+        teacherSignatureName = schoolSnap.data().teacherSignatureName || '';
+      }
+    }
+  }catch(e){ console.error('โหลดลายเซ็นโรงเรียนไม่สำเร็จ (ใช้ชื่อพิมพ์แทน):', e); }
+
+  renderCertificatePages({ teacherSignatureImage, teacherSignatureName });
 }
 
-function renderCertificatePages(){
+function renderCertificatePages(schoolSig){
+  schoolSig = schoolSig || {};
   const s = state.selectedStudent;
   const ac = s.afterChallenge || {};
   const r = ac.reflections || {};
   const heightM = ac.heightCm ? (ac.heightCm/100).toFixed(2) : '-';
+  const completedDate = ac.completedAt ? new Date(ac.completedAt).toLocaleDateString('th-TH', {year:'numeric', month:'long', day:'numeric'}) : '-';
 
   const checklistHtml = TODAY_GOAL_OPTIONS.map(o=>{
     const on = !!(ac.achievedGoals && ac.achievedGoals[o.key]);
     return `<li><span class="cert-checkbox${on?' on':''}">${on?'✓':''}</span>${escapeHtml(o.label)}</li>`;
   }).join('');
 
+  // ช่องลายเซ็นครู: ถ้าโรงเรียนนี้มีรูปลายเซ็นเก็บไว้แล้ว ใช้รูปจริงแปะบนเส้น — ถ้ายังไม่มี ใช้ชื่อพิมพ์แบบเดิม (พร้อมหมายเหตุว่าไม่ใช่ลายเซ็นจริง)
+  const teacherSignHtml = schoolSig.teacherSignatureImage
+    ? `<img src="${schoolSig.teacherSignatureImage}" alt="ลายเซ็นครูที่ปรึกษา">`
+    : `<span class="cert-sign-cursive">${escapeHtml(ac.teacherSignName)}</span>`;
+
   document.getElementById('certPage1').innerHTML = `
-    <div class="cert-page-head">
-      <div class="cbrand">21 Days Challenge by Salt Smart</div>
-      <div class="ctitle">After Challenge</div>
-      <div class="csub">21 วัน ฉันเปลี่ยนไปอย่างไร? (หน้า 67)</div>
+    <div class="cert-dot tl"></div><div class="cert-dot tr"></div>
+    <div class="cert-idline"><b>${escapeHtml(s.fullName||'')}</b>${state.selectedSchoolName ? ' | โรงเรียน'+escapeHtml(state.selectedSchoolName) : ''}</div>
+    <div class="cert-title">After Challenge</div>
+    <div class="cert-subtitle">21 วัน ฉันเปลี่ยนไปอย่างไร?</div>
+
+    <div class="cert-section-head">ข้อมูลสุขภาพหลัง challenge</div>
+    <table class="cert-table">
+      <tr><th>น้ำหนัก (กิโลกรัม)</th><th>ส่วนสูง (เมตร)</th><th>BMI</th><th>รอบเอว</th></tr>
+      <tr><td>${ac.weightKg ?? '-'}</td><td>${heightM}</td><td>${ac.bmi ?? '-'}</td><td>${ac.waistCm ?? '-'}</td></tr>
+    </table>
+
+    <div class="cert-bmi-note">
+      <b>BMI หรือ ดัชนีมวลกาย</b> คำนวณได้จาก น้ำหนัก (กิโลกรัม) หารด้วย ส่วนสูง (เมตร)²<br>
+      <b>วิธีคำนวณส่วนสูงจากเซนติเมตร เป็น เมตร</b> ทำได้โดยการนำส่วนสูง (เซนติเมตร) หารด้วย 100
     </div>
-    <div class="cert-body">
-      <div class="cert-idline"><b>${escapeHtml(s.fullName||'')}</b> &nbsp;|&nbsp; โรงเรียน${escapeHtml(state.selectedSchoolName ? ' '+state.selectedSchoolName : '')}</div>
 
-      <div class="cert-h">ข้อมูลสุขภาพหลัง challenge</div>
-      <table class="cert-table">
-        <tr><th>น้ำหนัก (กก.)</th><th>ส่วนสูง (ม.)</th><th>BMI</th><th>รอบเอว (ซม.)</th></tr>
-        <tr><td>${ac.weightKg ?? '-'}</td><td>${heightM}</td><td>${ac.bmi ?? '-'}</td><td>${ac.waistCm ?? '-'}</td></tr>
-      </table>
+    <div class="cert-checklist-head">สิ่งที่ฉันทำได้จริงใน 21 วัน ติดต่อกัน <span>(เลือกได้มากกว่า 1 ข้อ)</span></div>
+    <ul class="cert-checklist">${checklistHtml}</ul>
 
-      <div class="cert-h">สิ่งที่ฉันทำได้จริงใน 21 วัน ติดต่อกัน</div>
-      <ul class="cert-checklist">${checklistHtml}</ul>
-
-      <div class="cert-h">1. ก่อนและหลัง 21 วัน พฤติกรรมการบริโภคของฉันเปลี่ยนแปลงอย่างไร</div>
-      <div class="cert-qa"><div class="a">${escapeHtml(r.q1)}</div></div>
-
-      <div class="cert-h">2. ความรู้เรื่องอาหาร/ฉลากโภชนาการที่ฉันได้เพิ่ม</div>
-      <div class="cert-qa"><div class="a">${escapeHtml(r.q2)}</div></div>
+    <div class="cert-qa">
+      <span class="qn">1. </span><span class="qt">ก่อนและหลัง 21 วัน พฤติกรรมการบริโภคของฉันเปลี่ยนแปลงอย่างไร?</span>
+      <div class="cert-lined-answer">${escapeHtml(r.q1)}</div>
     </div>
-    <div class="cert-page-foot">21daychallenge.krubombgk.com — สร้างจากข้อมูลในระบบ</div>
+
+    <div class="cert-qa">
+      <span class="qn">2. </span><span class="qt">ความรู้เรื่องอาหาร/ฉลากโภชนาการที่ฉันได้เพิ่ม</span>
+      <div class="cert-lined-answer">${escapeHtml(r.q2)}</div>
+    </div>
+
+    <div class="cert-page-foot"><span class="cert-page-badge">67</span></div>
   `;
 
   document.getElementById('certPage2').innerHTML = `
-    <div class="cert-page-head">
-      <div class="cbrand">21 Days Challenge by Salt Smart</div>
-      <div class="ctitle">After Challenge (ต่อ)</div>
-      <div class="csub">21 วัน ฉันเปลี่ยนไปอย่างไร? (หน้า 68)</div>
+    <div class="cert-dot tl"></div><div class="cert-dot tr"></div>
+    <div class="cert-qa">
+      <span class="qn">3. </span><span class="qt">บทบาทของฉันในฐานะ "อย.น้อย" ที่จะนำไปใช้หรือสื่อสารต่อ</span>
+      <div class="cert-lined-answer">${escapeHtml(r.q3)}</div>
     </div>
-    <div class="cert-body">
-      <div class="cert-h">3. บทบาทของฉันในฐานะ "อย.น้อย" ที่จะนำไปใช้หรือสื่อสารต่อ</div>
-      <div class="cert-qa"><div class="a">${escapeHtml(r.q3)}</div></div>
 
-      <div class="cert-h">4. เป้าหมายการดูแลสุขภาพของฉันหลังจากนี้</div>
-      <div class="cert-qa"><div class="a">${escapeHtml(r.q4)}</div></div>
+    <div class="cert-qa">
+      <span class="qn">4. </span><span class="qt">เป้าหมายการดูแลสุขภาพของฉันหลังจากนี้</span>
+      <div class="cert-lined-answer">${escapeHtml(r.q4)}</div>
+    </div>
 
-      <div class="cert-sign-row">
-        <div class="cert-sign-box">
-          <div class="cert-sign-name">${escapeHtml(ac.studentSignName)}</div>
-          <div class="cert-sign-label">ลายเซ็นนักเรียน</div>
-        </div>
-        <div class="cert-sign-box">
-          <div class="cert-sign-name">${escapeHtml(ac.teacherSignName)}</div>
-          <div class="cert-sign-label">ครูที่ปรึกษา อย.น้อย/พี่เลี้ยง</div>
-        </div>
+    <div class="cert-sign-row">
+      <div class="cert-sign-item">
+        <div class="cert-sign-label">ลายเซ็นนักเรียน</div>
+        <div class="cert-sign-line"><span class="cert-sign-cursive">${escapeHtml(ac.studentSignName)}</span></div>
       </div>
-
-      <div class="cert-note">
-        เอกสารนี้สร้างขึ้นจากข้อมูลที่ ${escapeHtml(s.fullName||'')} บันทึกในระบบ 21 Days Challenge by Salt Smart
-        เมื่อ ${ac.completedAt ? new Date(ac.completedAt).toLocaleDateString('th-TH', {year:'numeric', month:'long', day:'numeric'}) : '-'}
-        กรุณาตรวจสอบความถูกต้องกับครูที่ปรึกษา อย.น้อย ก่อนอัปโหลดส่งจริง
+      <div class="cert-sign-item">
+        <div class="cert-sign-label">ครูที่ปรึกษา อย.น้อย /พี่เลี้ยง</div>
+        <div class="cert-sign-line">${teacherSignHtml}</div>
       </div>
     </div>
-    <div class="cert-page-foot">21daychallenge.krubombgk.com — สร้างจากข้อมูลในระบบ</div>
+
+    <div class="cert-note">
+      เอกสารนี้สร้างขึ้นจากข้อมูลที่ ${escapeHtml(s.fullName||'')} บันทึกในระบบ 21 Days Challenge by Salt Smart เมื่อ ${completedDate}
+      ${schoolSig.teacherSignatureImage ? '' : ' — ชื่อครูที่ปรึกษาด้านบนเป็นชื่อพิมพ์ยืนยันในระบบ ไม่ใช่ลายเซ็นจริง'}
+      กรุณาตรวจสอบความถูกต้องกับครูที่ปรึกษา อย.น้อย ก่อนอัปโหลดส่งจริง
+    </div>
+
+    <div class="cert-cta-box">
+      <div class="t1">ส่งแบบประเมิน</div>
+      <div class="t2">After Challenge 21 วัน ฉันเปลี่ยนไปอย่างไร?<br>เพื่อรับประกาศนียบัตรออนไลน์จาก อย.</div>
+      <div class="t3">โดยแนบภาพถ่าย หรือไฟล์เอกสารสแกนให้ครบถ้วนทั้ง 2 หน้า (หน้า 67-68)<br>พร้อมลายเซ็นครูที่ปรึกษา อย.น้อย ส่งทาง google form ภายในวันที่ 30 กันยายน 2569</div>
+      <div class="cert-cta-row">
+        <img class="mascot" src="cert-mascot-left.png" alt="">
+        <img class="qr" src="cert-qr.png" alt="QR แบบฟอร์ม">
+        <img class="mascot" src="cert-mascot-right.png" alt="">
+      </div>
+    </div>
+
+    <div class="cert-page-foot"><span class="cert-page-badge">68</span></div>
   `;
 }
 

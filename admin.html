@@ -100,6 +100,16 @@
   .cpv-emoji{font-size:52px;}
   .cpv-body{padding:16px 18px 20px; text-align:center;}
   .cpv-text{font-size:15px; color:#4c5c60; line-height:1.6; margin-bottom:18px;}
+
+  /* ---- ลายเซ็นครูที่ปรึกษา อย.น้อย ต่อโรงเรียน (ใช้แปะในเอกสาร Certificate Export ของ index.html) ---- */
+  .sig-overlay{
+    position:fixed; inset:0; background:rgba(11,61,76,0.55); z-index:210;
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .sig-overlay.show{display:flex;}
+  .sig-box{background:#fff; border-radius:20px; padding:20px; max-width:420px; width:100%; box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+  .sig-canvas-wrap{border:1.5px dashed #cfd8d6; border-radius:12px; background:var(--sand); touch-action:none;}
+  .sig-canvas-wrap canvas{display:block; width:100%; height:180px; touch-action:none; cursor:crosshair;}
 </style>
 </head>
 <body>
@@ -740,13 +750,36 @@
   </div>
 </div>
 
+<!-- ลายเซ็นครูที่ปรึกษา อย.น้อย ต่อโรงเรียน: ครูวาดเองครั้งเดียว เก็บไว้ใช้ซ้ำกับนักเรียนของโรงเรียนตัวเองเท่านั้น
+     (ไม่ใช่ลายเซ็นกลางของแอดมิน — ต้องให้ครูที่ปรึกษาตัวจริงของโรงเรียนนั้นเป็นคนวาดเอง กันปัญหาเรื่องความถูกต้องของเอกสาร) -->
+<div class="sig-overlay" id="sigOverlay" onclick="if(event.target===this) closeSignatureModal()">
+  <div class="sig-box">
+    <h3 style="margin-top:0;">✍️ ลายเซ็นครูที่ปรึกษา อย.น้อย</h3>
+    <div style="font-size:12.5px; color:#6b7c80; margin-bottom:10px;" id="sigSchoolLabel">โรงเรียน: -</div>
+    <p style="font-size:12px; color:#9aa8ab; line-height:1.6; margin-top:-4px;">
+      ให้ครูที่ปรึกษา อย.น้อย/พี่เลี้ยง ของโรงเรียนนี้เป็นคนวาดเองในช่องด้านล่าง (วาดครั้งเดียว ระบบจะใช้ซ้ำกับนักเรียนทุกคนของโรงเรียนนี้อัตโนมัติตอนดาวน์โหลดเอกสารส่ง อย.)
+    </p>
+    <div class="field"><label>ชื่อ-นามสกุลครูที่ปรึกษา</label><input type="text" id="sigTeacherName" placeholder="เช่น ครูบอม ตาปะกร"></div>
+    <div class="sig-canvas-wrap"><canvas id="sigCanvas"></canvas></div>
+    <div style="display:flex; gap:8px; margin-top:10px;">
+      <button class="btn" style="flex:1; background:#fff; border:1.5px solid #ddd;" onclick="clearSignatureCanvas()">ล้าง</button>
+      <button class="btn btn-danger" style="flex:1;" onclick="removeSchoolSignature()">ลบลายเซ็นที่บันทึกไว้</button>
+    </div>
+    <div class="msg" id="sigMsg" style="min-height:18px; margin-top:6px;"></div>
+    <div style="display:flex; gap:8px; margin-top:8px;">
+      <button class="btn" style="flex:1; background:#fff; border:1.5px solid #ddd;" onclick="closeSignatureModal()">ปิด</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="saveSchoolSignature()">บันทึกลายเซ็น</button>
+    </div>
+  </div>
+</div>
+
 <script>
 /* =========================================================
    APP UPDATE CHECK — แก้ปัญหา PWA ค้างเวอร์ชันเก่าตอนเปิดหลังบ้านทิ้งไว้
    ใช้ version.json ไฟล์เดียวกับ index.html (แก้เลขคู่กันทุกครั้งที่ deploy)
    เจอเวอร์ชันใหม่แล้วรีเฟรชอัตโนมัติทันที ยกเว้นกำลังพิมพ์อะไรอยู่ (เช่น เหตุผลไม่ผ่านภารกิจ) จะรอรอบถัดไปก่อน
    ========================================================= */
-const APP_VERSION = "2026-09-18-01"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-18-02"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
@@ -1792,6 +1825,7 @@ function loadSchoolTable(){
           ${approvedOptionsHtml(s.id)}
         </select>
         <button class="btn btn-primary" style="padding:4px 10px; font-size:11.5px;" onclick="mergeSchool('${s.id}','mergeApprovedTarget-${s.id}')">รวม</button>
+        <button class="btn" style="padding:4px 10px; font-size:11.5px; background:${s.teacherSignatureImage ? 'var(--lagoon-light)' : '#fff'}; border:1.5px solid var(--lagoon);" onclick="openSignatureModal('${s.id}','${(s.schoolName||'').replace(/'/g,"\\'")}')">✍️${s.teacherSignatureImage ? ' มีลายเซ็นแล้ว' : ' ลายเซ็นครู'}</button>
         <button class="btn btn-danger" style="padding:4px 10px; font-size:11.5px;" onclick="deleteSchool('${s.id}','${(s.schoolName||'').replace(/'/g,"\\'")}')">ลบ</button>
       </td>
     </tr>`;
@@ -1858,6 +1892,103 @@ async function deleteSchool(id, name){
     await loadSchools();
   }catch(e){
     alert('ลบไม่สำเร็จ: ' + (e.message || e.code));
+  }
+}
+
+/* ---- ลายเซ็นครูที่ปรึกษา อย.น้อย ต่อโรงเรียน ----
+   วาดครั้งเดียวต่อโรงเรียน เก็บไว้ที่ schools/{schoolId}.teacherSignatureImage แล้วให้ index.html
+   ดึงไปแปะในเอกสาร Certificate Export ของนักเรียนทุกคนในโรงเรียนนั้นอัตโนมัติ (ไม่ใช้ลายเซ็นกลางของแอดมินข้ามโรงเรียน
+   เพราะจะกลายเป็นการรับรองแทนครูที่ไม่ได้ตรวจงานจริง — ให้ครูที่ปรึกษาตัวจริงของแต่ละโรงเรียนวาดเองเท่านั้น)
+   ทำผ่าน Cloud Function (adminSetSchoolSignature/adminClearSchoolSignature) เหมือน action แอดมินอื่นๆ
+   เพราะเป็นข้อมูลที่กระทบความน่าเชื่อถือของเอกสารทางการ ต้องยืนยันรหัสผ่านจริงฝั่งเซิร์ฟเวอร์เช่นกัน */
+let sigCanvasCtx = null, sigDrawing = false, sigHasStroke = false, sigCurrentSchoolId = null;
+
+function setupSignatureCanvas(){
+  const canvas = document.getElementById('sigCanvas');
+  const wrap = canvas.parentElement;
+  // ใช้ขนาดจริงของกล่อง x devicePixelRatio กันลายเซ็นเบลอ/มุมเพี้ยนบนจอ retina
+  const rect = wrap.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width * dpr;
+  canvas.height = 180 * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.lineWidth = 2.4;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = '#2C3F46';
+  sigCanvasCtx = ctx;
+  sigHasStroke = false;
+
+  const posFromEvent = (e) => {
+    const r = canvas.getBoundingClientRect();
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+    return { x: cx, y: cy };
+  };
+  const start = (e) => { e.preventDefault(); sigDrawing = true; sigHasStroke = true; const p = posFromEvent(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); };
+  const move = (e) => { if(!sigDrawing) return; e.preventDefault(); const p = posFromEvent(e); ctx.lineTo(p.x, p.y); ctx.stroke(); };
+  const end = () => { sigDrawing = false; };
+
+  canvas.onmousedown = start; canvas.onmousemove = move; window.addEventListener('mouseup', end);
+  canvas.ontouchstart = start; canvas.ontouchmove = move; canvas.ontouchend = end;
+}
+
+function clearSignatureCanvas(){
+  if(!sigCanvasCtx) return;
+  const canvas = document.getElementById('sigCanvas');
+  sigCanvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+  sigHasStroke = false;
+}
+
+function openSignatureModal(schoolId, schoolName){
+  sigCurrentSchoolId = schoolId;
+  const s = schoolsCache.find(x=>x.id===schoolId);
+  document.getElementById('sigSchoolLabel').textContent = 'โรงเรียน: ' + schoolName;
+  document.getElementById('sigTeacherName').value = (s && s.teacherSignatureName) || '';
+  document.getElementById('sigMsg').textContent = '';
+  document.getElementById('sigOverlay').classList.add('show');
+  setTimeout(setupSignatureCanvas, 30); // รอ overlay แสดงผลจริงก่อน ค่อยวัดขนาด canvas (getBoundingClientRect ต้องเห็น element ที่ display แล้ว)
+}
+
+function closeSignatureModal(){
+  document.getElementById('sigOverlay').classList.remove('show');
+  sigCurrentSchoolId = null;
+}
+
+async function saveSchoolSignature(){
+  const msgEl = document.getElementById('sigMsg');
+  const teacherName = document.getElementById('sigTeacherName').value.trim();
+  if(!teacherName){ msgEl.style.color='var(--red-high)'; msgEl.textContent='กรอกชื่อ-นามสกุลครูที่ปรึกษาก่อนนะ'; return; }
+  if(!sigHasStroke){ msgEl.style.color='var(--red-high)'; msgEl.textContent='ยังไม่ได้วาดลายเซ็นเลย'; return; }
+  msgEl.style.color='var(--ink)'; msgEl.textContent='กำลังบันทึก...';
+  try{
+    const canvas = document.getElementById('sigCanvas');
+    const dataUrl = canvas.toDataURL('image/png');
+    await callAdminAction('adminSetSchoolSignature', { schoolId: sigCurrentSchoolId, signatureImage: dataUrl, signatureName: teacherName });
+    const s = schoolsCache.find(x=>x.id===sigCurrentSchoolId);
+    if(s){ s.teacherSignatureImage = dataUrl; s.teacherSignatureName = teacherName; }
+    loadSchoolTable();
+    msgEl.style.color='var(--green-ok)'; msgEl.textContent='บันทึกลายเซ็นแล้ว ✓';
+    setTimeout(closeSignatureModal, 900);
+  }catch(e){
+    msgEl.style.color='var(--red-high)'; msgEl.textContent='บันทึกไม่สำเร็จ: ' + (e.message || e.code);
+  }
+}
+
+async function removeSchoolSignature(){
+  if(!sigCurrentSchoolId) return;
+  if(!confirm('ลบลายเซ็นครูที่ปรึกษาของโรงเรียนนี้เลยไหม? นักเรียนที่ยังไม่ได้ดาวน์โหลดเอกสารจะกลับไปใช้ชื่อพิมพ์แทนชั่วคราว')) return;
+  const msgEl = document.getElementById('sigMsg');
+  try{
+    await callAdminAction('adminClearSchoolSignature', { schoolId: sigCurrentSchoolId });
+    const s = schoolsCache.find(x=>x.id===sigCurrentSchoolId);
+    if(s){ delete s.teacherSignatureImage; delete s.teacherSignatureName; }
+    loadSchoolTable();
+    clearSignatureCanvas();
+    msgEl.style.color='var(--green-ok)'; msgEl.textContent='ลบลายเซ็นแล้ว';
+  }catch(e){
+    msgEl.style.color='var(--red-high)'; msgEl.textContent='ลบไม่สำเร็จ: ' + (e.message || e.code);
   }
 }
 
