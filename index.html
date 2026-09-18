@@ -875,6 +875,54 @@
   .ptable-legend span{display:flex; align-items:center; gap:5px; font-size:11.5px; color:#6b7c80;}
   .ptable-legend .dot{width:12px; height:12px; border-radius:4px; display:inline-block;}
   .loading{display:flex; align-items:center; justify-content:center; min-height:100vh; font-family:'Kanit'; color:var(--lagoon); font-weight:600;}
+
+  /* ---- Certificate Export: จำลองหน้า 67-68 ของเล่มสมุด เอาไปดาวน์โหลดอัปโหลดเข้า Google Form ของ อย. ---- */
+  .cert-preview-frame{
+    width:100%; overflow-x:auto; overflow-y:hidden; border-radius:16px; box-shadow:var(--shadow);
+    margin-bottom:8px; background:#EFE9D9; padding:14px;
+  }
+  .cert-page{
+    width:760px; min-height:1074px; background:#fff; border-radius:10px; overflow:hidden;
+    font-family:'Sarabun',sans-serif; color:var(--ink); position:relative; margin:0 auto;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  }
+  .cert-page-head{
+    background:linear-gradient(135deg, var(--deep-sea) 0%, var(--deep-sea-2) 60%, var(--lagoon) 130%);
+    color:#fff; padding:20px 34px;
+  }
+  .cert-page-head .cbrand{font-family:'Kanit'; font-weight:700; font-size:14px; opacity:0.92;}
+  .cert-page-head .ctitle{font-family:'Kanit'; font-weight:800; font-size:24px; margin-top:4px;}
+  .cert-page-head .csub{font-size:13px; opacity:0.92; margin-top:2px;}
+  .cert-body{padding:26px 34px 34px;}
+  .cert-idline{font-size:12.5px; color:#6b7c80; margin-bottom:14px; line-height:1.7;}
+  .cert-idline b{color:var(--ink);}
+  .cert-h{font-family:'Kanit'; font-weight:700; font-size:15.5px; color:var(--deep-sea); margin:18px 0 8px;}
+  .cert-h:first-child{margin-top:0;}
+  .cert-table{width:100%; border-collapse:collapse; margin-bottom:6px;}
+  .cert-table th{background:var(--lagoon); color:#fff; font-family:'Kanit'; font-weight:600; font-size:12.5px; padding:9px 6px; border:1px solid var(--lagoon);}
+  .cert-table td{border:1px solid #cfe3c6; padding:11px 6px; text-align:center; font-family:'Kanit'; font-weight:600; font-size:14px;}
+  .cert-checklist{list-style:none; margin:0 0 6px; padding:0; display:flex; flex-direction:column; gap:7px;}
+  .cert-checklist li{display:flex; align-items:center; gap:9px; font-size:13.5px;}
+  .cert-checkbox{
+    width:17px; height:17px; border-radius:4px; border:2px solid var(--lagoon); flex:none;
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff;
+  }
+  .cert-checkbox.on{background:var(--lagoon);}
+  .cert-qa{margin-bottom:4px;}
+  .cert-qa .q{font-size:13px; color:#4c5c60; margin-bottom:5px;}
+  .cert-qa .a{
+    font-size:13.5px; line-height:1.7; background:var(--lagoon-light); border-radius:10px; padding:10px 13px;
+    min-height:44px; white-space:pre-wrap; word-break:break-word;
+  }
+  .cert-sign-row{display:flex; gap:18px; margin-top:26px; flex-wrap:wrap;}
+  .cert-sign-box{flex:1; min-width:220px; text-align:center;}
+  .cert-sign-name{
+    font-family:'Kanit'; font-weight:700; font-size:17px; color:var(--deep-sea);
+    padding-bottom:6px; border-bottom:1.5px solid #cfe3c6; min-height:26px;
+  }
+  .cert-sign-label{font-size:12px; color:#6b7c80; margin-top:6px;}
+  .cert-page-foot{position:absolute; bottom:16px; left:0; right:0; text-align:center; font-size:11px; color:#9aa8ab;}
+  .cert-note{font-size:11.5px; color:#9aa8ab; margin-top:22px; line-height:1.6; border-top:1px dashed #d8e2d4; padding-top:12px;}
 </style>
 </head>
 <body>
@@ -1130,6 +1178,40 @@
   </div>
 </div>
 
+<!-- ================= SCREEN: CERTIFICATE EXPORT (จำลองหน้า 67-68 เพื่อดาวน์โหลดไปอัปโหลด Google Form ของ อย.) ================= -->
+<div class="screen" id="screen-certificate">
+  <div class="brandbar">
+    <div class="brand-row">
+      <img src="icon-finish-flag.png" alt="" style="width:24px; height:24px; object-fit:contain;">
+      <div><div class="brand-title">เอกสารส่ง อย.</div><div class="brand-sub">จำลองหน้า 67-68 จากข้อมูลที่บันทึกไว้</div></div>
+    </div>
+  </div>
+  <div class="wrap" style="max-width:820px;">
+    <div class="backlink" onclick="goScreen('screen-main')">‹ กลับ</div>
+
+    <div class="card" style="background:#FFF7E0; border-color:#E8C468;">
+      <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px; margin-bottom:4px;">วิธีใช้เอกสารนี้</div>
+      <div style="font-size:12.5px; color:#6b7c80; line-height:1.7;">
+        เอกสาร 2 หน้านี้จำลองมาจากหน้า 67-68 ของสมุด "After Challenge" โดยดึงข้อมูลที่บันทึกไว้ในแอปมาใส่ให้อัตโนมัติ
+        ดาวน์โหลดแล้วนำไปแนบในช่อง "อัพโหลดภาพ After Challenge 21 วัน" ของ Google Form ได้เลย
+        (แนะนำให้ตรวจสอบข้อมูลกับครูที่ปรึกษา อย.น้อย ก่อนส่งจริง)
+      </div>
+    </div>
+
+    <p style="font-size:11.5px; color:#9aa8ab; margin:14px 2px 6px;">👉 ปัดซ้าย-ขวาเพื่อดูตัวอย่างเต็มหน้า</p>
+
+    <div class="cert-preview-frame"><div class="cert-page" id="certPage1"></div></div>
+    <div class="cert-preview-frame"><div class="cert-page" id="certPage2"></div></div>
+
+    <button class="btn btn-primary btn-block" id="certDownloadPdfBtn" onclick="downloadCertificatePdf()">ดาวน์โหลด PDF (รวม 2 หน้า)</button>
+    <div style="display:flex; gap:10px; margin-top:10px;">
+      <button class="btn btn-block" style="background:#fff; border:1.5px solid var(--lagoon); color:var(--deep-sea);" onclick="downloadCertificatePng(1)">ดาวน์โหลดหน้า 67 (รูปภาพ)</button>
+      <button class="btn btn-block" style="background:#fff; border:1.5px solid var(--lagoon); color:var(--deep-sea);" onclick="downloadCertificatePng(2)">ดาวน์โหลดหน้า 68 (รูปภาพ)</button>
+    </div>
+    <div class="msg" id="certExportMsg" style="min-height:20px; margin-top:8px; text-align:center;"></div>
+  </div>
+</div>
+
 <!-- ================= SCREEN: MAIN APP ================= -->
 <div class="screen" id="screen-main">
   <div class="headerbar">
@@ -1186,6 +1268,18 @@
             <div style="font-size:12px; color:#6b7c80;">ทำ After Challenge + แบบสำรวจหลัง เพื่อขอเกียรติบัตรจาก อย.</div>
           </div>
           <button class="btn btn-primary" style="width:auto; padding:8px 14px; font-size:12.5px;" onclick="openAfterChallenge()">ไปทำเลย</button>
+        </div>
+      </div>
+
+      <!-- โผล่เฉพาะตอนทำ After Challenge + Post Survey เสร็จครบแล้วเท่านั้น (มีข้อมูลพอจะจำลองหน้า 67-68 ได้) -->
+      <div class="card" id="certificateReadyCard" style="display:none; background:#FFF7E0; border-color:#E8C468;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <img src="icon-finish-flag.png" alt="" style="width:24px; height:24px; object-fit:contain;">
+          <div style="flex:1;">
+            <div style="font-family:'Kanit'; font-weight:700; font-size:13.5px;">เอกสารส่ง อย. พร้อมแล้ว!</div>
+            <div style="font-size:12px; color:#6b7c80;">ดาวน์โหลดไปอัปโหลดเข้า Google Form เพื่อขอเกียรติบัตร</div>
+          </div>
+          <button class="btn btn-primary" style="width:auto; padding:8px 14px; font-size:12.5px;" onclick="openCertificateExport()">ดาวน์โหลด</button>
         </div>
       </div>
 
@@ -1994,7 +2088,7 @@
    ถ้าเจอเวอร์ชันใหม่กว่าที่ฝังมากับโค้ดตอนนี้ จะรีเฟรชอัตโนมัติทันที (ไม่ต้องรอให้ใครกดเอง กันเครื่องค้างเวอร์ชันเก่าไม่รู้ตัว)
    ยกเว้นตอนกำลังพิมพ์อะไรอยู่ในช่องกรอกข้อความ (เช่น เขียนสะท้อนตัวเอง) จะรอรอบถัดไปก่อน กันข้อมูลที่พิมพ์ค้างอยู่หายกะทันหัน
    ========================================================= */
-const APP_VERSION = "2026-09-10-15"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
+const APP_VERSION = "2026-09-18-01"; // ต้องตรงกับใน version.json เสมอ แก้คู่กันทุกครั้งที่ deploy
 async function checkForAppUpdate(){
   try{
     const res = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
@@ -2875,6 +2969,8 @@ function checkPreTestReminder(){
   // After Challenge โผล่เตือนเฉพาะตอนแอดมินปลดล็อกแคมเปญนี้แล้ว (campaign.afterChallengeUnlocked) และยังไม่เคยทำ
   const afterUnlocked = !!(state.campaign && state.campaign.afterChallengeUnlocked);
   document.getElementById('afterChallengeReminderCard').style.display = (afterUnlocked && !s.afterChallenge) ? 'block' : 'none';
+  // เอกสารส่ง อย. จำลองได้ก็ต่อเมื่อมีข้อมูลครบทั้ง After Challenge และ Post Survey แล้วเท่านั้น
+  document.getElementById('certificateReadyCard').style.display = (s.afterChallenge && s.postSurvey) ? 'block' : 'none';
 }
 
 /* ---- แบบสำรวจพฤติกรรม 11 ข้อ (ใช้ร่วมกันทั้ง Before/Post) ---- */
@@ -3034,6 +3130,156 @@ async function submitPostSurvey(){
   }catch(e){
     console.error(e);
     msgEl.style.color='var(--red-high)'; msgEl.textContent='บันทึกไม่สำเร็จ: ' + e.message;
+  }
+}
+
+/* ---- Certificate Export: จำลองหน้า 67-68 ของสมุด จาก afterChallenge + postSurvey ที่บันทึกไว้แล้ว ----
+   ให้ครูบอมปรึกษาเจ้าหน้าที่ อย. แล้วว่ายังส่งผ่าน Google Form ตามปกติ แค่ไม่ต้องเขียน/สแกนสมุดจริงอีกต่อไป
+   เอกสารนี้ดึงข้อมูลที่นักเรียนกรอกในแอปมาจัดหน้าให้แทน ดาวน์โหลดเป็น PDF/รูปภาพเพื่อไปอัปโหลดต่อเอง */
+function escapeHtml(str){
+  return String(str == null ? '' : str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+const CERT_LIB_URLS = [
+  'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
+];
+let certLibsLoaded = false;
+function loadCertLibs(){
+  if(certLibsLoaded) return Promise.resolve();
+  return Promise.all(CERT_LIB_URLS.map(src => new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = ()=>reject(new Error('โหลดไลบรารีไม่สำเร็จ: ' + src));
+    document.head.appendChild(s);
+  }))).then(()=>{ certLibsLoaded = true; });
+}
+
+function openCertificateExport(){
+  renderCertificatePages();
+  document.getElementById('certExportMsg').textContent = '';
+  goScreen('screen-certificate');
+  loadCertLibs().catch(e=>console.error('preload cert libs error:', e)); // เตรียมโหลดไว้ล่วงหน้าเงียบๆ กดดาวน์โหลดจะได้ไม่ต้องรอ
+}
+
+function renderCertificatePages(){
+  const s = state.selectedStudent;
+  const ac = s.afterChallenge || {};
+  const r = ac.reflections || {};
+  const heightM = ac.heightCm ? (ac.heightCm/100).toFixed(2) : '-';
+
+  const checklistHtml = TODAY_GOAL_OPTIONS.map(o=>{
+    const on = !!(ac.achievedGoals && ac.achievedGoals[o.key]);
+    return `<li><span class="cert-checkbox${on?' on':''}">${on?'✓':''}</span>${escapeHtml(o.label)}</li>`;
+  }).join('');
+
+  document.getElementById('certPage1').innerHTML = `
+    <div class="cert-page-head">
+      <div class="cbrand">21 Days Challenge by Salt Smart</div>
+      <div class="ctitle">After Challenge</div>
+      <div class="csub">21 วัน ฉันเปลี่ยนไปอย่างไร? (หน้า 67)</div>
+    </div>
+    <div class="cert-body">
+      <div class="cert-idline"><b>${escapeHtml(s.fullName||'')}</b> &nbsp;|&nbsp; โรงเรียน${escapeHtml(state.selectedSchoolName ? ' '+state.selectedSchoolName : '')}</div>
+
+      <div class="cert-h">ข้อมูลสุขภาพหลัง challenge</div>
+      <table class="cert-table">
+        <tr><th>น้ำหนัก (กก.)</th><th>ส่วนสูง (ม.)</th><th>BMI</th><th>รอบเอว (ซม.)</th></tr>
+        <tr><td>${ac.weightKg ?? '-'}</td><td>${heightM}</td><td>${ac.bmi ?? '-'}</td><td>${ac.waistCm ?? '-'}</td></tr>
+      </table>
+
+      <div class="cert-h">สิ่งที่ฉันทำได้จริงใน 21 วัน ติดต่อกัน</div>
+      <ul class="cert-checklist">${checklistHtml}</ul>
+
+      <div class="cert-h">1. ก่อนและหลัง 21 วัน พฤติกรรมการบริโภคของฉันเปลี่ยนแปลงอย่างไร</div>
+      <div class="cert-qa"><div class="a">${escapeHtml(r.q1)}</div></div>
+
+      <div class="cert-h">2. ความรู้เรื่องอาหาร/ฉลากโภชนาการที่ฉันได้เพิ่ม</div>
+      <div class="cert-qa"><div class="a">${escapeHtml(r.q2)}</div></div>
+    </div>
+    <div class="cert-page-foot">21daychallenge.krubombgk.com — สร้างจากข้อมูลในระบบ</div>
+  `;
+
+  document.getElementById('certPage2').innerHTML = `
+    <div class="cert-page-head">
+      <div class="cbrand">21 Days Challenge by Salt Smart</div>
+      <div class="ctitle">After Challenge (ต่อ)</div>
+      <div class="csub">21 วัน ฉันเปลี่ยนไปอย่างไร? (หน้า 68)</div>
+    </div>
+    <div class="cert-body">
+      <div class="cert-h">3. บทบาทของฉันในฐานะ "อย.น้อย" ที่จะนำไปใช้หรือสื่อสารต่อ</div>
+      <div class="cert-qa"><div class="a">${escapeHtml(r.q3)}</div></div>
+
+      <div class="cert-h">4. เป้าหมายการดูแลสุขภาพของฉันหลังจากนี้</div>
+      <div class="cert-qa"><div class="a">${escapeHtml(r.q4)}</div></div>
+
+      <div class="cert-sign-row">
+        <div class="cert-sign-box">
+          <div class="cert-sign-name">${escapeHtml(ac.studentSignName)}</div>
+          <div class="cert-sign-label">ลายเซ็นนักเรียน</div>
+        </div>
+        <div class="cert-sign-box">
+          <div class="cert-sign-name">${escapeHtml(ac.teacherSignName)}</div>
+          <div class="cert-sign-label">ครูที่ปรึกษา อย.น้อย/พี่เลี้ยง</div>
+        </div>
+      </div>
+
+      <div class="cert-note">
+        เอกสารนี้สร้างขึ้นจากข้อมูลที่ ${escapeHtml(s.fullName||'')} บันทึกในระบบ 21 Days Challenge by Salt Smart
+        เมื่อ ${ac.completedAt ? new Date(ac.completedAt).toLocaleDateString('th-TH', {year:'numeric', month:'long', day:'numeric'}) : '-'}
+        กรุณาตรวจสอบความถูกต้องกับครูที่ปรึกษา อย.น้อย ก่อนอัปโหลดส่งจริง
+      </div>
+    </div>
+    <div class="cert-page-foot">21daychallenge.krubombgk.com — สร้างจากข้อมูลในระบบ</div>
+  `;
+}
+
+async function captureCertPage(pageEl){
+  return await html2canvas(pageEl, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+}
+
+async function downloadCertificatePng(pageNum){
+  const msgEl = document.getElementById('certExportMsg');
+  msgEl.style.color = 'var(--ink)'; msgEl.textContent = 'กำลังสร้างรูปภาพ...';
+  try{
+    await loadCertLibs();
+    const pageEl = document.getElementById('certPage' + pageNum);
+    const canvas = await captureCertPage(pageEl);
+    const link = document.createElement('a');
+    link.download = `after-challenge-${state.selectedStudent.fullName || 'student'}-page${pageNum === 1 ? '67' : '68'}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    msgEl.textContent = 'ดาวน์โหลดแล้ว ✓';
+  }catch(e){
+    console.error('downloadCertificatePng error:', e);
+    msgEl.style.color = 'var(--red-high)'; msgEl.textContent = 'สร้างรูปภาพไม่สำเร็จ: ' + e.message;
+  }
+}
+
+async function downloadCertificatePdf(){
+  const msgEl = document.getElementById('certExportMsg');
+  msgEl.style.color = 'var(--ink)'; msgEl.textContent = 'กำลังสร้าง PDF...';
+  try{
+    await loadCertLibs();
+    const { jsPDF } = window.jspdf;
+    const canvas1 = await captureCertPage(document.getElementById('certPage1'));
+    const canvas2 = await captureCertPage(document.getElementById('certPage2'));
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    [canvas1, canvas2].forEach((canvas, idx)=>{
+      if(idx > 0) pdf.addPage();
+      // ย่อภาพให้พอดีหน้า A4 พร้อมรักษาสัดส่วนเดิม (กันภาพยืด/บีบผิดสัดส่วน)
+      const ratio = Math.min(pageW / canvas.width, pageH / canvas.height);
+      const imgW = canvas.width * ratio, imgH = canvas.height * ratio;
+      pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', (pageW-imgW)/2, (pageH-imgH)/2, imgW, imgH);
+    });
+    pdf.save(`after-challenge-${state.selectedStudent.fullName || 'student'}.pdf`);
+    msgEl.textContent = 'ดาวน์โหลดแล้ว ✓';
+  }catch(e){
+    console.error('downloadCertificatePdf error:', e);
+    msgEl.style.color = 'var(--red-high)'; msgEl.textContent = 'สร้าง PDF ไม่สำเร็จ: ' + e.message;
   }
 }
 
